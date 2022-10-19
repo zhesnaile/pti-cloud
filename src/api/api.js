@@ -1,34 +1,20 @@
 import KoaRouter from "@koa/router";
-import KoaBodyParser from "koa-bodyparser";
+import login_api_router from "./endpoints/login.js";
 
-import * as loginMethods from "./endpoints/login.js";
-
-const api_collection = [
-    {endpoint: "/login", endpoint_methods: loginMethods},
+const api_routers = [
+    login_api_router,
 ]
 
 const api_dir = "/api";
 
-function set_api(router, endpoint, endpoint_methods) {
-    const route = api_dir + endpoint;
-    if (endpoint_methods.get !== undefined) 
-        router.get(route, endpoint_methods.get);
-    if (endpoint_methods.post !== undefined) 
-        router.post(route, endpoint_methods.post);
-    if (endpoint_methods.put !== undefined) 
-        router.put(route, endpoint_methods.put);
-    if (endpoint_methods.patch !== undefined) 
-        router.patch(route, endpoint_methods.patch);
-    if (endpoint_methods.del !== undefined) 
-        router.del(route, endpoint_methods.del);
-}
-
-export function set_up_routes() {
+function init_api_router() {
     let router = new KoaRouter();
-    router.use(KoaBodyParser())
-    for (let api of api_collection) {
-        set_api(router, api.endpoint, api.endpoint_methods);
-    }
+
+    api_routers.forEach( (r) => {
+        router.use(api_dir, r.routes(), r.allowedMethods());
+    });
+
     return router;
 }
 
+export let api_router = init_api_router();
