@@ -21,8 +21,6 @@ Ya lo haremos mejor para el futuro.
 ## Estructura del proyecto
 Aqui teneis la estructura bajo forma de arbol del proyecto.
 ```
-├── package.json
-├── package-lock.json
 ├── README.md
 └── src
     ├── api
@@ -32,9 +30,8 @@ Aqui teneis la estructura bajo forma de arbol del proyecto.
     │       ├── registerNode.js
     │       ├── registerUser.js
     │       └── runTask.js
-    ├── components
+    ├── frontend
     ├── main.js
-    ├── pages
     └── utils
         ├── access-k3s.js
         ├── access-redis.js
@@ -46,16 +43,22 @@ Aqui teneis la estructura bajo forma de arbol del proyecto.
     - Llama al método [`set_up_routes`](src/api/api.js) de **[`api/api.js`](src/api/api.js)**
 
 - **[`api/api.js`](src/api/api.js)** configura un Router de Koa para nuestras API.
-    - Importa los metodos get/put/post/patch/del; corresponden a los tipos de acceso HTTP tolerados en una API [REST](https://www.restapitutorial.com/lessons/httpmethods.html).
-    - Para cada archivo .js en [/api/endpoint/](src/api/endpoint/) asigna los metodos declarados en ellos a la ruta que tienen asignada.
-    - También añade un KoaBodyParser al router, haciendo que las API solo acepten JSON i Forms; de esta manera los metodos declarados en cada Endpoint tienen los parametros directamente en `ctx.request.body`.
-
+    - Para cada Router declarado en cada API, añade sus rutas a nuestro router.
+    - Para cada archivo .js en [/api/endpoint/](src/api/endpoint/) hace falta importar su router y añadirlo al array `api_routers`
+    
 - **[`api/endpoints/`](src/api/endpoints/)**:
+    - Cada uno representa una API [REST](https://www.restapitutorial.com/lessons/httpmethods.html).
+    - Debemos crear un router para cada endpoint.
     - Contiene los metodos utilizados por cada API. Deben incluir un parametro `ctx`.
-    - En caso de tener que acceder a Redis, configuración de K3S o Wireguard, es preferible declarar funciones que los gestionen en [`utils/`](src/utils/) y llamarlas desde el metodo de la API que lo requiera.
+    - Es recomendable utilizar KoaBodyParser en el router; de esta manera nuestros metodos tienen acceso los parametros directamente en `ctx.request.body`, **¡¡¡Mirad documentación de bodyparser, por defecto rechaza todo lo que no sea JSON o Forms!!!**.
+    - En caso de tener que acceder a Redis, configuración de K3S o Wireguard, o cualquier tipo de lógica más compleja, es preferible declarar funciones que los gestionen en [`utils/`](src/utils/) y llamarlas desde el metodo de la API que lo requiera.
 
 - **[`utils/`](src/utils/)**: los archivos de aqui contienen métodos auxiliares para nuestro servidor web, por ejemplo comprobar que un usuario pertenece a la base de datos, o ejecutar un comando de terminal.
-
+## Git
+Recomendaciones:
+- Trabajar en ramas separadas para cada objetivo.
+- Evitar hacer muchos cambios en un solo commit (no siempre es malo, pero cambios no relacionados deberian ir separados)
+- Empezar los mensajes de commit con `[ADD]`, `[DEL]`, `[FIX]`, `[IMP]`, `[DOC]`.
 ## Líbrerias que Usamos:
 - KoaJS:
     - Documentación: https://koajs.com.
