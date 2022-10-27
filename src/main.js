@@ -1,5 +1,5 @@
 import Koa from "koa";
-import api_router from "./api/api.js";
+import { api_router } from "./api/api.js";
 
 const port = 3000;
 

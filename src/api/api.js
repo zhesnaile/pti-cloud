@@ -1,5 +1,5 @@
 import KoaRouter from "@koa/router";
-import login_api_router from "./endpoints/login.js";
+import { login_api_router } from "./endpoints/login.js";
 
 const api_routers = [
     login_api_router,
