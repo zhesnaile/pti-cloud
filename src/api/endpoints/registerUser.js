@@ -15,6 +15,7 @@ async function post(ctx, next) {
     if (valid_reg === true) {
         ctx.status = 200;
         ctx.body = `User registered! Welcome ${username}!`;
+        //redisClient.SET(`${username}`, `${password}`);
     } else {
         ctx.status = 404;
     }
