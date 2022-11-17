@@ -1,7 +1,7 @@
 /**
  * Register API Functions
  */
-import { redis_reg_check } from "../../utils/access-redis.js";
+import { redis_register_user } from "../../utils/access-redis.js";
 import KoaRouter from "@koa/router";
 import KoaBodyParser from "koa-bodyparser";
 
@@ -11,13 +11,13 @@ async function post(ctx, next) {
     let password = req_body.pword;
     let password2 = req_body.pword2;
 
-    let valid_reg = await redis_reg_check(username, password, password2);
+    let valid_reg = await redis_register_user(username, password, password2);
     if (valid_reg === true) {
         ctx.status = 200;
         ctx.body = `User registered! Welcome ${username}!`;
-        //redisClient.SET(`${username}`, `${password}`);
     } else {
         ctx.status = 404;
+        ctx.body = `${username} is already registered.`
     }
     await next();
 }

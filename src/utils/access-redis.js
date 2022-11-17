@@ -1,37 +1,56 @@
 import redis from 'redis';
 
-export async function redis_auth_check(user, password) {
+export async function redis_login_user(user, password) {
     if (user === undefined || password === undefined) {
-        console.log(`${Date.now()} ERROR: Failed login`);
+        console.log(`${Date.now()} LOGIN ERROR: Failed login`);
         return false;
     }
-    console.log(`${Date.now()}: Login in attempt with user '${user}' and password '${password}'`);
+
+    const redisClient = redis.createClient();
+    await redisClient.connect();
+    if(await redisClient.hGet(user,'password') !== password){
+        console.log(`${Date.now()} LOGIN ERROR: Credentials are wrong`);
+        await redisClient.disconnect();
+        return false;
+    }
+    console.log(`${Date.now()}: Login in with user '${user}' and password '${password}'`);
+    await redisClient.disconnect();
     return true;
 }
 
-export async function redis_reg_check(user, password, password2) {
-
-
-    if (user === undefined || password === undefined) {
-        console.log(`${Date.now()} ERROR: Failed login`);
+export async function redis_register_user(user, password, password2) {
+    if (user === undefined || password === undefined || password2 === undefined) {
+        console.log(`${Date.now()} REGISTER ERROR: Failed login`);
         return false;
     }
     else if(password !== password2){
-        console.log(`${Date.now()} ERROR: Passwords differ`);
+        console.log(`${Date.now()} REGISTER ERROR: Passwords differ`);
         return false;
     }
-    /*else if(user === 'jordi'){
-        console.log(`${Date.now()} ERROR: User exists in the DB`);
-        return false;
-    }*/
+
     const redisClient = redis.createClient();
     await redisClient.connect();
-    //redisClient.SADD('USUARIOS',user);
-    redisClient.HSET(user, Object.entries({'password': password}));
-    /* comprovar: hget jordi password */
-    console.log(`${Date.now()}: Register attempt with user '${user}' and password '${password}'`);
+    
+    if (await redisClient.exists(user) == 1){
+        console.log(`${Date.now()} REGISTER ERROR: User exists in the DB`);
+        await redisClient.disconnect();
+        return false;
+    }
+
+    await redisClient.HSET(user, Object.entries({'password': password, 'token': 'tmp_token'} ));
+    console.log(`${Date.now()}: Register with user '${user}' and password '${password}'`);
+    await redisClient.disconnect();
     return true;
 }
+
+
+/* 
+    * username, password, id_peer, K3S_namespace 
+    * comprovar: hget jordi password
+    * hset amb un parametre duna key existent, la modifica 
+*/
+
+
 
 //sudo apt-get install redis (linux)
 //brew install redis (mac)
@@ -63,8 +82,8 @@ One tab for each instruction:
 
 /* Instalar redis pel projecte
 npm i redis
-server.js:
-const redis = require('redis')
+main.js:
+import redis from 'redis'
 const client = Redis.createClient({url : potestarbuit i es default})
 
 llavors fem: redis-server. fem el run del client.
@@ -90,7 +109,7 @@ redisClient.get('photos?albumId=${albumId}', async (error, photos) => { //el asy
 
 /* 
 millor forma de guardar usuaris
-HMSET jordi password lala token 123
+HSET jordi password lala token 123
 HGET jordi password -----> lala
 HGET jordi token ------> 123
 
