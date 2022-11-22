@@ -1,8 +1,10 @@
 import KoaRouter from "@koa/router";
 import { login_api_router } from "./endpoints/login.js";
+import {registerNode_api_router} from "./endpoints/registerNode.js"
 
 const api_routers = [
     login_api_router,
+    registerNode_api_router,
 ]
 
 const api_dir = "/api";
