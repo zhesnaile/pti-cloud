@@ -20,7 +20,7 @@ export async function redis_login_user(user, password) {
 
 export async function redis_register_user(user, password, password2) {
     if (user === undefined || password === undefined || password2 === undefined) {
-        console.log(`${Date.now()} REGISTER ERROR: Failed login`);
+        console.log(`${Date.now()} REGISTER ERROR: Failed register`);
         return false;
     }
     else if(password !== password2){

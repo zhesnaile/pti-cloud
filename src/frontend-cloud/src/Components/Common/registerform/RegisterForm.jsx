@@ -3,13 +3,48 @@ import './../registerform/RegisterForm.css';
 import lock from './../../Pics/lock.png';
 
 
-function RegisterForm({ Register, error }) {
+function RegisterForm({/* Register*/ Navigation, error }) {
     const [details, setDetails] = useState({username: "", password:"", password2:""});
+    const [message, setMessage] = useState(""); 
+    const [path, setPath] = useState(""); 
 
-    const submitHandler = e => {
+    const submitHandler = async (e) => {
         e.preventDefault();
+    
+        //Register(details);
+        try {
+            let res = await fetch("http://localhost:3000/api/register", {
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                },
+                mode: "no-cors",
+                body: JSON.stringify({
+                    name: details.username,
+                    pword: details.password,
+                    pword2: details.password2,
+                }),
+            });
+            console.log(details.username);
+            //let resJson = await res.json();
+            if(res.status === 200){
+                  console.log("User registered succesfully!");
+                  //setAuth(true);
+                  //navigate('/dashboard');
+                  setPath('/dashboard');
+                  Navigation(path);
+            }
+            else {
+                console.log("Error occurred while register");
+                setPath('/dashboard');
+            }
 
-        Register(details);
+            //setError("Passwords do not match");
+            //setAuth(false);
+          } catch(err){
+              console.log(err);
+          }
     }
 
     
@@ -27,7 +62,7 @@ function RegisterForm({ Register, error }) {
                             <h2>Register page</h2>
                             {(error !== "") ? ( <div className="error">{error}</div>) : "" }
                             <div className='form-container'>
-                                <input type='email' name='email' placeholder='Email Address' className='input-label' onChange={e => setDetails({...details, username:e.target.value})} value={details.username}/>                      
+                                <input type='text' name='username' placeholder='Username' className='input-label' onChange={e => setDetails({...details, username:e.target.value})} value={details.username}/>                      
                             </div>
                             <div className='form-container'>
                                 <input type='password' name='password' placeholder='Password' className='input-label' onChange={e => setDetails({...details, password:e.target.value})} value={details.password}/>                      
