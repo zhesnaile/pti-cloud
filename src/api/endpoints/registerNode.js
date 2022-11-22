@@ -1,5 +1,7 @@
 import { get_k3s_token } from "../../utils/get-token-k3s.js";
 
+async function 
+
 function init_registerNode_router() {
     let router = new KoaRouter();
     router
