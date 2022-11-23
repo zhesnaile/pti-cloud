@@ -15,9 +15,7 @@ async function post(ctx, next) {
     console.log(username);
     console.log(password);
     console.log(password2);
-    /*let username = 'jordi';
-    let password = '123';
-    let password2 = '123';*/
+
     while (username === 'undefined' || password === 'undefined' || password2 === 'undefined');
     let valid_reg = await redis_register_user(username, password, password2);
     if (valid_reg === true) {

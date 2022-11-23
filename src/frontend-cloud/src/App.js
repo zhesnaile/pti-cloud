@@ -88,36 +88,45 @@ function App() {
     }
   }
 
-  /*const Register2 =  async (details) => {
+  const newRegister = async details => {
     try {
-      let res = await fetch("https://localhost:3000/api/register", {
+      let res = await fetch("http://localhost:3000/api/register", {
           method: "POST",
+          headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+          },
           body: JSON.stringify({
               name: details.username,
               pword: details.password,
               pword2: details.password2,
           }),
       });
-      let resJson = await res.json();
+      console.log(details.username);
       if(res.status === 200){
-            setMessage("User registered succesfully!");
+            console.log("User registered succesfully!");
             setAuth(true);
             navigate('/dashboard');
       }
-      else setMessage("Error occurred while register");
-      setError("Passwords do not match");
-      setAuth(false);
+      else {
+          console.log("Error occurred while register");
+          setError("Wrong credentials");
+          setAuth(false);
+          //window.location.reload(false);
+      }
     } catch(err){
         console.log(err);
     }
-  }*/
+  }
+
+
 
   return (
       <div className="App">
         <Header />
         <Routes>
           <Route path='/login' element={<LoginForm Login={Login} error={error}/>}/>
-          <Route path='/register' element={<RegisterForm Navigation={Navigation} error={error}/>}/>
+          <Route path='/register' element={<RegisterForm Register={newRegister} error={error}/>}/>
           <Route path='/dashboard' element={<ProtectedRoutes Auth={auth} Logout={Logout}/>} />
           <Route path='*' element={<ErrorPage Logout={Logout}/>} />
         </Routes>

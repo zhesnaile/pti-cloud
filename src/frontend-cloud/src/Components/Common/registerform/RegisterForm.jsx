@@ -3,7 +3,7 @@ import './../registerform/RegisterForm.css';
 import lock from './../../Pics/lock.png';
 import axios from 'axios';
 
-function RegisterForm({/* Register*/ Navigation, error }) {
+function RegisterForm({Register /*Navigation*/, error }) {
     const [details, setDetails] = useState({username: "", password:"", password2:""});
     const [message, setMessage] = useState(""); 
     const [path, setPath] = useState(""); 
@@ -34,8 +34,8 @@ function RegisterForm({/* Register*/ Navigation, error }) {
     const submitHandler = async (e) => {
         e.preventDefault();
     
-        //Register(details);
-        try {
+        Register(details);
+        /*try {
             let res = await fetch("http://localhost:3000/api/register", {
                 method: "POST",
                 headers: {
@@ -65,7 +65,7 @@ function RegisterForm({/* Register*/ Navigation, error }) {
             //setAuth(false);
           } catch(err){
               console.log(err);
-          }
+          }*/
     }
 /*
     function doRegister(){
