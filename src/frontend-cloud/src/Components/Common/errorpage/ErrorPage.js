@@ -12,7 +12,7 @@ function ErrorPage( Logout ) {
     }
     
     return (
-        <from onSubmit={submitHandler}>
+        <form onSubmit={submitHandler}>
             <div className='main'>
                 <div className='sub-main'>
                     <div>
@@ -22,7 +22,7 @@ function ErrorPage( Logout ) {
                 </div>  
             
             </div>
-        </from>
+        </form>
     )
 
 }
