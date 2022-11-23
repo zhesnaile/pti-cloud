@@ -3,13 +3,13 @@ import { Navbar } from '../../Common';
 import './Header.css';
 
 
-function Header () {
+function Header ({profile}) {
     return (
         <section className='header'>
             <section className='header-top'>
                 <section className='header-top_navbar'>
                     <section className='header-top_navigation'>
-                        <Navbar />
+                        <Navbar profile={profile}/>
                     </section>              
                 </section>  
             </section>

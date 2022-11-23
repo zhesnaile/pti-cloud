@@ -17,17 +17,10 @@ import {
 
 function App() {
 
-  const adminUser = {
-    username: "",
-    password: ""
-  }
   const navigate = useNavigate();
-  
-
   const [user, setUser] = useState({username:"", password:""});
   const [error, setError] = useState(""); //catch if details are correct
   const [auth, setAuth] = useState(false); 
-  const [message, setMessage] = useState(""); 
 
 
   const Login = async details => {
@@ -114,7 +107,7 @@ function App() {
 
   return (
       <div className="App">
-        <Header />
+        <Header profile={user.username}/>
         <Routes>
           <Route path='/login' element={<LoginForm Login={Login} error={error}/>}/>
           <Route path='/register' element={<RegisterForm Register={Register} error={error}/>}/>
