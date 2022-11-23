@@ -8,6 +8,7 @@ export async function redis_login_user(user, password) {
 
     const redisClient = redis.createClient();
     await redisClient.connect();
+    
     if(await redisClient.hGet(user,'password') !== password){
         console.log(`${Date.now()} LOGIN ERROR: Credentials are wrong`);
         await redisClient.disconnect();

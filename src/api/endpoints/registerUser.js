@@ -12,9 +12,12 @@ async function post(ctx, next) {
     let username = req_body.name;
     let password = req_body.pword;
     let password2 = req_body.pword2;
+    
+    /* para comprovar en la consola del backend
     console.log(username);
     console.log(password);
     console.log(password2);
+    */
 
     let valid_reg = await redis_register_user(username, password, password2);
     if (valid_reg === true) {
