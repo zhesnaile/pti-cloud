@@ -29,7 +29,7 @@ function RegisterForm({Register, error }) {
                             <div className='form-container'>
                                 <input type='password' name='password' placeholder='Password' className='input-label' onChange={e => setDetails({...details, password:e.target.value})} value={details.password}/>                      
                             </div>
-                            <div className='second-input'>
+                            <div className='form-container'>
                                 <input type='password' name='password2' placeholder='Confirm Password' className='input-label' onChange={e => setDetails({...details, password2:e.target.value})} value={details.password2}/>
                             </div>
                             <div className='login-button'>

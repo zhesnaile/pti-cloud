@@ -32,7 +32,7 @@ function LoginForm({ Login, error }) {
                             <div className='form-container'>
                                 <input type='text' name='username' placeholder='Username' className='input-label' onChange={e => setDetails({...details, username:e.target.value})} value={details.username}/>                      
                             </div>
-                            <div className='second-input'>
+                            <div className='form-container'>
                                 <input type='password' name='password' placeholder='Password' className='input-label' onChange={e => setDetails({...details, password:e.target.value})} value={details.password}/>
                             </div>
                             <div className='login-button'>
