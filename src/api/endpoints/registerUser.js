@@ -4,6 +4,7 @@
 import { redis_register_user } from "../../utils/access-redis.js";
 import KoaRouter from "@koa/router";
 import KoaBodyParser from "koa-bodyparser";
+import cors from "@koa/cors";
 
 async function post(ctx, next) {
 
@@ -34,6 +35,7 @@ async function post(ctx, next) {
 function init_register_router() {
     let router = new KoaRouter();
     router
+        .use(cors())
         .use(KoaBodyParser())
         .post("/register", post);
     return router;

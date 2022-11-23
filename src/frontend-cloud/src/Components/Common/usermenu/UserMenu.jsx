@@ -11,7 +11,7 @@ function UserMenu({ Logout }) {
     }
 
     return (
-        <from onSubmit={submitHandler}>
+        <form onSubmit={submitHandler}>
             <div className='main'>
                 <div className='sub-main-menu'>
                     <div className='content-menu'>
@@ -42,7 +42,7 @@ function UserMenu({ Logout }) {
                 </div>
             </div>
             
-        </from>
+        </form>
         
         
     )
