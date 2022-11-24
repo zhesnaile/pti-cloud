@@ -111,7 +111,7 @@ function App() {
         <Routes>
           <Route path='/login' element={<LoginForm Login={Login} error={error}/>}/>
           <Route path='/register' element={<RegisterForm Register={Register} error={error}/>}/>
-          <Route path='/dashboard' element={<ProtectedRoutes Auth={auth} Logout={Logout}/>} />
+          <Route path='/dashboard' element={<ProtectedRoutes Component={'UserMenu'} Auth={auth} Logout={Logout}/>} />
           <Route path='*' element={<ErrorPage Logout={Logout}/>} />
         </Routes>
       </div>
