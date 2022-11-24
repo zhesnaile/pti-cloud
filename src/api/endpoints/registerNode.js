@@ -22,4 +22,4 @@ function init_registerNode_router() {
     return router;
 }
 
-export let registerNode_api_router = init_registerNode_router();
+export let register_node_api_router = init_registerNode_router();
