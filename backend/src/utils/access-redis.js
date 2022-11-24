@@ -58,7 +58,7 @@ export async function check_user(user){
 /*
 * Añade al usuario de la BD, el número de wireguard y el nombre del archivo de configuracion.
 */
-export async function redis_wg_config(user, wg_num, wg_config) {
+export async function redis_wgconfig(user, wg_num, wg_config) {
     const redisClient = redis.createClient();
     await redisClient.connect();
 
@@ -78,7 +78,7 @@ export async function redis_wg_config(user, wg_num, wg_config) {
 * Comprueba si el usuario tiene un wg_config valido (que exista y que no sea 'invalid') y lo devuelve.
 * Sino devuelve un null para que pueda comprovarse en la funcion de donde se llame.
 */
-export async function redis_get_config(user){
+export async function redis_get_wgconfig(user){
     const redisClient = redis.createClient();
     await redisClient.connect();
     let config = 'null';
