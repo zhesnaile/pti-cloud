@@ -38,14 +38,64 @@ export async function redis_register_user(user, password, password2) {
         return false;
     }
 
-    await redisClient.HSET(user, Object.entries({'password': password, 'token': 'tmp_token'} ));
+    await redisClient.HSET(user, Object.entries({'password': password}));
     console.log(`${Date.now()}: Register with user '${user}' and password '${password}'`);
     await redisClient.disconnect();
     return true;
 }
 
+/*
+* Comprueba que exista un usuario en la BD.
+*/
+export async function check_user(user){
+    if (await redisClient.exists(user) !== 1){
+        console.log(`${Date.now()} USER CHECK: User not exists in the DB`);
+        await redisClient.disconnect();
+        return false;
+    } else return true;
+}
+
+/*
+* Añade al usuario de la BD, el número de wireguard y el nombre del archivo de configuracion.
+*/
+export async function redis_wg_config(user, wg_num, wg_config) {
+    const redisClient = redis.createClient();
+    await redisClient.connect();
+
+    if (await redisClient.exists(user) !== 1){
+        console.log(`${Date.now()} REGISTER NODE ERROR: User not exists`);
+        await redisClient.disconnect();
+        return false;
+    }
+    await redisClient.HSET(user, Object.entries({'wg_num': wg_num}));
+    await redisClient.HSET(user, Object.entries({'wg_config': wg_config}));
+    await redisClient.disconnect();
+    console.log(`${Date.now()}: Node register from the user '${user}' with wg_num '${wg_num}' and  with wg_config '${wg_config}'`);
+    return true;
+}
 
 /* 
+* Comprueba si el usuario tiene un wg_config valido (que exista y que no sea 'invalid') y lo devuelve.
+* Sino devuelve un null para que pueda comprovarse en la funcion de donde se llame.
+*/
+export async function redis_get_config(user){
+    const redisClient = redis.createClient();
+    await redisClient.connect();
+    let config = 'null';
+    if (await redisClient.hExists(user, 'wg_config') == 1 && redisClient.hGet(user,'wg_config') !== 'invalid') config = await redisClient.hGet(user, 'wg_config');
+    console.log(`${config}`);
+    await redisClient.disconnect();
+    return config;
+}
+
+
+
+
+
+//---------------------------------------------------------------------------------------------------------------------------------------
+//NOTAS SOBRE EL USO DE REDIS
+
+/*
     * username, password, id_peer, K3S_namespace 
     * comprovar: hget jordi password
     * hset amb un parametre duna key existent, la modifica 
@@ -79,9 +129,9 @@ One tab for each instruction:
             - HDEL user name --> es borra jordi
             - HEXISTS user name --> 0
 
-*/
 
-/* Instalar redis pel projecte
+
+Instalar redis pel projecte
 npm i redis
 main.js:
 import redis from 'redis'
@@ -96,19 +146,17 @@ keys *
 podrem veure que sha creat photos
 
 per cachejar si estan les dades fem:
-redisClient.get('photos?albumId=${albumId}', async (error, photos) => { //el async es per si es un async
+redisClient.get('photos?albumId=${albumId}', async (error, photos) => { el async es per si es un async
     if(error) console.error(error)
-    if(photos != null){ //si hi ha fotos, les retorna
+    if(photos != null){ si hi ha fotos, les retorna
         return res.json(JSON.parse(photos))
     } else{
         {...codi on agafem les dades i ho posem a data}
         redisClient.setex('photos?albumId=$(albumId}', JSON.stringify(data)
     }
 })
-*/
 
 
-/* 
 millor forma de guardar usuaris
 HSET jordi password lala token 123
 HGET jordi password -----> lala

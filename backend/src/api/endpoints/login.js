@@ -32,3 +32,6 @@ function init_login_router() {
 export let login_api_router = init_login_router();
 
 //curl -X POST http://localhost:3000/api/login -H "Content-Type: application/json" -d '{"name": "jordi", "pword": "lala"}'
+
+
+
