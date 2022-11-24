@@ -67,7 +67,7 @@ export async function redis_wgconfig(user, wg_num, wg_config) {
     await redisClient.connect();
 
     if (await redisClient.exists(user) !== 1){
-        console.log(`${Date.now()} REGISTER NODE ERROR: User not exists`);
+        console.log(`${Date.now()} WG_CONFIG: User not exists`);
         await redisClient.disconnect();
         return false;
     }
@@ -102,7 +102,7 @@ export async function redis_K3Sconfig(user, k3s_name) {
     await redisClient.connect();
 
     if (await redisClient.exists(user) !== 1){
-        console.log(`${Date.now()} REGISTER NODE ERROR: User not exists`);
+        console.log(`${Date.now()} K3S CONFIG: User not exists`);
         await redisClient.disconnect();
         return false;
     }
