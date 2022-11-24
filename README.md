@@ -7,6 +7,14 @@ Hace falta instalar las dependencias del proyecto para correrlo; basta con ejecu
 npm install
 ```
 Desde el directorio del git. No hacen falta permisos de superusuario.
+```
+nvm install 7
+npm i koa
+```
+Instalar la versión 16 de node
+```
+curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -&&sudo apt-get install -y nodejs
+```
 
 El punto de entrada de la web es `src/main.js`
 
@@ -45,7 +53,7 @@ Aqui teneis la estructura bajo forma de arbol del proyecto.
 - **[`api/api.js`](src/api/api.js)** configura un Router de Koa para nuestras API.
     - Para cada Router declarado en cada API, añade sus rutas a nuestro router.
     - Para cada archivo .js en [/api/endpoint/](src/api/endpoint/) hace falta importar su router y añadirlo al array `api_routers`
-    
+
 - **[`api/endpoints/`](src/api/endpoints/)**:
     - Cada uno representa una API [REST](https://www.restapitutorial.com/lessons/httpmethods.html).
     - Debemos crear un router para cada endpoint.
