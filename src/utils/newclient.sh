@@ -7,7 +7,6 @@ function newClient() {
 
 	until [[ ${CLIENT_NAME} =~ ^[a-zA-Z0-9_-]+$ && ${CLIENT_EXISTS} == '0' && ${#CLIENT_NAME} -lt 16 ]]; do
 		#read -rp "Client name: " -e CLIENT_NAME
-		#CLIENT_NAME=client34 #METER UN FOR O ALGO QUE AUTOCOMPLETE LOS NOMBRES DE CLIENTES
 
 		for CLIENT_NAME in {1..254}; do
 		  CLIENT_EXISTS=$(grep -c -E "^### Client ${CLIENT_NAME}\$" "/etc/wireguard/${SERVER_WG_NIC}.conf")
@@ -106,4 +105,6 @@ AllowedIPs = ${CLIENT_WG_IPV4}/32,${CLIENT_WG_IPV6}/128" >>"/etc/wireguard/${SER
 
 	echo "The config is available in ${HOME_DIR}/${SERVER_WG_NIC}-client-${CLIENT_NAME}.conf"
 }
+
+
 newClient

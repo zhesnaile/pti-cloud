@@ -22,18 +22,26 @@ function installWireGuard() {
 
 	chmod 600 -R /etc/wireguard/
 
-	#until [[ ${SERVER_WG_NIC} =~ ^[a-zA-Z0-9_]+$ && ${#SERVER_WG_NIC} -lt 16 ]]; do
-		#read -rp "WireGuard interface name: " -e -i wg0 SERVER_WG_NIC
-	#done
+	until [[ ${SERVER_WG_NIC} =~ ^[a-zA-Z0-9_]+$ && ${#SERVER_WG_NIC} -lt 16 ]]; do
+	read -rp "WireGuard interface name: " -e -i wg0 SERVER_WG_NIC
+	done
 
 
 	PWD= pwd
 
-	#Asumo que un cliente solo tendrá una vpn y que su interfaz será wg0
-	mv ${PWD}/wg0-client.conf /etc/wireguard/wg0.conf
 
-        #mv ${PWD}/${SERVER_WG_NIC}.conf  /etc/wireguard/${SERVER_WG_NIC}.conf
-  SERVER_WG_NIC=wg0
+	#LLAMAR A LA API PARA QUE DE EL ARCHIVO DE CONFIG
+
+	read -rp "Server URL and PORT:" -e -i https:// URL
+	read -rp "Username" -e -i Username USERNAME
+	read -rp "Password" -e -i Pass PSSWD
+	curl -L "${URL}/api/getConfig?user=${USERNAME}&password=${PSSWD}" -o ./${SERVER_WG_NIC}.conf
+
+	if [[ $? -ne 0 ]] then
+ 	echo -e "HOLA"
+	fi
+
+  mv ${PWD}/${SERVER_WG_NIC}.conf  /etc/wireguard/${SERVER_WG_NIC}.conf
 
 	systemctl start "wg-quick@${SERVER_WG_NIC}"
 	systemctl enable "wg-quick@${SERVER_WG_NIC}"

@@ -1,15 +1,15 @@
 import KoaRouter from "@koa/router";
 import KoaBodyParser from "koa-bodyparser";
-import { addClient, revokeeClient } from "../../utils/access-wg.js";
+import { getConfig, revokeeClient } from "../../utils/access-wg.js";
 
 //RECIBE CONEXION; VALIDA?? LLAMA
 
 async function get_wg_config(ctx, next) {
     ctx.status = 200;
-    ctx.body = "HOLA";
-    await addClient();
+    let user = ctx.body.username;
+    let pass = ctx.body.password;
+    await getConfig(user, pass);
     await next();
-    //COMO DEVOLVER UN FICHERO EN UNA PETICION APIREST FRONTEND
 }
 async function revoke_wg_config(ctx, next) {
     ctx.status = 200;
