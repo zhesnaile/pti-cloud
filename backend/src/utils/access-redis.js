@@ -1,5 +1,7 @@
 import redis from 'redis';
 
+//FUNCIONALIDADES PÁGINA WEB ------------------------------------------------------------------------------------
+
 export async function redis_login_user(user, password) {
     if (user === undefined || password === undefined) {
         console.log(`${Date.now()} LOGIN ERROR: Failed login`);
@@ -44,6 +46,8 @@ export async function redis_register_user(user, password, password2) {
     return true;
 }
 
+//FUNCIONALIDADES WIREGUARD ------------------------------------------------------------------------------------
+
 /*
 * Comprueba que exista un usuario en la BD.
 */
@@ -70,7 +74,7 @@ export async function redis_wgconfig(user, wg_num, wg_config) {
     await redisClient.HSET(user, Object.entries({'wg_num': wg_num}));
     await redisClient.HSET(user, Object.entries({'wg_config': wg_config}));
     await redisClient.disconnect();
-    console.log(`${Date.now()}: Node register from the user '${user}' with wg_num '${wg_num}' and  with wg_config '${wg_config}'`);
+    console.log(`${Date.now()}: Wireguard config from the user '${user}' with wg_num '${wg_num}' and  with wg_config '${wg_config}'`);
     return true;
 }
 
@@ -88,7 +92,52 @@ export async function redis_get_wgconfig(user){
     return config;
 }
 
+//FUNCIONALIDADES K3S ------------------------------------------------------------------------------------
 
+/*
+* Añade al usuario de la BD, el nombre de la maquina de k3s.
+*/
+export async function redis_K3Sconfig(user, k3s_name) {
+    const redisClient = redis.createClient();
+    await redisClient.connect();
+
+    if (await redisClient.exists(user) !== 1){
+        console.log(`${Date.now()} REGISTER NODE ERROR: User not exists`);
+        await redisClient.disconnect();
+        return false;
+    }
+    await redisClient.HSET(user, Object.entries({'k3s_name': k3s_name}));
+    await redisClient.disconnect();
+    console.log(`${Date.now()}: K3S config from the user '${user}' with k3s_name '${k3s_name}'`);
+    return true;
+}
+
+/**
+ * Comprueba que el usuario tiene asignada la maquina k3s_name.
+ */
+export async function redis_check_K3Sconfig(user, k3s_name){
+    const redisClient = redis.createClient();
+    await redisClient.connect();
+    if (await redisClient.hExists(user, 'k3s_name') == 1 && await redisClient.hGet(user, 'k3s_name') == k3s_name){
+        redisClient.disconnect();
+        return true;
+    }
+    redisClient.disconnect();
+    return false;
+}
+/* 
+* Comprueba si el usuario tiene un k3s_name valido (que exista y que no sea 'invalid') y lo devuelve.
+* Sino devuelve un null para que pueda comprovarse en la funcion de donde se llame.
+*/
+export async function redis_get_K3Sconfig(user){
+    const redisClient = redis.createClient();
+    await redisClient.connect();
+    let k3s_name = 'null';
+    if (await redisClient.hExists(user, 'k3s_name') == 1 && redisClient.hGet(user,'k3s_name') !== 'invalid') k3s_name = await redisClient.hGet(user, 'k3s_name');
+    console.log(`${k3s_name}`);
+    await redisClient.disconnect();
+    return k3s_name;
+}
 
 
 
