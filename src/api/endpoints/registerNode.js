@@ -18,7 +18,7 @@ function init_registerNode_router() {
     let router = new KoaRouter();
     router
         .use(KoaBodyParser())
-        .post("/registerNode", /*nombre de la función de la API*/);
+        .post("/registerNode", getToken_registerNode);
     return router;
 }
 
