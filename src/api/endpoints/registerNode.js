@@ -11,8 +11,7 @@ async function getToken_registerNode() {
 
   fs.appendFile('k3s_token.txt', token, function (err) {
     if (err) throw err;
-
-  }
+  } )
 }
 
 function init_registerNode_router() {
