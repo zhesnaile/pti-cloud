@@ -22,17 +22,18 @@ function installWireGuard() {
 
 	chmod 600 -R /etc/wireguard/
 
-  #METER UN ARCHIVO CON LA CONFIGURACION DEL CLIENTE EN EL ETC/WIREGUARD
-	SERVER_NIC="$(ip -4 route ls | grep default | grep -Po '(?<=dev )(\S+)' | head -1)"
+	#until [[ ${SERVER_WG_NIC} =~ ^[a-zA-Z0-9_]+$ && ${#SERVER_WG_NIC} -lt 16 ]]; do
+		#read -rp "WireGuard interface name: " -e -i wg0 SERVER_WG_NIC
+	#done
 
-	until [[ ${SERVER_WG_NIC} =~ ^[a-zA-Z0-9_]+$ && ${#SERVER_WG_NIC} -lt 16 ]]; do
-		read -rp "WireGuard interface name: " -e -i wg0 SERVER_WG_NIC
-	done
-	
 
 	PWD= pwd
-	
-        mv ${PWD}/${SERVER_WG_NIC}.conf  /etc/wireguard/${SERVER_WG_NIC}.conf
+
+	#Asumo que un cliente solo tendrá una vpn y que su interfaz será wg0
+	mv ${PWD}/wg0-client.conf /etc/wireguard/wg0.conf
+
+        #mv ${PWD}/${SERVER_WG_NIC}.conf  /etc/wireguard/${SERVER_WG_NIC}.conf
+  SERVER_WG_NIC=wg0
 
 	systemctl start "wg-quick@${SERVER_WG_NIC}"
 	systemctl enable "wg-quick@${SERVER_WG_NIC}"
@@ -50,7 +51,5 @@ function installWireGuard() {
 	fi
 }
 
-
 isRoot
 installWireGuard
-
