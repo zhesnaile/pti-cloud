@@ -4,6 +4,7 @@ import LoginForm from './loginform';
 import RegisterForm from './registerform'
 import UserMenu from './usermenu'
 import ErrorPage from './errorpage';
+import RegisterNode from './registernode';
 
 export {
     Header,
@@ -11,5 +12,6 @@ export {
     LoginForm,
     RegisterForm,
     UserMenu,
-    ErrorPage
+    ErrorPage,
+    RegisterNode
 }

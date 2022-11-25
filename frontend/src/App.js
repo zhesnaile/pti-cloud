@@ -5,7 +5,9 @@ import LoginForm from './Components/Common/loginform/LoginForm.js';
 import RegisterForm from './Components/Common/registerform/RegisterForm.jsx';
 import ErrorPage from './Components/Common/errorpage/ErrorPage.js';
 import ProtectedRoutes from './Components/ProtectedRoutes.jsx';
-//import './App.css';
+import ProtectedRegNode from './Components/ProtectedRegNode.jsx';
+//import RegisterNode from './Components/Common/registernode/RegisterNode.jsx';
+
 
 import {
   Routes,
@@ -112,6 +114,7 @@ function App() {
           <Route path='/login' element={<LoginForm Login={Login} error={error}/>}/>
           <Route path='/register' element={<RegisterForm Register={Register} error={error}/>}/>
           <Route path='/dashboard' element={<ProtectedRoutes Component={'UserMenu'} Auth={auth} Logout={Logout}/>} />
+          <Route path='/registernode' element={<ProtectedRegNode Component={'RegisterNode'} Auth={auth} Logout={Logout}/>} />
           <Route path='*' element={<ErrorPage Logout={Logout}/>} />
         </Routes>
       </div>
