@@ -3,7 +3,7 @@ import { useState } from 'react';
 //import { useNavigate } from 'react-router-dom';
 import './../registernode/RegisterNode.css';
 
-function UserMenu({ Logout }) {
+function RegisterNode({ Profile, Logout }) {
     //const navigate = useNavigate();
     const [K3S_flag, setK3S_flag] = useState(false);
     const [K3S_token, setK3S_token] = useState('');
@@ -11,10 +11,10 @@ function UserMenu({ Logout }) {
     const [WG_config, setWG_config] = useState('');
 
 
-    const submitHandler = e => {
+    /*const submitHandler = e => {
         e.preventDefault();
         Logout();
-    }
+    }*/
 
     const getScript = async e => {
         //descarregar el script
@@ -26,7 +26,7 @@ function UserMenu({ Logout }) {
                     Accept: "application/json",
                     "Content-Type": "application/json",
                 },
-        });
+            });
         if (res.status === 200) console.log("Funciona");
         else console.log("No funciona encara");
         } catch (err){
@@ -38,14 +38,41 @@ function UserMenu({ Logout }) {
         setK3S_flag(event.target.value);
         setK3S_flag(!K3S_flag);
         //aqui s'hauria de cridar a la api que genera el token de k3s i fer:
+        
         //setK3S_token(num);
     }
 
-    const handle_WG = (event) => {
+    const handle_WG = async (event) => {
         setWG_flag(event.target.value);
         setWG_flag(!WG_flag);
         //aqui s'hauria de cridar a la api que genera el nom de configuracio i fer:
-        //setWG_config(num);
+        try{
+            let res = await fetch("http://localhost:3000/api/wgtest", {
+              method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    name: Profile,
+                }),
+            });
+            if(res.status === 200){
+                while(res.body.wg_config === '');
+                try{
+                    const config = await res.body.wg_cofig;
+                    console.log(config);
+                    setWG_config(config);
+                } catch(err){
+                    console.log("setWG error");
+                }
+            }
+            if(res.status !== 200){
+                console.log("Error api");
+            }
+          } catch(err){
+            console.log(err);
+          }
     }
 
     const K3S_change = event => {
@@ -75,12 +102,12 @@ function UserMenu({ Logout }) {
                                 <h3>The following steps are optional:</h3> 
                                 <label> &gt; Get the hidden K3S token
                                     <input className='checkbox-node' type="checkbox" onChange={handle_K3S} checked={K3S_flag}/>
-                                    <input className='input-node' onChange={K3S_change} value={K3S_flag ? K3S_token : '?'}/>                                    
+                                    <input className='input-node' onChange={K3S_change} value={K3S_flag ? K3S_token || '' : '?'}/>                                    
                                 </label> 
                                 <br/>
                                 <label> &gt; Get the hidden Wireguard config
                                     <input className='checkbox-node' type="checkbox" onChange={handle_WG} checked={WG_flag}/>
-                                    <input className='input-node' onChange={WG_change} value={WG_flag ? WG_config : '?'} />
+                                    <input className='input-node' onChange={WG_change} value={WG_flag ? WG_config || '' : '?'} />
                                 </label>
                             </div>
                         </div>
@@ -95,4 +122,4 @@ function UserMenu({ Logout }) {
 
 }
 
-export default UserMenu;
+export default RegisterNode;

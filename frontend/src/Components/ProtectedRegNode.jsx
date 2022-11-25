@@ -3,11 +3,11 @@ import ErrorPage from './Common/errorpage/ErrorPage';
 import RegisterNode from './Common/registernode/RegisterNode';
 
 
-function ProtectedRegNode({Component, Auth, Logout }) {
+function ProtectedRegNode({ Profile, Component, Auth, Logout }) {
 
     return (
         <div>
-            {(Auth === false && Component === 'RegisterNode') ? (<ErrorPage Logout={Logout}/>) : <RegisterNode Logout={Logout}/>}          
+            {(Auth === false && Component === 'RegisterNode') ? (<ErrorPage Logout={Logout}/>) : <RegisterNode Profile={Profile} Logout={Logout}/>}          
         </div>
         
     )

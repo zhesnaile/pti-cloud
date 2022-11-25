@@ -21,6 +21,7 @@ async function post(ctx, next) {
     await next();
 }
 
+
 function init_login_router() {
     let router = new KoaRouter();
     router

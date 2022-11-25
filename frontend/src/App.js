@@ -105,8 +105,6 @@ function App() {
     }
   }
 
-
-
   return (
       <div className="App">
         <Header profile={user.username}/>
@@ -114,7 +112,7 @@ function App() {
           <Route path='/login' element={<LoginForm Login={Login} error={error}/>}/>
           <Route path='/register' element={<RegisterForm Register={Register} error={error}/>}/>
           <Route path='/dashboard' element={<ProtectedRoutes Component={'UserMenu'} Auth={auth} Logout={Logout}/>} />
-          <Route path='/registernode' element={<ProtectedRegNode Component={'RegisterNode'} Auth={auth} Logout={Logout}/>} />
+          <Route path='/registernode' element={<ProtectedRegNode Component={'RegisterNode'} Profile={user.username} Auth={auth} Logout={Logout}/>} />
           <Route path='*' element={<ErrorPage Logout={Logout}/>} />
         </Routes>
       </div>
