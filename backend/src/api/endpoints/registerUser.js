@@ -12,7 +12,7 @@ async function post(ctx, next) {
     let username = req_body.name;
     let password = req_body.pword;
     let password2 = req_body.pword2;
-    
+
     /* para comprovar en la consola del backend
     console.log(username);
     console.log(password);
@@ -29,7 +29,7 @@ async function post(ctx, next) {
     }
     await next();
 
-    
+
 }
 
 function init_register_router() {
