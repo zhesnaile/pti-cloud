@@ -92,6 +92,31 @@ export async function redis_get_wgconfig(user){
     return config;
 }
 
+/* 
+* Comprueba si el usuario tiene un wg_num valido (que exista y que no sea 'invalid') y lo devuelve.
+* Sino devuelve un null para que pueda comprovarse en la funcion de donde se llame.
+*/
+export async function redis_get_wgnum(user){
+    const redisClient = redis.createClient();
+    await redisClient.connect();
+    let wgnum = 'null';
+    if (await redisClient.hExists(user, 'wg_num') == 1 && redisClient.hGet(user,'wg_num') !== 'invalid') wgnum = await redisClient.hGet(user, 'wg_num');
+    console.log(`${wgnum}`);
+    await redisClient.disconnect();
+    return wgnum;
+}
+
+/**
+ * Pone los parametros de wg de un usuario de la BD en invalidos para inhabilitar al usuario
+ */
+export async function redis_revoke_wgconfig(user){
+    const redisClient = redis.createClient();
+    await redisClient.connect();
+    await redisClient.HSET(user, Object.entries({'wg_num': 'invalid'}));
+    await redisClient.HSET(user, Object.entries({'wg_config': 'invalid'}));
+    await redisClient.disconnect();
+}
+
 //FUNCIONALIDADES K3S ------------------------------------------------------------------------------------
 
 /*
