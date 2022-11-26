@@ -1,6 +1,6 @@
 //LLAMA SCRIPT PARA LA CONFIG DEL NUEVO CLIENT
 import {exec} from "child_process" ;
-//import {redis_get_wgconfig, check_user, redis_wgconfig} from "../utils/access-redis.js";
+import {redis_get_wgconfig, check_user, redis_wgconfig, redis_get_wgnum,redis_revoke_wgconfig} from "../utils/access-redis.js";
 
 export async function getConfig(user) {
   let user_exists = check_user(user);
@@ -30,7 +30,7 @@ export async function addClient(user) {
     //console.log(output[1]); //COMPROBACION DE LA CONFIG DEL CLIENTE
 
     //numero del cliente = output[0], configuracion del cliente output[1]
-    //await redis_wgconfig(user, output[0], output[1]);
+    await redis_wgconfig(user, output[0], output[1]);
     return output[1];
 
   });
@@ -40,8 +40,9 @@ export async function addClient(user) {
 export async function deleteConfig(user) {
   let user_exists = check_user(user);
   if (user_exists == true){ //COMPRUEBA EL USER
-    //  let number = get_wgnumber_user(user); //le da el numero del usuario en la config de wireguard que estaba en la bd
+  let number = redis_get_wgnum(user); //le da el numero del usuario en la config de wireguard que estaba en la bd
       if (number != null) {
+        await redis_revoke_wgconfig(user);
         return await revokeeClient(number);
       }
       else {
@@ -58,7 +59,6 @@ export async function revokeeClient(number) {
   exec(command, function callback(error, stdout, stderr) {
     console.log(stdout);
     console.log(stderr);
-    //await redis_borrar_user(number); //borrar user con este numero.
   });
   console.log("client deleted succesfully");
 }

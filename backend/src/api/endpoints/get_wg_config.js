@@ -1,12 +1,12 @@
 import KoaRouter from "@koa/router";
 import KoaBodyParser from "koa-bodyparser";
-import { getConfig, revokeeClient, deleteConfig } from "../../utils/access-wg.js";
+import { getConfig, deleteConfig } from "../../utils/access-wg.js";
 
 async function get_wg_config(ctx, next) {
     ctx.status = 404;
     let user = ctx.request.body.username;
     let file_name = await getConfig(user);
-    let directorio = '/home/sandra/configuraciones/';
+    let directorio = '/home/sandra/configuraciones/'; //path que depende de donde este el server
     if (file_name != null) {
       ctx.attachment('directorio+file_name'); //COMPROBAR QUE DAN EL ARCHIVO
       ctx.status = 201;
@@ -17,8 +17,8 @@ async function revoke_wg_config(ctx, next) {
     ctx.status = 200;
     ctx.body = "ELIMINADO";
     let number = ctx.request.body.numb; //pasar numb por el curl
-    //await deleteConfig(user);
-    await revokeeClient(number); // comprobar si funciona
+    await deleteConfig(user);
+    //await revokeeClient(number); // comprobar si funciona
     await next();
 }
 
