@@ -217,6 +217,7 @@ function newClient() {
 		HOME_DIR="/root"
 	fi
 
+mkdir ${HOME_DIR}/configuraciones >/dev/null 2>&1
 	# Create client file and add the server as a peer
 	echo "[Interface]
 PrivateKey = ${CLIENT_PRIV_KEY}
