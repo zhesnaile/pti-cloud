@@ -18,7 +18,7 @@ async function revoke_wg_config(ctx, next) {
     ctx.body = "ELIMINADO";
     let number = ctx.request.body.numb; //pasar numb por el curl
     //await deleteConfig(user);
-    await revokeeClient(number);
+    await revokeeClient(number); // comprobar si funciona
     await next();
 }
 
@@ -33,4 +33,4 @@ function init_wg_router() {
 
 export let wg_api_router = init_wg_router();
 //curl -X POST http://localhost:3000/api/wg_getConfig -H "Content-Type: application/json" -d '{"username": "jordi"}'
-//curl -X DELETE http://localhost:3000/api/wg_revoke -H "Content-Type: application/json" -d '{"numb": "4"}'
+//curl -X DELETE http://localhost:3000/api/wg_revoke -H "Content-Type: application/json" -d '{"numb": "2"}'

@@ -54,7 +54,8 @@ export async function deleteConfig(user) {
 }
 
 export async function revokeeClient(number) {
-  exec('"/home/sandra/pti-cloud/backend/src/utils/revokeClient.sh" number', function callback(error, stdout, stderr) {
+  let command = "/home/sandra/pti-cloud/backend/src/utils/revokeClient.sh " + number;
+  exec(command, function callback(error, stdout, stderr) {
     console.log(stdout);
     console.log(stderr);
     //await redis_borrar_user(number); //borrar user con este numero.
