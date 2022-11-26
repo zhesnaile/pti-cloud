@@ -19,35 +19,14 @@ function RegisterNode({ Profile, Logout }) {
     const getScript = async e => {
         //descarregar el script
         e.preventDefault();
-        try {
-            let res = await fetch("http://localhost:3000/api/helloTest", {
-                method: "POST",
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                },
-            });
-        if (res.status === 200) console.log("Funciona");
-        else console.log("No funciona encara");
-        } catch (err){
-            console.log(err);
-        }
+
     }
 
-    const handle_K3S = (event) => {
+    const handle_K3S = async (event) => {
         setK3S_flag(event.target.value);
         setK3S_flag(!K3S_flag);
-        //aqui s'hauria de cridar a la api que genera el token de k3s i fer:
-        
-        //setK3S_token(num);
-    }
-
-    const handle_WG = async (event) => {
-        setWG_flag(event.target.value);
-        setWG_flag(!WG_flag);
-        //aqui s'hauria de cridar a la api que genera el nom de configuracio i fer:
         try{
-            let res = await fetch("http://localhost:3000/api/wgtest", {
+            let res = await fetch("http://localhost:3000/api/getK3Stoken", {
               method: "POST",
                 headers: {
                     Accept: "application/json",
@@ -57,19 +36,31 @@ function RegisterNode({ Profile, Logout }) {
                     name: Profile,
                 }),
             });
-            if(res.status === 200){
-                while(res.body.wg_config === '');
-                try{
-                    const config = await res.body.wg_cofig;
-                    console.log(config);
-                    setWG_config(config);
-                } catch(err){
-                    console.log("setWG error");
-                }
-            }
-            if(res.status !== 200){
-                console.log("Error api");
-            }
+            let data = await res.json();
+            console.log(data);
+            setK3S_token(data.k3s_name);
+          } catch(err){
+            console.log(err);
+          }
+    }
+
+    const handle_WG = async (event) => {
+        setWG_flag(event.target.value);
+        setWG_flag(!WG_flag);
+        try{
+            let res = await fetch("http://localhost:3000/api/getWGconfig", {
+              method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    name: Profile,
+                }),
+            });
+            let data = await res.json();
+            console.log(data);
+            setWG_config(data.wg_config);
           } catch(err){
             console.log(err);
           }
