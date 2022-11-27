@@ -15,8 +15,25 @@ app.use(api_router.routes()).use(api_router.allowedMethods());
 
 //pel frontend
 const static_pages = new Koa();
-static_pages.use(serve("/Users/jordiibru/Documents/first-clone/pti-cloud/frontend/build"));
+
+const REACT_ROUTER_PATHS = [
+    '/login',
+    '/register',
+    '/dashboard',
+    '/registerusernode',
+  ];
+  
+  static_pages
+    .use(async (ctx, next) => {
+      if (REACT_ROUTER_PATHS.includes(ctx.request.path)) {
+        ctx.request.path = '/';
+      }
+      await next();
+    })
+    .use(serve("../frontend/build"));
+
 app.use(mount('/', static_pages));
+
 
 app.listen(port);
 console.log(`Listening on port ${port}`);
