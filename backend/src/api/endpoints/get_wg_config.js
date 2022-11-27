@@ -8,11 +8,11 @@ async function get_wg_config(ctx, next) {
     ctx.status = 404;
     let user = ctx.request.body.username;
     let file_name = await getConfig(user);
-    let directorio = '/home/sandra/configuraciones/'; //path que depende de donde este el server
+    let directorio = '/etc/kfc/configuraciones/';
     if (file_name != null) {
       var mimeType = mime.lookup(directorio+file_name);
       const src = fs.createReadStream(directorio+file_name);
-      ctx.response.set("Content-disposition", "attachment; filename=hello.txt");
+      ctx.response.set("Content-disposition", "attachment; filename=" + file_name);
       ctx.response.set("Content-type", mimeType);
       ctx.status = 200;
       ctx.body = src;

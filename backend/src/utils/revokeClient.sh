@@ -10,16 +10,15 @@ function revokeClient() {
 		echo "You have no existing clients!"
 		exit 1
 	fi
-	HOME_DIR="/home/sandra" #CAMBIAR AL HOME DEL SERVIDOR
+
 	# match the selected number to a client name
   CLIENT_NAME=$(grep -E "^### Client" "/etc/wireguard/${SERVER_WG_NIC}.conf" | cut -d ' ' -f 3 | sed -n "${number_client}"p)
-
 
 	# remove [Peer] block matching $CLIENT_NAME
 	sed -i "/^### Client ${CLIENT_NAME}\$/,/^$/d" "/etc/wireguard/${SERVER_WG_NIC}.conf"
 
 	# remove generated client file
-	rm -f "${HOME_DIR}/configuraciones/${SERVER_WG_NIC}-client-${CLIENT_NAME}.conf"
+	rm -f "/etc/kfc/configuraciones/${SERVER_WG_NIC}-client-${CLIENT_NAME}.conf"
 
 	# restart wireguard to apply changes
 	wg syncconf "${SERVER_WG_NIC}" <(wg-quick strip "${SERVER_WG_NIC}")

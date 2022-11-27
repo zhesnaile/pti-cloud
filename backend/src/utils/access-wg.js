@@ -55,7 +55,7 @@ export async function deleteConfig(user) {
 }
 
 export async function revokeeClient(number) {
-  let command = "/home/sandra/pti-cloud/backend/src/utils/revokeClient.sh " + number;
+  let command = "/home/sandra/pti-cloud/backend/src/utils/revokeClient.sh " + number; //si cambiais el path para probarlo, no os olvideis del espacio final de despues de .sh
   exec(command, function callback(error, stdout, stderr) {
     console.log(stdout);
     console.log(stderr);
