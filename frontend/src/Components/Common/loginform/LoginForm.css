@@ -98,3 +98,24 @@
   color: red;
 }
 
+.new-logo{
+  padding-top: 10px;
+  justify-content: center;
+  display: flex;
+  margin-bottom: 30px;
+  
+}
+
+.new-logo-container{
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  height: 50px;
+  width: 50px;
+}
+
+.new-logo-project{
+  height: 200%;
+  width: 300%;
+  margin-top: 70%;
+}
