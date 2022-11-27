@@ -8,6 +8,7 @@ async function get_Token(ctx, next) {
   ctx.status = 200;
 
   console.log("Devuelve token");
+  console.log(token);
 
   await next();
 }
@@ -27,8 +28,8 @@ function init_registerNode_router() {
     let router = new KoaRouter();
     router
         .use(KoaBodyParser())
-        .get("/getToken", get_Token);
-        .get("/getNodeName", get_Name)
+        .get("/getToken", get_Token)
+        .get("/getNodeName", get_Name);
     return router;
 }
 
