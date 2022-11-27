@@ -4,12 +4,14 @@ import { login_api_router } from "./endpoints/login.js";
 import { register_api_router } from "./endpoints/registerUser.js";
 import {register_node_api_router} from "./endpoints/registerNode.js"
 import { wg_api_router } from "./endpoints/get_wg_config.js"
+import { fronthelper_api_router } from "./endpoints/descargar.js"
 
 const api_routers = [
     login_api_router,
     register_node_api_router,
     wg_api_router,
     register_api_router,
+    fronthelper_api_router,
 ]
 
 const api_dir = "/api";

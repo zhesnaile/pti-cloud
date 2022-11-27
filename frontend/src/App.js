@@ -6,7 +6,8 @@ import RegisterForm from './Components/Common/registerform/RegisterForm.jsx';
 import ErrorPage from './Components/Common/errorpage/ErrorPage.js';
 import ProtectedRoutes from './Components/ProtectedRoutes.jsx';
 import ProtectedRegNode from './Components/ProtectedRegNode.jsx';
-//import RegisterNode from './Components/Common/registernode/RegisterNode.jsx';
+import HomePage from './Components/Common/homepage/HomePage.jsx';
+
 
 
 import {
@@ -105,10 +106,19 @@ function App() {
     }
   }
 
+  const go2Login  = async () => {
+    navigate('/login');
+  }
+
+  const go2Register  = async () => {
+    navigate('/register');
+  }
+
   return (
       <div className="App">
         <Header profile={user.username}/>
         <Routes>
+          <Route path='/' element={<HomePage Login={go2Login} Register={go2Register}/>}/>
           <Route path='/login' element={<LoginForm Login={Login} error={error}/>}/>
           <Route path='/register' element={<RegisterForm Register={Register} error={error}/>}/>
           <Route path='/dashboard' element={<ProtectedRoutes Component={'UserMenu'} Auth={auth} Logout={Logout}/>} />

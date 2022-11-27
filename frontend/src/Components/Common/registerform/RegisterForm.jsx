@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import './../registerform/RegisterForm.css';
 import lock from './../../Pics/lock.png';
+import { Link } from 'react-router-dom';
 
 function RegisterForm({Register, error }) {
     const [details, setDetails] = useState({username: "", password:"", password2:""});
@@ -36,7 +37,7 @@ function RegisterForm({Register, error }) {
                                 <button type='submit'>Sign up</button>
                             </div>
                             <p className='link-reg'> Already a member?
-                                <a href='/login'>Login</a>
+                                <Link to= '/login'>Login</Link>
                             </p>
                         </div>
                     </div>

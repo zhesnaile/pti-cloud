@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import logo from './../../Pics/logo_proj.png';
 import './../loginform/LoginForm.css';
+import {Link} from 'react-router-dom';
 
 
 function LoginForm({ Login, error }) {
@@ -39,7 +40,7 @@ function LoginForm({ Login, error }) {
                                 <button type='submit'>Login</button>
                             </div>
                             <p className='link-reg'> New user?
-                                <a href='/register'>Sign up</a>
+                                <Link to= '/register'>Sign up</Link>
                             </p>
                         </div>
                     </div>
