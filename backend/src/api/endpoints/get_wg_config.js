@@ -1,5 +1,7 @@
 import KoaRouter from "@koa/router";
 import KoaBodyParser from "koa-bodyparser";
+import mime from "mime-types"
+import fs from 'fs'
 import { getConfig, deleteConfig } from "../../utils/access-wg.js";
 
 async function get_wg_config(ctx, next) {
@@ -8,8 +10,13 @@ async function get_wg_config(ctx, next) {
     let file_name = await getConfig(user);
     let directorio = '/home/sandra/configuraciones/'; //path que depende de donde este el server
     if (file_name != null) {
-      ctx.attachment('directorio+file_name'); //COMPROBAR QUE DAN EL ARCHIVO
-      ctx.status = 201;
+      var mimeType = mime.lookup(directorio+file_name);
+      const src = fs.createReadStream(directorio+file_name);
+      ctx.response.set("Content-disposition", "attachment; filename=hello.txt");
+      ctx.response.set("Content-type", mimeType);
+      ctx.status = 200;
+      ctx.body = src;
+
     }
     await next();
 }
