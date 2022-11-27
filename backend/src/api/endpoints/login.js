@@ -26,7 +26,7 @@ function init_login_router() {
     let router = new KoaRouter();
     router
         .use(KoaBodyParser())
-        .post("/login", post);
+        .post("/loginUser", post);
     return router;
 }
 

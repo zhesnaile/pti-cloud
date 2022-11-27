@@ -24,7 +24,7 @@ function UserMenu({ Logout }) {
                         <div className='column'>
                             <h3>Register job</h3>
                             <p className='p-menu'>This request will give a K3S token to the user in order to successfully register a node in the cluster.</p>
-                            <button className='button-menu' type='submit' onClick={() => navigate('/registernode')}>Register</button>
+                            <button className='button-menu' type='submit' onClick={() => navigate('/registerusernode')}>Register</button>
                             
                         </div>
                         <div className='column'>

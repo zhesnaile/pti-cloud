@@ -29,7 +29,7 @@ function App() {
     console.log(details);
 
     try {
-      let res = await fetch("http://localhost:3000/api/login", {
+      let res = await fetch("http://localhost:3000/api/loginUser", {
           method: "POST",
           headers: {
               Accept: "application/json",
@@ -74,7 +74,7 @@ function App() {
     console.log(details);
 
     try {
-      let res = await fetch("http://localhost:3000/api/register", {
+      let res = await fetch("http://localhost:3000/api/registerUser", {
           method: "POST",
           headers: {
               Accept: "application/json",
@@ -112,7 +112,7 @@ function App() {
           <Route path='/login' element={<LoginForm Login={Login} error={error}/>}/>
           <Route path='/register' element={<RegisterForm Register={Register} error={error}/>}/>
           <Route path='/dashboard' element={<ProtectedRoutes Component={'UserMenu'} Auth={auth} Logout={Logout}/>} />
-          <Route path='/registernode' element={<ProtectedRegNode Component={'RegisterNode'} Profile={user.username} Auth={auth} Logout={Logout}/>} />
+          <Route path='/registerusernode' element={<ProtectedRegNode Component={'RegisterNode'} Profile={user.username} Auth={auth} Logout={Logout}/>} />
           <Route path='*' element={<ErrorPage Logout={Logout}/>} />
         </Routes>
       </div>

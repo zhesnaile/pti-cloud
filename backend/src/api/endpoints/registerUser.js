@@ -37,7 +37,7 @@ function init_register_router() {
     router
         .use(cors())
         .use(KoaBodyParser())
-        .post("/register", post);
+        .post("/registerUser", post);
     return router;
 }
 
