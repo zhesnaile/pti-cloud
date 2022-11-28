@@ -51,7 +51,9 @@ export async function redis_register_user(user, password, password2) {
 /*
 * Comprueba que exista un usuario en la BD.
 */
-export async function check_user(user){
+export async function check_user(user) {
+    const redisClient = redis.createClient();
+    await redisClient.connect();
     if (await redisClient.exists(user) !== 1){
         console.log(`${Date.now()} USER CHECK: User not exists in the DB`);
         await redisClient.disconnect();
