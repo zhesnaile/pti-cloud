@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './../homepage/HomePage.css';
+import logo from "./../../Pics/kfc-logo.png";
 
 
 function HomePage({ go2Login, got2Register }) {
@@ -10,6 +11,8 @@ function HomePage({ go2Login, got2Register }) {
             <div className='main'>
                 <div className='sub-main'>
                     <div>
+                        <img src={logo} alt='mylogo' className='kfc-logo'/>   
+                        <h1>Home Page</h1>                    
                         <button className='button-home' type='submit' onClick={() => navigate('/login')}>Login</button>
                         
                         <button className='button-home' type='submit' onClick={() => navigate('/register')}>Register</button>
