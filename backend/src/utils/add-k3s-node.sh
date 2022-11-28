@@ -10,7 +10,8 @@
 #sudo k3s agent --server https://myserver:6443 --token ${NODE_TOKEN}
 
 # Llama a la API para obtenr el TOKEN de k3s
-NODE_TOKEN=$(curl -L "${URL}/api/getToken")
+read -rp "Server URL and Port:" -e -i https:// URL
+NODE_TOKEN=$(curl -X GET "${URL}/api/getToken")
 
 # Si hay un error en la llamada getToken, se detiene el Script
 if [[ $? -ne 0 ]]; then
@@ -18,7 +19,8 @@ if [[ $? -ne 0 ]]; then
 fi
 
 # Se llama a la API para obetener el nombre del nodo
-NODE_NAME=$(curl -L "${URL}/api/getNodeName?username=${USERNAME}")
+read -rp "Username:" -e -i Username USERNAME
+NODE_NAME=$(curl -X POST ${URL}/api/getNodeName -H "Content-Type: application/json" -d "{'username': ${USERNAME}}")
 
 # Si hay un error en la llamada getNodeName, se detiene el Script
 if [[ $? -ne 0 ]]; then

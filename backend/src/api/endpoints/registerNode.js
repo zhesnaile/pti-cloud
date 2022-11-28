@@ -16,6 +16,10 @@ async function get_Token(ctx, next) {
   await next();
 }
 
+/*
+Comprobar funcionamiento:
+curl -X POST http://localhost:3000/api/getNodeName -H "Content-Type: application/json" -d '{"user": "juan"}'
+*/
 async function get_Name(ctx, next) {
   let user = ctx.request.body.username;
   let name = await get_Node_Name(user);
