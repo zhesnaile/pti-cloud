@@ -11,7 +11,7 @@ async function get_Token(ctx, next) {
 
   ctx.status = 200;
   ctx.body = token;
-  console.log("Token del servidor K3s: ", ctx.response);
+  console.log("Token del servidor K3s: ", ctx.body);
 
   await next();
 }

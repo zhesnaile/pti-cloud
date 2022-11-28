@@ -6,6 +6,7 @@ export async function get_k3s_token() {
 }
 
 export async function get_Node_Name(user) {
-  let name = user;
+  let time = new Date();
+  let name = user + time.getHours();
   return name;
 }
