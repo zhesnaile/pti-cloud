@@ -10,7 +10,7 @@ export async function redis_login_user(user, password) {
 
     const redisClient = redis.createClient();
     await redisClient.connect();
-    
+
     if(await redisClient.hGet(user,'password') !== password){
         console.log(`${Date.now()} LOGIN ERROR: Credentials are wrong`);
         await redisClient.disconnect();
@@ -33,7 +33,7 @@ export async function redis_register_user(user, password, password2) {
 
     const redisClient = redis.createClient();
     await redisClient.connect();
-    
+
     if (await redisClient.exists(user) == 1){
         console.log(`${Date.now()} REGISTER ERROR: User exists in the DB`);
         await redisClient.disconnect();
@@ -172,7 +172,7 @@ export async function redis_get_K3Sconfig(user){
 /*
     * username, password, id_peer, K3S_namespace 
     * comprovar: hget jordi password
-    * hset amb un parametre duna key existent, la modifica 
+    * hset amb un parametre duna key existent, la modifica
 */
 
 

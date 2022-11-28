@@ -15,7 +15,7 @@ function installWireGuard() {
 
 	# Install WireGuard tools and module
 	apt-get update
-	apt-get install -y wireguard iptables resolvconf
+	apt-get install -y wireguard iptables resolvconf curl
 
 	# Make sure the directory exists (this does not seem the be the case on fedora)
 	mkdir /etc/wireguard >/dev/null 2>&1
@@ -34,15 +34,18 @@ function installWireGuard() {
 
 	read -rp "Server URL and PORT:" -e -i https:// URL
 	read -rp "Username" -e -i Username USERNAME
-	read -rp "Password" -e -i Pass PSSWD
-	curl -L "${URL}/api/getConfig?user=${USERNAME}&password=${PSSWD}" -o ./${SERVER_WG_NIC}.conf
+	curl -L "${URL}/api/wg_getConfig?username=${USERNAME}" -o ./${SERVER_WG_NIC}.conf
 
-	if [[ $? -ne 0 ]] then
- 	echo -e "HOLA"
-	fi
+	#SI HAY UN ERROR EN LA LLAMADA GETCONFIG DETEN EL SCRIPT
+	if [[ $? -ne 0 ]]; then
+ 	echo -e "Something went wrong. Maybe your user or password is incorrect"
+  fi
 
+	#MUEVE LA CONFIGURACIÓN DEL CLIENTE QUE ACABAMOS DE CREAR ASOCIADO A ESTE USUARIO Y LO PONE
+	#EN LAS CONFIGURACIONES DE WIREGUARD
   mv ${PWD}/${SERVER_WG_NIC}.conf  /etc/wireguard/${SERVER_WG_NIC}.conf
 
+	#EMPIEZA LA CONFIGURACIÓN DE WIREGUARD CON ESA INTERFAZ
 	systemctl start "wg-quick@${SERVER_WG_NIC}"
 	systemctl enable "wg-quick@${SERVER_WG_NIC}"
 
