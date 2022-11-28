@@ -11,7 +11,7 @@ async function get_Token(ctx, next) {
 
   ctx.status = 200;
   ctx.body = token;
-  console.log(ctx.response);
+  console.log("Token del servidor K3s: ", ctx.response);
 
   await next();
 }
@@ -19,11 +19,10 @@ async function get_Token(ctx, next) {
 async function get_Name(ctx, next) {
   let user = ctx.request.body.username;
   let name = await get_Node_Name(user);
-  ctx.body = name;
-  ctx.status = 200;
 
-  console.log("Devuleve nombre");
-  console.log(ctx.response);
+  ctx.status = 200;
+  ctx.body = name;
+  console.log("Nombre asignado al nodo:", ctx.response);
 
   await next();
 }
@@ -33,7 +32,7 @@ function init_registerNode_router() {
     router
         .use(KoaBodyParser())
         .get("/getToken", get_Token)
-        .get("/getNodeName", get_Name);
+        .post("/getNodeName", get_Name);
     return router;
 }
 

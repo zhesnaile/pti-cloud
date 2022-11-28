@@ -1,13 +1,11 @@
 import 'fs'
 
 export async function get_k3s_token() {
-  let file = fs.readFileSync('/var/lib/rancher/k3s/server/node-token', "utf8");
-  //console.log("Token leído");
-  return  file;
+  let string = fs.readFileSync('/var/lib/rancher/k3s/server/node-token', "utf8");
+  return  string;
 }
 
 export async function get_Node_Name(user) {
   let name = user;
-  console.log("Nombre leído");
   return name;
 }
