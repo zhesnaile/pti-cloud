@@ -1,8 +1,8 @@
 import 'fs'
 
 export async function get_k3s_token() {
-  let file = fs.readFileSync('/var/lib/rancher/k3s/server/node-token');
-  console.log("Token leído");
+  let file = fs.readFileSync('/var/lib/rancher/k3s/server/node-token', "utf8");
+  //console.log("Token leído");
   return  file;
 }
 

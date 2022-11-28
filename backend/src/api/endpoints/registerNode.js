@@ -2,13 +2,16 @@ import KoaRouter from "@koa/router";
 import KoaBodyParser from "koa-bodyparser";
 import { get_k3s_token, get_Node_Name } from "../../utils/add-k3s-node.js";
 
+/*
+  Comprobar funcionamiento:
+  curl -X GET http://localhost:3000/api/getToken
+*/
 async function get_Token(ctx, next) {
   let token = await get_k3s_token();
-  ctx.response = token;
-  ctx.status = 200;
 
-  console.log("Devuelve token");
-  console.log(token);
+  ctx.status = 200;
+  ctx.body = token;
+  console.log(ctx.response);
 
   await next();
 }
@@ -16,10 +19,11 @@ async function get_Token(ctx, next) {
 async function get_Name(ctx, next) {
   let user = ctx.request.body.username;
   let name = await get_Node_Name(user);
-  ctx.response = name;
+  ctx.body = name;
   ctx.status = 200;
 
   console.log("Devuleve nombre");
+  console.log(ctx.response);
 
   await next();
 }
