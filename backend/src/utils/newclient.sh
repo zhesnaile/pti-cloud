@@ -6,8 +6,8 @@ function newClient() {
 	ENDPOINT="${SERVER_PUB_IP}:${SERVER_PORT}"
 
 	until [[ ${CLIENT_NAME} =~ ^[a-zA-Z0-9_-]+$ && ${CLIENT_EXISTS} == '0' && ${#CLIENT_NAME} -lt 16 ]]; do
-		#read -rp "Client name: " -e CLIENT_NAME
 
+		#PONE UN NOMBRE AL CLIENTE DIRECTAMENTE, PUEDEN HABER 254 CLIENTES
 		for CLIENT_NAME in {1..254}; do
 		  CLIENT_EXISTS=$(grep -c -E "^### Client ${CLIENT_NAME}\$" "/etc/wireguard/${SERVER_WG_NIC}.conf")
 			if [[ ${CLIENT_EXISTS} == '0' ]]; then
@@ -17,10 +17,11 @@ function newClient() {
 
 		if [[ ${CLIENT_EXISTS} == '1' ]]; then
 			echo ""
-			echo "A client with the specified name was already created, please choose another name."
+			echo "A client with the specified name was already created."
 			echo ""
 		fi
-  done
+	done
+
 	for DOT_IP in {2..254}; do
 		DOT_EXISTS=$(grep -c "${SERVER_WG_IPV4::-1}${DOT_IP}" "/etc/wireguard/${SERVER_WG_NIC}.conf")
 		if [[ ${DOT_EXISTS} == '0' ]]; then
@@ -42,7 +43,7 @@ function newClient() {
 
 		if [[ ${IPV4_EXISTS} == '1' ]]; then
 			echo ""
-			echo "A client with the specified IPv4 was already created, please choose another IPv4."
+			echo "A client with the specified IPv4 was already created."
 			echo ""
 		fi
 	done
@@ -55,7 +56,7 @@ function newClient() {
 
 		if [[ ${IPV6_EXISTS} == '1' ]]; then
 			echo ""
-			echo "A client with the specified IPv6 was already created, please choose another IPv6."
+			echo "A client with the specified IPv6 was already created."
 			echo ""
 		fi
 	done
@@ -65,23 +66,8 @@ function newClient() {
 	CLIENT_PUB_KEY=$(echo "${CLIENT_PRIV_KEY}" | wg pubkey)
 	CLIENT_PRE_SHARED_KEY=$(wg genpsk)
 
-	# Home directory of the user, where the client configuration will be written
-	if [ -e "/home/${CLIENT_NAME}" ]; then
-		# if $1 is a user name
-		HOME_DIR="/home/${CLIENT_NAME}"
-	elif [ "${SUDO_USER}" ]; then
-		# if not, use SUDO_USER
-		if [ "${SUDO_USER}" == "root" ]; then
-			# If running sudo as root
-			HOME_DIR="/root"
-		else
-			HOME_DIR="/home/${SUDO_USER}"
-		fi
-	else
-		# if not SUDO_USER, use /root
-		HOME_DIR="/root"
-	fi
-
+mkdir /etc/kfc >/dev/null 2>&1
+mkdir /etc/kfc/configuraciones >/dev/null 2>&1
 	# Create client file and add the server as a peer
 	echo "[Interface]
 PrivateKey = ${CLIENT_PRIV_KEY}
@@ -92,7 +78,7 @@ DNS = ${CLIENT_DNS_1},${CLIENT_DNS_2}
 PublicKey = ${SERVER_PUB_KEY}
 PresharedKey = ${CLIENT_PRE_SHARED_KEY}
 Endpoint = ${ENDPOINT}
-AllowedIPs = 0.0.0.0/0,::/0" >>"${HOME_DIR}/${SERVER_WG_NIC}-client-${CLIENT_NAME}.conf"
+AllowedIPs = 0.0.0.0/0,::/0" >>"/etc/kfc/configuraciones/${SERVER_WG_NIC}-client-${CLIENT_NAME}.conf"
 
 	# Add the client as a peer to the server
 	echo -e "\n### Client ${CLIENT_NAME}
@@ -103,8 +89,9 @@ AllowedIPs = ${CLIENT_WG_IPV4}/32,${CLIENT_WG_IPV6}/128" >>"/etc/wireguard/${SER
 
 	wg syncconf "${SERVER_WG_NIC}" <(wg-quick strip "${SERVER_WG_NIC}")
 
-	echo "The config is available in ${HOME_DIR}/${SERVER_WG_NIC}-client-${CLIENT_NAME}.conf"
 }
 
 
 newClient
+echo "${CLIENT_NAME}&"
+echo "${SERVER_WG_NIC}-client-${CLIENT_NAME}.conf"
