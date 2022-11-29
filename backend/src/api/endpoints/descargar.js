@@ -4,11 +4,11 @@ import mime from "mime-types";
 import fs from "fs";
 
 async function getScript(ctx, next){
-    let path = "/Users/jordiibru/Documents/first-clone/pti-cloud/backend/public/hello.txt";
+    let path = "/Users/jordiibru/Documents/first-clone/pti-cloud/backend/public/installation-client.sh";
     var mimeType = mime.lookup(path);
     const src = fs.createReadStream(path);
     
-    ctx.response.set("Content-disposition", "attachment; filename=hello.txt");
+    ctx.response.set("Content-disposition", "attachment; filename=installation-client.sh");
     ctx.response.set("Content-type", mimeType);
     //ctx.response.set("Content-Type", "application/force-download")
     ctx.status = 200;
