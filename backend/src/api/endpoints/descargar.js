@@ -4,9 +4,13 @@ import mime from "mime-types";
 import fs from "fs";
 import path from "path";
 
+/**
+ * API function that gets the root path + location of the Wireguard + K3S installation file and sends it as a response.
+ * Basically, it is called by the web page via HTTP GET, so the user can easly download it.
+ * @param {*} ctx The context of the request. Empty because we don't need any option in this GET.
+ * @param {*} next Idk lmao
+ */
 async function getScript(ctx, next){
-  //let file_path = "./installation-client.sh";
-  // let path = "/Users/jordiibru/Documents/first-clone/pti-cloud/backend/public/installation-client.sh";
   const __dirname = path.resolve();
   var file_path = path.join(__dirname, 'public', 'installation-client.sh');
   var mimeType = mime.lookup(file_path);
@@ -20,7 +24,10 @@ async function getScript(ctx, next){
   await next();
   }
 
-
+  /**
+   * Router to make a collection of all the API functions in descargar.js
+   * @returns The router with the implementation of the getScript function (get the installation file)
+   */
   function init_front_helper_router() {
     let router = new KoaRouter();
     router
