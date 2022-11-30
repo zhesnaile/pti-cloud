@@ -2,17 +2,8 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './../usermenu/UserMenu.css';
 
-function UserMenu({ Logout }) {
+function UserMenu() {
     const navigate = useNavigate();
-
-    /*const submitHandler = e => {
-        e.preventDefault();
-        Logout();
-    }*/
-
-    /*const go2RegisterNode = () => {
-        navigate
-    }*/
 
     return (
         <form>
@@ -22,7 +13,7 @@ function UserMenu({ Logout }) {
                     <h1>USER MENU</h1>
                     <div className='row'>
                         <div className='column'>
-                            <h3>Register job</h3>
+                            <h3>Register node</h3>
                             <p className='p-menu'>This request will give a K3S token to the user in order to successfully register a node in the cluster.</p>
                             <button className='button-menu' type='submit' onClick={() => navigate('/registerusernode')}>Register</button>
                             

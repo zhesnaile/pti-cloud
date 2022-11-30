@@ -66,7 +66,6 @@ function App() {
       password: ""
     })
     setAuth(false);
-    navigate('/login');
   }
 
   const Register = async details => {
@@ -105,7 +104,7 @@ function App() {
 
   return (
       <div className="App">
-        <Header profile={user.username}/>
+        <Header logout={Logout}/>
         <Routes>
           <Route path='/' element={<HomePage />}/>
           <Route path='/login' element={<LoginForm Login={Login} error={error}/>}/>
