@@ -5,6 +5,12 @@ import { redis_login_user } from "../../utils/access-redis.js";
 import KoaRouter from "@koa/router";
 import KoaBodyParser from "koa-bodyparser";
 
+/** 
+ * Method to be run when a POST request hits the Login API
+ * @async
+ * @param {ctx} ctx 
+ * @param {Function} next 
+ */
 async function post(ctx, next) {
     let req_body = ctx.request.body;
     let username = req_body.name;
@@ -21,7 +27,10 @@ async function post(ctx, next) {
     await next();
 }
 
-
+/**
+ * Initializes a KoaRouter for the Login API.
+ * @returns {KoaRouter}
+ */
 function init_login_router() {
     let router = new KoaRouter();
     router
@@ -29,7 +38,7 @@ function init_login_router() {
         .post("/loginUser", post);
     return router;
 }
-
+/** KoaRouter for the Login API. */
 export let login_api_router = init_login_router();
 
 //curl -X POST http://localhost:3000/api/login -H "Content-Type: application/json" -d '{"name": "jordi", "pword": "lala"}'
