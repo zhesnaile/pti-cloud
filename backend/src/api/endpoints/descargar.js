@@ -4,7 +4,7 @@ import mime from "mime-types";
 import fs from "fs";
 
 async function getScript(ctx, next){
-    let path = "/Users/jordiibru/Documents/first-clone/pti-cloud/backend/public/installation-client.sh";
+    let path = "./../../../public/installation-client.sh";
     var mimeType = mime.lookup(path);
     const src = fs.createReadStream(path);
     

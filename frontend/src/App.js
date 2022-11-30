@@ -30,6 +30,8 @@ function App() {
     console.log(details);
 
     try {
+      const ddd = window.location.href;
+      console.log(ddd);
       let res = await fetch("http://localhost:3000/api/loginUser", {
           method: "POST",
           headers: {
