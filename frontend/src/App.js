@@ -28,11 +28,8 @@ function App() {
 
   const Login = async details => {
     console.log(details);
-
     try {
-      const ddd = window.location.href;
-      console.log(ddd);
-      let res = await fetch("http://localhost:3000/api/loginUser", {
+      let res = await fetch("/api/loginUser", {
           method: "POST",
           headers: {
               Accept: "application/json",
@@ -43,13 +40,12 @@ function App() {
               pword: details.password,
           }),
       });
-      console.log(details.username);
       if(res.status === 200){
             setUser({
               username: details.username,
               password: details.password
             })
-            console.log("User registered succesfully!");
+            console.log("User logged succesfully!");
             setAuth(true);
             navigate('/dashboard');
       }
@@ -75,9 +71,8 @@ function App() {
 
   const Register = async details => {
     console.log(details);
-
     try {
-      let res = await fetch("http://localhost:3000/api/registerUser", {
+      let res = await fetch("/api/registerUser", {
           method: "POST",
           headers: {
               Accept: "application/json",
@@ -108,19 +103,11 @@ function App() {
     }
   }
 
-  const go2Login  = async () => {
-    navigate('/login');
-  }
-
-  const go2Register  = async () => {
-    navigate('/register');
-  }
-
   return (
       <div className="App">
         <Header profile={user.username}/>
         <Routes>
-          <Route path='/' element={<HomePage Login={go2Login} Register={go2Register}/>}/>
+          <Route path='/' element={<HomePage />}/>
           <Route path='/login' element={<LoginForm Login={Login} error={error}/>}/>
           <Route path='/register' element={<RegisterForm Register={Register} error={error}/>}/>
           <Route path='/dashboard' element={<ProtectedRoutes Component={'UserMenu'} Auth={auth} Logout={Logout}/>} />
@@ -132,3 +119,10 @@ function App() {
 }
 
 export default App;
+
+
+
+/* Comprovar path actual
+    const ddd = window.location.href;
+    console.log(ddd);
+*/
