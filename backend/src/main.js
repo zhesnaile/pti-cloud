@@ -15,6 +15,7 @@ app.use(api_router.routes()).use(api_router.allowedMethods());
 
 
 const static_pages = new Koa();
+
 /**
  * An array with all the frontend pages availabe.
  * In case we search a page in the URL that is not defined it will treat as a backend function.
