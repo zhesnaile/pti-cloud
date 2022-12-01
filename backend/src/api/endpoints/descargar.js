@@ -8,7 +8,7 @@ import path from "path";
  * API function that gets the root path + location of the Wireguard + K3S installation file and sends it as a response.
  * Basically, it is called by the web page via HTTP GET, so the user can easly download it.
  * @param {*} ctx The context of the request. Empty because we don't need any option in this GET.
- * @param {*} next Idk lmao
+ * @param {*} next
  */
 async function getScript(ctx, next){
   const __dirname = path.resolve();
