@@ -3,7 +3,8 @@ import KoaBodyParser from "koa-bodyparser";
 import mime from "mime-types";
 import fs from "fs";
 import path from "path";
-
+import { redis_get_K3Sconfig } from "../../utils/access-redis.js";
+import cors from "@koa/cors";
 /**
  * This file has the function of helping the frontend of the node registration website 
  */
