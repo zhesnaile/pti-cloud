@@ -63,7 +63,7 @@ async function get_K3S_token(ctx, next) {
         .use(cors())
         .use(KoaBodyParser())
         .get("/getscript", getScript)
-        .post("getK3Stoken", get_K3S_token);
+        .post("/getK3Stoken", get_K3S_token);
     return router;
 }
 
