@@ -2,6 +2,14 @@ import redis from 'redis';
 
 //FUNCIONALIDADES PÁGINA WEB ------------------------------------------------------------------------------------
 
+/**
+ * Redis function for the app web USER LOGIN.
+ * It checks if the parameters are ok. Will access the DB to check if it is a valid login.
+ * @param {String} user Username of the user passed in the USER web page field.
+ * @param {String} password Password passed in the PASSWORD web page field.
+ * @returns TRUE if credentials are valid and exists on the DB.
+ * @returns FALSE if credentials are invalid (undefined) or it does not exist on the DB.
+ */
 export async function redis_login_user(user, password) {
     if (user === undefined || password === undefined) {
         console.log(`${Date.now()} LOGIN ERROR: Failed login`);
@@ -21,6 +29,15 @@ export async function redis_login_user(user, password) {
     return true;
 }
 
+/**
+ * Redis function for the app web USER REGISTRATION.
+ * It checks if the paramters are ok. Will access the DB if it a valid registration.
+ * @param {String} user Username of the new user.
+ * @param {String} password Password of the new user.
+ * @param {String} password2 Password confirmation of the new user.
+ * @returns TRUE if credentials are valid and this user does not exist in the DB. 
+ * @returns FALSE if credentials are invalid (undefined), passwords does not match or it already exists in the DB.
+ */
 export async function redis_register_user(user, password, password2) {
     if (user === undefined || password === undefined || password2 === undefined) {
         console.log(`${Date.now()} REGISTER ERROR: Failed register`);
@@ -48,9 +65,12 @@ export async function redis_register_user(user, password, password2) {
 
 //FUNCIONALIDADES WIREGUARD ------------------------------------------------------------------------------------
 
-/*
-* Comprueba que exista un usuario en la BD.
-*/
+/**
+ * Redis function to basically check if a user exists in the DB.
+ * @param {String} user Username of the user that we want to check.
+ * @returns TRUE if the user exists in the DB.
+ * @returns FALSE if the user does not exists in the DB.
+ */
 export async function check_user(user) {
     const redisClient = redis.createClient();
     await redisClient.connect();
@@ -61,9 +81,16 @@ export async function check_user(user) {
     } else return true;
 }
 
-/*
-* Añade al usuario de la BD, el número de wireguard y el nombre del archivo de configuracion.
-*/
+/**
+ * Redis function for Wireguard based purposes.
+ * Check if the user passed exists in the DB and adds two new fields on its profile.
+ * wg_num for the wg client id and the wireguard config name assigned.
+ * @param {String} user Username of the user that we want to give WG configs.
+ * @param {String} wg_num Wireguard ID passed by other functionalities.
+ * @param {String} wg_config Wireguard config file passed by other functionalities.
+ * @returns TRUE if the user exists in the DB and could add the new fields.
+ * @returns FALSE if the user does not exists in the DB.
+ */
 export async function redis_wgconfig(user, wg_num, wg_config) {
     const redisClient = redis.createClient();
     await redisClient.connect();
@@ -84,6 +111,13 @@ export async function redis_wgconfig(user, wg_num, wg_config) {
 * Comprueba si el usuario tiene un wg_config valido (que exista y que no sea 'invalid') y lo devuelve.
 * Sino devuelve un null para que pueda comprovarse en la funcion de donde se llame.
 */
+/**
+ * Redis function for Wireguard based purposes.
+ * Check if the user exists in the DB and gets the value of its wireguard config.
+ * @param {String} user Username of the user that we want to check.
+ * @returns If the user exists, returns the wg_config of the user in the DB
+ * @returns If the user does not exist, returns null.
+ */
 export async function redis_get_wgconfig(user){
     const redisClient = redis.createClient();
     await redisClient.connect();
@@ -94,10 +128,14 @@ export async function redis_get_wgconfig(user){
     return config;
 }
 
-/* 
-* Comprueba si el usuario tiene un wg_num valido (que exista y que no sea 'invalid') y lo devuelve.
-* Sino devuelve un null para que pueda comprovarse en la funcion de donde se llame.
-*/
+
+/**
+ * Redis function for Wireguard based purposes.
+ * Check if the user exists in the DB and gets the value of its wiregurd id (wg_num).
+ * @param {String} user Username of the user that we want to check.
+ * @returns If the user exists, returns the wg_num of the user in the DB.
+ * @retuns If the user does not exist, returns null.
+ */
 export async function redis_get_wgnum(user){
     const redisClient = redis.createClient();
     await redisClient.connect();
@@ -109,21 +147,36 @@ export async function redis_get_wgnum(user){
 }
 
 /**
- * Pone los parametros de wg de un usuario de la BD en invalidos para inhabilitar al usuario
+ * Redis function for Wireguard based purposes.
+ * Check if the user exists in the DB and revokes its credentials.
+ * wg_num and wg_config will change to "invalid".
+ * @param {String} user Username of the user that we want to revoke.
+ * @returns TRUE if the user exists.
+ * @returns FALSE if the user not exists.
  */
 export async function redis_revoke_wgconfig(user){
     const redisClient = redis.createClient();
     await redisClient.connect();
-    await redisClient.HSET(user, Object.entries({'wg_num': 'invalid'}));
-    await redisClient.HSET(user, Object.entries({'wg_config': 'invalid'}));
+    if(await redisClient.exists(user) === 1){
+        await redisClient.HSET(user, Object.entries({'wg_num': 'invalid'}));
+        await redisClient.HSET(user, Object.entries({'wg_config': 'invalid'}));
+        await redisClient.disconnect();
+        return true;
+    }
     await redisClient.disconnect();
+    return false;
 }
 
 //FUNCIONALIDADES K3S ------------------------------------------------------------------------------------
 
-/*
-* Añade al usuario de la BD, el nombre de la maquina de k3s.
-*/
+/**
+ * Redis function for K3S based purposes.
+ * Check if the user exists in the DB and assign a k3s_name.
+ * @param {String} user Username of the user that we want to assign a K3S machine.
+ * @param {String} k3s_name Name of the K3S machine.
+ * @returns TRUE if the user exists.
+ * @returns FALSE if the user does not exists.
+ */
 export async function redis_K3Sconfig(user, k3s_name) {
     const redisClient = redis.createClient();
     await redisClient.connect();
@@ -140,7 +193,12 @@ export async function redis_K3Sconfig(user, k3s_name) {
 }
 
 /**
- * Comprueba que el usuario tiene asignada la maquina k3s_name.
+ * Redis function for K3S based purposes.
+ * Check if the user exists in the DB and checks if the k3s_names passed as a parameter is assigned to the user.
+ * @param {String} user Username of the user that we want to check its k3s_name.
+ * @param {String} k3s_name Name of a k3s machine.
+ * @returns TRUE if the user has the k3s_name assigned as a k3s_name.
+ * @returns FALSE if the user does not have k3s_name assigned.
  */
 export async function redis_check_K3Sconfig(user, k3s_name){
     const redisClient = redis.createClient();
@@ -152,10 +210,14 @@ export async function redis_check_K3Sconfig(user, k3s_name){
     redisClient.disconnect();
     return false;
 }
-/* 
-* Comprueba si el usuario tiene un k3s_name valido (que exista y que no sea 'invalid') y lo devuelve.
-* Sino devuelve un null para que pueda comprovarse en la funcion de donde se llame.
-*/
+
+/**
+ * Redis function for K3S based purposes.
+ * Check if the user passed as a parameter has a k3s_name assigned and gets it.
+ * @param {String} user Username of the user that we want to check its K3S_name.
+ * @returns the K3S_name of the user if it has one assigned.
+ * @returns null if the user does not has any machine assigned or does not exist.
+ */
 export async function redis_get_K3Sconfig(user){
     const redisClient = redis.createClient();
     await redisClient.connect();
@@ -167,75 +229,47 @@ export async function redis_get_K3Sconfig(user){
 }
 
 
-
-//---------------------------------------------------------------------------------------------------------------------------------------
-//NOTAS SOBRE EL USO DE REDIS
-
-/*
-    * username, password, id_peer, K3S_namespace 
-    * comprovar: hget jordi password
-    * hset amb un parametre duna key existent, la modifica
-*/
-
-
-
-//sudo apt-get install redis (linux)
-//brew install redis (mac)
-
-/*
-One tab for each instruction:
-    Turn on the server: redis-server
-    get in the server: redis-cli
-        >When in client:
-            - quit
-            - SET user Jordi
-            - GET user
-            - DEL user
-            - KEYS * (print all keys)
-            - flushall (delete all keys)
-            - lpush (per crear llistes. l= left, r= right) eg: lpush friends john
-            - lrange friends 0 -1 (lrange <listname> <start> <fin>)
-            - lpop o rpop (delete ini or last element)
-            - SADD  hobbies "basket" (afegir sets)
-            - SMEMBERS hobbies --> "basket"
-            - SREM hobbies "basket" (borrar basket del set)
-            - HSET user name jordi
-            - HGET user name ---> jordi
-            - HGETALL user ---> name jordi (son hashes)
-            - HDEL user name --> es borra jordi
-            - HEXISTS user name --> 0
-
-
-
-Instalar redis pel projecte
-npm i redis
-main.js:
-import redis from 'redis'
-const client = Redis.createClient({url : potestarbuit i es default})
-
-llavors fem: redis-server. fem el run del client.
-en la operacio get/post:
-redisClient.setex('photos', JSON.stringify(data)
-
-redis-cli per poder operar.
-keys *
-podrem veure que sha creat photos
-
-per cachejar si estan les dades fem:
-redisClient.get('photos?albumId=${albumId}', async (error, photos) => { el async es per si es un async
-    if(error) console.error(error)
-    if(photos != null){ si hi ha fotos, les retorna
-        return res.json(JSON.parse(photos))
-    } else{
-        {...codi on agafem les dades i ho posem a data}
-        redisClient.setex('photos?albumId=$(albumId}', JSON.stringify(data)
-    }
-})
-
-
-millor forma de guardar usuaris
-HSET jordi password lala token 123
-HGET jordi password -----> lala
-HGET jordi token ------> 123
-
-*/
+/** REDIS USAGE NOTES. Source: https://redis.io/docs/
+ * 
+ * Installation:
+ * sudo apt-get install redis (linux)
+ * brew install redis (MacOS)
+ * 
+ * --------------------------------------------------------
+ * 
+ * Install redis on the project:
+ * npm i redis
+ * main.js: import redis from 'redis'
+ * const client = redis.createClient({url: default})
+ *
+ * --------------------------------------------------------
+ * 
+ * Initialization:
+ * First tab: redis-server
+ *    > Zero interaction with it.
+ * Second tab: redis-cli
+ *    > Console for DB data management.
+ *
+ * --------------------------------------------------------
+ * Data in the DB are hashes.
+ * Every instruction has to be HASH related.
+ * HGET, HSET, HDEL, HGETALL, HEXISTS, ...
+ *
+ * --------------------------------------------------------
+ * 
+ * The primary key is the username:
+ * >jordi
+ * >password: 123
+ * >wg_num: 1
+ * >wg_config: ws0
+ * >k3s_name: ralts
+ * 
+ * --------------------------------------------------------
+ * 
+ * Check for a field:
+ * >HSET jordi password 123
+ * >HGET jordi password --> 123
+ * >HGETALL jordi --> (all fields)
+ * >KEYS * --> all primary keys (usernames)
+ * 
+ */
