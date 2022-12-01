@@ -13,9 +13,12 @@ let app = new Koa();
 app.use(cors());
 app.use(api_router.routes()).use(api_router.allowedMethods());
 
-//pel frontend
-const static_pages = new Koa();
 
+const static_pages = new Koa();
+/**
+ * An array with all the frontend pages availabe.
+ * In case we search a page in the URL that is not defined it will treat as a backend function.
+ */
 const REACT_ROUTER_PATHS = [
     '/login',
     '/register',

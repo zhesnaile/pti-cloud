@@ -5,6 +5,11 @@ import fs from "fs";
 import path from "path";
 
 /**
+ * This file has the function of helping the frontend of the node registration website 
+ */
+
+
+/**
  * API function that gets the root path + location of the Wireguard + K3S installation file and sends it as a response.
  * Basically, it is called by the web page via HTTP GET, so the user can easly download it.
  * @param {*} ctx The context of the request. Empty because we don't need any option in this GET.
@@ -25,14 +30,39 @@ async function getScript(ctx, next){
   }
 
   /**
+   * API function (POST) that giving a username, returns the k3s_name as a response.
+   * If not possible it will return an ERROR (404).
+   * @param {*} ctx The context of the request. The context passed consists in: {name}
+   * @param {*} next 
+   */
+async function get_K3S_token(ctx, next) {
+  let req_body = ctx.request.body;
+  let username = req_body.name;
+  
+  let name = await redis_get_K3Sconfig(username);
+  if (name !== 'null') {
+      ctx.status = 200;
+      ctx.body = JSON.stringify({
+        k3s_name: name,
+    })
+  } else {
+      ctx.status = 404;
+      ctx.body = `Error`;
+  }
+  await next();
+}
+
+  /**
    * Router to make a collection of all the API functions in descargar.js
-   * @returns The router with the implementation of the getScript function (get the installation file)
+   * @returns The router with the implementation of the getScript nd get_K3S_token functions.
    */
   function init_front_helper_router() {
     let router = new KoaRouter();
     router
+        .use(cors())
         .use(KoaBodyParser())
-        .get("/getscript", getScript);
+        .get("/getscript", getScript)
+        .post("getK3Stoken", get_K3S_token);
     return router;
 }
 
