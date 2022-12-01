@@ -1,13 +1,13 @@
 //LLAMA SCRIPT PARA LA CONFIG DEL NUEVO CLIENT
 import {exec} from "child_process" ;
-import {redis_get_wgconfig, check_user, redis_wgconfig, redis_get_wgnum,redis_revoke_wgconfig} from "../utils/access-redis.js";
+import { redis_get_wgconfig, check_user, redis_wgconfig, redis_get_wgnum, redis_revoke_wgconfig } from "../utils/access-redis.js";
 
 export async function getConfig(user) {
   let user_exists = check_user(user);
-  if (user_exists == true){ //COMPRUEBA EL USER
-  let config_file = redis_get_wgconfig(user); //COMPRUEBA BASE DE DATOS REDIS SI HAY UN ARCHIVO DE CONFIG
+  if (user_exists == true) { //COMPRUEBA EL USER
+    let config_file = redis_get_wgconfig(user); //COMPRUEBA BASE DE DATOS REDIS SI HAY UN ARCHIVO DE CONFIG
     if (config_file != null) {
-    return config_file;
+      return config_file;
     }
     else {
       return await addClient(user);
@@ -19,22 +19,29 @@ export async function getConfig(user) {
 }
 
 export async function addClient(user) {
-  exec('/home/sandra/pti-cloud/backend/src/utils/newclient.sh', function callback(error, stdout, stderr) {
-
-      let lines = stdout.toString().split('&');
-      let output = new Array();
-      lines.forEach((line, i) => {
-        output[i] = lines[i];
-      });
+  const add_client_script = import.meta.url + "newclient.sh"
+  console.log(add_client_script);
+  exec(add_client_script, async (error, stdout, stderr) => {
+    let lines = stdout.toString().split('&');
+    let output = new Array();
+    lines.forEach((_, i) => {
+      output[i] = lines[i];
+    });
     //console.log(output[0]); //COMPROBACION DEL NUMERO DEL CLIENTE
     //console.log(output[1]); //COMPROBACION DE LA CONFIG DEL CLIENTE
 
     //numero del cliente = output[0], configuracion del cliente output[1]
-    await redis_wgconfig(user, output[0], output[1]);
-    return output[1];
+    // No accedemos a BD si no
+    if (output[0] !== undefined && output[1] !== undefined){
+      await redis_wgconfig(user, output[0], output[1]);
+      console.log("clientadded succesfully");
+      return output[1];
+    } else {
+      console.error(`ERROR: Couldn't add a wg client config for '${user}'`);
+    }
 
   });
-  console.log("clientadded succesfully");
+  
 
 }
 export async function deleteConfig(user) {
@@ -55,7 +62,8 @@ export async function deleteConfig(user) {
 }
 
 export async function revokeeClient(number) {
-  let command = "/home/sandra/pti-cloud/backend/src/utils/revokeClient.sh " + number; //si cambiais el path para probarlo, no os olvideis del espacio final de despues de .sh
+  const revoke_client_script = import.meta.url + "revokeClient.sh";
+  let command = revoke_client_script + number; //si cambiais el path para probarlo, no os olvideis del espacio final de despues de .sh
   exec(command, function callback(error, stdout, stderr) {
     console.log(stdout);
     console.log(stderr);

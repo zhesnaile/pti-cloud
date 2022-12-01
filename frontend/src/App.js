@@ -5,7 +5,10 @@ import LoginForm from './Components/Common/loginform/LoginForm.js';
 import RegisterForm from './Components/Common/registerform/RegisterForm.jsx';
 import ErrorPage from './Components/Common/errorpage/ErrorPage.js';
 import ProtectedRoutes from './Components/ProtectedRoutes.jsx';
-//import './App.css';
+import ProtectedRegNode from './Components/ProtectedRegNode.jsx';
+import HomePage from './Components/Common/homepage/HomePage.jsx';
+
+
 
 import {
   Routes,
@@ -25,9 +28,8 @@ function App() {
 
   const Login = async details => {
     console.log(details);
-
     try {
-      let res = await fetch("http://localhost:3000/api/login", {
+      let res = await fetch("/api/loginUser", {
           method: "POST",
           headers: {
               Accept: "application/json",
@@ -38,13 +40,12 @@ function App() {
               pword: details.password,
           }),
       });
-      console.log(details.username);
       if(res.status === 200){
             setUser({
               username: details.username,
               password: details.password
             })
-            console.log("User registered succesfully!");
+            console.log("User logged succesfully!");
             setAuth(true);
             navigate('/dashboard');
       }
@@ -65,14 +66,12 @@ function App() {
       password: ""
     })
     setAuth(false);
-    navigate('/login');
   }
 
   const Register = async details => {
     console.log(details);
-
     try {
-      let res = await fetch("http://localhost:3000/api/register", {
+      let res = await fetch("/api/registerUser", {
           method: "POST",
           headers: {
               Accept: "application/json",
@@ -103,15 +102,15 @@ function App() {
     }
   }
 
-
-
   return (
       <div className="App">
-        <Header profile={user.username}/>
+        <Header logout={Logout}/>
         <Routes>
+          <Route path='/' element={<HomePage />}/>
           <Route path='/login' element={<LoginForm Login={Login} error={error}/>}/>
           <Route path='/register' element={<RegisterForm Register={Register} error={error}/>}/>
-          <Route path='/dashboard' element={<ProtectedRoutes Auth={auth} Logout={Logout}/>} />
+          <Route path='/dashboard' element={<ProtectedRoutes Component={'UserMenu'} Auth={auth} Logout={Logout}/>} />
+          <Route path='/registerusernode' element={<ProtectedRegNode Component={'RegisterNode'} Profile={user.username} Auth={auth} Logout={Logout}/>} />
           <Route path='*' element={<ErrorPage Logout={Logout}/>} />
         </Routes>
       </div>
@@ -119,3 +118,10 @@ function App() {
 }
 
 export default App;
+
+
+
+/* Comprovar path actual
+    const ddd = window.location.href;
+    console.log(ddd);
+*/
