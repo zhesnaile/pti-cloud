@@ -5,13 +5,14 @@ import { redis_login_user } from "../../utils/access-redis.js";
 import KoaRouter from "@koa/router";
 import KoaBodyParser from "koa-bodyparser";
 
-/** 
- * Method to be run when a POST request hits the Login API
- * @async
- * @param {ctx} ctx 
- * @param {Function} next 
+/**
+ * API function that acts as a login.
+ * It checks that the credentials passed by context are in the DB.
+ * As a response, it gives a 200 STATUS for OK and 404 for a LOGIN ERROR.
+ * @param {*} ctx The context passed by the app web consists in: {name, pword}
+ * @param {*} next
  */
-async function post(ctx, next) {
+async function login_user(ctx, next) {
     let req_body = ctx.request.body;
     let username = req_body.name;
     let password = req_body.pword;
@@ -28,20 +29,19 @@ async function post(ctx, next) {
 }
 
 /**
- * Initializes a KoaRouter for the Login API.
- * @returns {KoaRouter}
+ * Router to make a collection of all the API function in login.js
+ * @returns The router with the implementation of the loginUser function.
  */
 function init_login_router() {
     let router = new KoaRouter();
     router
         .use(KoaBodyParser())
-        .post("/loginUser", post);
+        .post("/loginUser", login_user);
     return router;
 }
 /** KoaRouter for the Login API. */
 export let login_api_router = init_login_router();
 
-//curl -X POST http://localhost:3000/api/login -H "Content-Type: application/json" -d '{"name": "jordi", "pword": "lala"}'
-
-
-
+/* Comprovació que funciona
+curl -X POST http://localhost:3000/api/loginUser -H "Content-Type: application/json" -d '{"name": "jordi", "pword": "lala"}'
+*/

@@ -3,19 +3,16 @@ import { useState } from 'react';
 import './../registernode/RegisterNode.css';
 import { useNavigate } from 'react-router-dom';
 
-function RegisterNode({ Profile, Logout }) {
+function RegisterNode({ Profile }) {
     const [K3S_flag, setK3S_flag] = useState(false);
     const [K3S_token, setK3S_token] = useState('');
-    const [WG_flag, setWG_flag] = useState(false);
-    const [WG_config, setWG_config] = useState('');
-
     const navigate = useNavigate();
 
     const handle_K3S = async (event) => {
         setK3S_flag(event.target.value);
         setK3S_flag(!K3S_flag);
         try{
-            let res = await fetch("http://localhost:3000/api/getK3Stoken", {
+            let res = await fetch("/api/getK3Stoken", {
               method: "POST",
                 headers: {
                     Accept: "application/json",
@@ -37,32 +34,6 @@ function RegisterNode({ Profile, Logout }) {
         setK3S_token(event.target.value);
     }
 
-    const handle_WG = async (event) => {
-        setWG_flag(event.target.value);
-        setWG_flag(!WG_flag);
-        try{
-            let res = await fetch("http://localhost:3000/api/getWGconfig", {
-              method: "POST",
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    name: Profile,
-                }),
-            });
-            let data = await res.json();
-            console.log(data);
-            setWG_config(data.wg_config);
-          } catch(err){
-            console.log(err);
-          }
-    }
-
-    const WG_change = event => {
-        setWG_config(event.target.value);
-    }
-
     return (
         <form>
             <div className='main'>
@@ -76,8 +47,8 @@ function RegisterNode({ Profile, Logout }) {
                                 <a href='/api/getscript'>Download</a>
                                 <h4> &gt; To run this script, you must follow the next steps on your terminal:</h4>
                                 <p className='h4-node'>1. Enter the directory where you have downloaded the script</p>
-                                <p className='h4-node'>2. Modify the file permissions: chmod +x ./wireguard-client.sh</p>
-                                <p className='h4-node'>3. Run the script: ./wireguard-client.sh</p>
+                                <p className='h4-node'>2. Modify the file permissions: chmod +x ./installation-client.sh</p>
+                                <p className='h4-node'>3. Run the script: ./installation-client.sh</p>
                             </div>
                             <div>
                                 <h3>The following steps are optional (after installation):</h3> 

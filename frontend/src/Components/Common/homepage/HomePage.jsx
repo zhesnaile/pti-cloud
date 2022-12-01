@@ -4,7 +4,7 @@ import './../homepage/HomePage.css';
 import logo from "./../../Pics/kfc-logo.png";
 
 
-function HomePage({ go2Login, got2Register }) {
+function HomePage() {
     const navigate = useNavigate();
 
     return (

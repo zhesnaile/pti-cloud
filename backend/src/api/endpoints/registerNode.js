@@ -33,29 +33,12 @@ async function get_Name(ctx, next) {
   await next();
 }
 
-async function get_K3S_token(ctx, next) {
-  let req_body = ctx.request.body;
-  let username = req_body.name;
-  
-  let name = await redis_get_K3Sconfig(username);
-  if (name !== 'null') {
-      ctx.status = 200;
-      ctx.body = JSON.stringify({
-        k3s_name: name,
-    })
-  } else {
-      ctx.status = 404;
-      ctx.body = `Error`;
-  }
-  await next();
-}
 
 function init_registerNode_router() {
     let router = new KoaRouter();
     router
         .use(cors())
         .use(KoaBodyParser())
-        .post("/getK3Stoken", get_K3S_token)
         .get("/getToken", get_Token)
         .post("/getNodeName", get_Name);
     return router;
