@@ -1,18 +1,23 @@
+/**
+ * Functionalities that interact with the REDIS database.
+ * console.log are commented for security purposes, but in case of debugging, uncomment it.
+ * The code is divided in different sections -> WebApp, Wireguard and K3S.
+ */
 import redis from 'redis';
 
-//FUNCIONALIDADES PÁGINA WEB ------------------------------------------------------------------------------------
+//---- WEB APP ------------------------------------------------------------------------------------
 
 /**
  * Redis function for the app web USER LOGIN.
- * It checks if the parameters are ok. Will access the DB to check if it is a valid login.
+ * It checks if the parameters are valid. Will access the DB to check if it is a valid login.
  * @param {String} user Username of the user passed in the USER web page field.
  * @param {String} password Password passed in the PASSWORD web page field.
- * @returns TRUE if credentials are valid and exists on the DB.
- * @returns FALSE if credentials are invalid (undefined) or it does not exist on the DB.
+ * @returns TRUE if credentials are valid and the user exists on the DB.
+ * @returns FALSE if credentials are invalid (undefined) or the user does not exist on the DB.
  */
 export async function redis_login_user(user, password) {
     if (user === undefined || password === undefined) {
-        console.log(`${Date.now()} LOGIN ERROR: Failed login`);
+        //console.log(`${Date.now()} LOGIN ERROR: Failed login`);
         return false;
     }
 
@@ -20,11 +25,11 @@ export async function redis_login_user(user, password) {
     await redisClient.connect();
 
     if(await redisClient.hGet(user,'password') !== password){
-        console.log(`${Date.now()} LOGIN ERROR: Credentials are wrong`);
+        //console.log(`${Date.now()} LOGIN ERROR: Credentials are wrong`);
         await redisClient.disconnect();
         return false;
     }
-    console.log(`${Date.now()}: Login in with user '${user}' and password '${password}'`);
+    //console.log(`${Date.now()}: Login in with user '${user}' and password '${password}'`);
     await redisClient.disconnect();
     return true;
 }
@@ -40,11 +45,11 @@ export async function redis_login_user(user, password) {
  */
 export async function redis_register_user(user, password, password2) {
     if (user === undefined || password === undefined || password2 === undefined) {
-        console.log(`${Date.now()} REGISTER ERROR: Failed register`);
+        //console.log(`${Date.now()} REGISTER ERROR: Failed register`);
         return false;
     }
     else if(password !== password2){
-        console.log(`${Date.now()} REGISTER ERROR: Passwords differ`);
+        //console.log(`${Date.now()} REGISTER ERROR: Passwords differ`);
         return false;
     }
 
@@ -52,18 +57,16 @@ export async function redis_register_user(user, password, password2) {
     await redisClient.connect();
 
     if (await redisClient.exists(user) == 1){
-        console.log(`${Date.now()} REGISTER ERROR: User exists in the DB`);
+        //console.log(`${Date.now()} REGISTER ERROR: User exists in the DB`);
         await redisClient.disconnect();
         return false;
     }
 
     await redisClient.HSET(user, Object.entries({'password': password}));
-    console.log(`${Date.now()}: Register with user '${user}' and password '${password}'`);
+    //console.log(`${Date.now()}: Register with user '${user}' and password '${password}'`);
     await redisClient.disconnect();
     return true;
 }
-
-//FUNCIONALIDADES WIREGUARD ------------------------------------------------------------------------------------
 
 /**
  * Redis function to basically check if a user exists in the DB.
@@ -71,15 +74,17 @@ export async function redis_register_user(user, password, password2) {
  * @returns TRUE if the user exists in the DB.
  * @returns FALSE if the user does not exists in the DB.
  */
-export async function check_user(user) {
+ export async function check_user(user) {
     const redisClient = redis.createClient();
     await redisClient.connect();
     if (await redisClient.exists(user) !== 1){
-        console.log(`${Date.now()} USER CHECK: User not exists in the DB`);
+        //console.log(`${Date.now()} USER CHECK: User not exists in the DB`);
         await redisClient.disconnect();
         return false;
     } else return true;
 }
+
+//----WIREGUARD ------------------------------------------------------------------------------------
 
 /**
  * Redis function for Wireguard based purposes.
@@ -96,52 +101,49 @@ export async function redis_wgconfig(user, wg_num, wg_config) {
     await redisClient.connect();
 
     if (await redisClient.exists(user) !== 1){
-        console.log(`${Date.now()} WG_CONFIG: User not exists`);
+        //console.log(`${Date.now()} WG_CONFIG: User not exists`);
         await redisClient.disconnect();
         return false;
     }
     await redisClient.HSET(user, Object.entries({'wg_num': wg_num}));
     await redisClient.HSET(user, Object.entries({'wg_config': wg_config}));
     await redisClient.disconnect();
-    console.log(`${Date.now()}: Wireguard config from the user '${user}' with wg_num '${wg_num}' and  with wg_config '${wg_config}'`);
+    //console.log(`${Date.now()}: Wireguard config from the user '${user}' with wg_num '${wg_num}' and  with wg_config '${wg_config}'`);
     return true;
 }
 
-/* 
-* Comprueba si el usuario tiene un wg_config valido (que exista y que no sea 'invalid') y lo devuelve.
-* Sino devuelve un null para que pueda comprovarse en la funcion de donde se llame.
-*/
 /**
  * Redis function for Wireguard based purposes.
  * Check if the user exists in the DB and gets the value of its wireguard config.
  * @param {String} user Username of the user that we want to check.
- * @returns If the user exists, returns the wg_config of the user in the DB
- * @returns If the user does not exist, returns null.
+ * @returns If the user exists and has a valid wg_config, returns the wg_config of the user in the DB.
+ * @returns If the user does not exist, or has an invalid wg_config, or does not have any wg_config assigned, returns null.
  */
 export async function redis_get_wgconfig(user){
     const redisClient = redis.createClient();
     await redisClient.connect();
     let config = 'null';
-    if (await redisClient.hExists(user, 'wg_config') == 1 && redisClient.hGet(user,'wg_config') !== 'invalid') config = await redisClient.hGet(user, 'wg_config');
-    console.log(`${config}`);
+    if (await redisClient.exists(user) === 1 && await redisClient.hExists(user, 'wg_config') == 1 && redisClient.hGet(user,'wg_config') !== 'invalid') {
+        config = await redisClient.hGet(user, 'wg_config');
+    }
     await redisClient.disconnect();
     return config;
 }
-
 
 /**
  * Redis function for Wireguard based purposes.
  * Check if the user exists in the DB and gets the value of its wiregurd id (wg_num).
  * @param {String} user Username of the user that we want to check.
- * @returns If the user exists, returns the wg_num of the user in the DB.
- * @retuns If the user does not exist, returns null.
+ * @returns If the user exists and has a valid wg_num, returns the wg_num of the user in the DB.
+ * @retuns If the user does not exist, or has an invalid wg_num, or does not have any wg_num assigned, returns null.
  */
 export async function redis_get_wgnum(user){
     const redisClient = redis.createClient();
     await redisClient.connect();
     let wgnum = 'null';
-    if (await redisClient.hExists(user, 'wg_num') == 1 && redisClient.hGet(user,'wg_num') !== 'invalid') wgnum = await redisClient.hGet(user, 'wg_num');
-    console.log(`${wgnum}`);
+    if (await redisClient.exists(user) === 1 && await redisClient.hExists(user, 'wg_num') == 1 && redisClient.hGet(user,'wg_num') !== 'invalid'){
+        wgnum = await redisClient.hGet(user, 'wg_num');
+    }
     await redisClient.disconnect();
     return wgnum;
 }
@@ -167,7 +169,7 @@ export async function redis_revoke_wgconfig(user){
     return false;
 }
 
-//FUNCIONALIDADES K3S ------------------------------------------------------------------------------------
+//---- K3S ------------------------------------------------------------------------------------
 
 /**
  * Redis function for K3S based purposes.
@@ -182,13 +184,13 @@ export async function redis_K3Sconfig(user, k3s_name) {
     await redisClient.connect();
 
     if (await redisClient.exists(user) !== 1){
-        console.log(`${Date.now()} K3S CONFIG: User not exists`);
+        //console.log(`${Date.now()} K3S CONFIG: User not exists`);
         await redisClient.disconnect();
         return false;
     }
     await redisClient.HSET(user, Object.entries({'k3s_name': k3s_name}));
     await redisClient.disconnect();
-    console.log(`${Date.now()}: K3S config from the user '${user}' with k3s_name '${k3s_name}'`);
+    //console.log(`${Date.now()}: K3S config from the user '${user}' with k3s_name '${k3s_name}'`);
     return true;
 }
 
@@ -198,12 +200,12 @@ export async function redis_K3Sconfig(user, k3s_name) {
  * @param {String} user Username of the user that we want to check its k3s_name.
  * @param {String} k3s_name Name of a k3s machine.
  * @returns TRUE if the user has the k3s_name assigned as a k3s_name.
- * @returns FALSE if the user does not have k3s_name assigned.
+ * @returns FALSE if the user does not have k3s_name assigned, or is invalid or the user does not exist.
  */
 export async function redis_check_K3Sconfig(user, k3s_name){
     const redisClient = redis.createClient();
     await redisClient.connect();
-    if (await redisClient.hExists(user, 'k3s_name') == 1 && await redisClient.hGet(user, 'k3s_name') == k3s_name){
+    if (await redisClient.exists(user) === 1 && await redisClient.hExists(user, 'k3s_name') == 1 && await redisClient.hGet(user, 'k3s_name') == k3s_name){
         redisClient.disconnect();
         return true;
     }
@@ -216,14 +218,15 @@ export async function redis_check_K3Sconfig(user, k3s_name){
  * Check if the user passed as a parameter has a k3s_name assigned and gets it.
  * @param {String} user Username of the user that we want to check its K3S_name.
  * @returns the K3S_name of the user if it has one assigned.
- * @returns null if the user does not has any machine assigned or does not exist.
+ * @returns null if the user does not has any machine assigned or does not exist or is invalid.
  */
 export async function redis_get_K3Sconfig(user){
     const redisClient = redis.createClient();
     await redisClient.connect();
     let k3s_name = 'null';
-    if (await redisClient.hExists(user, 'k3s_name') == 1 && redisClient.hGet(user,'k3s_name') !== 'invalid') k3s_name = await redisClient.hGet(user, 'k3s_name');
-    console.log(`${k3s_name}`);
+    if (await redisClient.exists(user) === 1 && await redisClient.hExists(user, 'k3s_name') == 1 && redisClient.hGet(user,'k3s_name') !== 'invalid'){
+        k3s_name = await redisClient.hGet(user, 'k3s_name');
+    }
     await redisClient.disconnect();
     return k3s_name;
 }

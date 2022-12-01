@@ -7,7 +7,7 @@ import KoaBodyParser from "koa-bodyparser";
 
 /**
  * API function that acts as a login.
- * It checks that the credentials passed by context are in the DB.
+ * It checks that the credentials passed by the context are in the DB.
  * As a response, it gives a 200 STATUS for OK and 404 for a LOGIN ERROR.
  * @param {*} ctx The context passed by the app web consists in: {name, pword}
  * @param {*} next
