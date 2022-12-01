@@ -27,13 +27,10 @@ async function login_user(ctx, next) {
     }
     await next();
 }
-/**
-   * Router to make a collection of all the API functions in descargar.js
-   * @returns The router with the implementation of the getScript function (get the installation file)
-   */
+
 /**
  * Router to make a collection of all the API function in login.js
- * @returns The router with the implementation of the loginUser function (get the installation file) 
+ * @returns The router with the implementation of the loginUser function.
  */
 function init_login_router() {
     let router = new KoaRouter();
@@ -45,7 +42,8 @@ function init_login_router() {
 
 export let login_api_router = init_login_router();
 
-//curl -X POST http://localhost:3000/api/login -H "Content-Type: application/json" -d '{"name": "jordi", "pword": "lala"}'
-
+/* Comprovació que funciona
+curl -X POST http://localhost:3000/api/loginUser -H "Content-Type: application/json" -d '{"name": "jordi", "pword": "lala"}'
+*/
 
 
