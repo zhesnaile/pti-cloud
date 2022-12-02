@@ -3,7 +3,7 @@ import KoaBodyParser from "koa-bodyparser";
 import cors from "@koa/cors";
 import { get_k3s_token, get_Node_Name } from "../../utils/add-k3s-node.js";
 import { redis_get_K3Sconfig } from "../../utils/access-redis.js";
-
+ 
 /*
   Comprobar funcionamiento:
   curl -X GET http://localhost:3000/api/getToken

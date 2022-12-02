@@ -21,7 +21,7 @@ export async function redis_login_user(user, password) {
     return true;
 }
 
-export async function redis_register_user(user, password, password2) {
+export async function redis_register_user(user: string, password: string, password2: string) {
     if (user === undefined || password === undefined || password2 === undefined) {
         console.log(`${Date.now()} REGISTER ERROR: Failed register`);
         return false;
@@ -84,11 +84,11 @@ export async function redis_wgconfig(user, wg_num, wg_config) {
 * Comprueba si el usuario tiene un wg_config valido (que exista y que no sea 'invalid') y lo devuelve.
 * Sino devuelve un null para que pueda comprovarse en la funcion de donde se llame.
 */
-export async function redis_get_wgconfig(user){
+export async function redis_get_wgconfig(user: String){
     const redisClient = redis.createClient();
     await redisClient.connect();
     let config = 'null';
-    if (await redisClient.hExists(user, 'wg_config') == 1 && redisClient.hGet(user,'wg_config') !== 'invalid') config = await redisClient.hGet(user, 'wg_config');
+    if (await redisClient.hExists(user, 'wg_config') == true && redisClient.hGet(user,'wg_config') !== 'invalid') config = await redisClient.hGet(user, 'wg_config');
     console.log(`${config}`);
     await redisClient.disconnect();
     return config;
@@ -98,7 +98,7 @@ export async function redis_get_wgconfig(user){
 * Comprueba si el usuario tiene un wg_num valido (que exista y que no sea 'invalid') y lo devuelve.
 * Sino devuelve un null para que pueda comprovarse en la funcion de donde se llame.
 */
-export async function redis_get_wgnum(user){
+export async function redis_get_wgnum(user: String) : Promise<number>{
     const redisClient = redis.createClient();
     await redisClient.connect();
     let wgnum = 'null';
@@ -124,7 +124,7 @@ export async function redis_revoke_wgconfig(user){
 /*
 * Añade al usuario de la BD, el nombre de la maquina de k3s.
 */
-export async function redis_K3Sconfig(user, k3s_name) {
+export async function redis_K3Sconfig(user: String, k3s_name: String) {
     const redisClient = redis.createClient();
     await redisClient.connect();
 
