@@ -59,7 +59,7 @@ function main() {
   mount_frontend(app);
 
   app.listen(config.port);
-  console.log(`Listening on port ${port}`);
+  console.log(`Listening on port ${config.port}`);
 }
 
 main();
