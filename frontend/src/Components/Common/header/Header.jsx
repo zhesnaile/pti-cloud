@@ -3,13 +3,13 @@ import { Navbar } from '../../Common';
 import './Header.css';
 
 
-function Header ({profile}) {
+function Header ({ logout }) {
     return (
         <section className='header'>
             <section className='header-top'>
                 <section className='header-top_navbar'>
                     <section className='header-top_navigation'>
-                        <Navbar profile={profile}/>
+                        <Navbar logout={logout}/>
                     </section>              
                 </section>  
             </section>

@@ -20,14 +20,14 @@ const config = {
  */
 function mount_frontend(app: Koa) {
   const static_pages = new Koa();
- 
+
   const REACT_ROUTER_PATHS = [
       '/login',
       '/register',
       '/dashboard',
       '/registerusernode',
     ];
-    
+
     static_pages
       .use(async (ctx, next) => {
         if (REACT_ROUTER_PATHS.includes(ctx.request.path)) {
@@ -36,7 +36,7 @@ function mount_frontend(app: Koa) {
         await next();
       })
       .use(serve("../frontend/build"));
-  
+
   app.use(mount('/', static_pages));
 }
 
@@ -57,7 +57,7 @@ function main() {
 
   add_api(app);
   mount_frontend(app);
-  
+
   app.listen(config.port);
   console.log(`Listening on port ${config.port}`);
 }

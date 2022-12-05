@@ -7,7 +7,7 @@ function ProtectedRoutes({Component, Auth, Logout }) {
 
     return (
         <div>
-            {(Auth === false && Component === 'UserMenu') ? (<ErrorPage Logout={Logout}/>) : <UserMenu Logout={Logout}/>}         
+            {(Auth === false && Component === 'UserMenu') ? (<ErrorPage Logout={Logout}/>) : <UserMenu />}         
         </div>
         
     )

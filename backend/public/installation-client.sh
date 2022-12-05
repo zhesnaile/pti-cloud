@@ -34,7 +34,7 @@
 
     read -rp "Server URL (without http:// or https://): " -e URL
   	read -rp "Username: " -e USERNAME
-  	curl -L "https://${URL}/api/wg_getConfig?username=${USERNAME}" -o ./${SERVER_WG_NIC}.conf
+  	curl -L "https://${URL}:3000/api/wg_getConfig?username=${USERNAME}" -o ./${SERVER_WG_NIC}.conf
 
   	#SI HAY UN ERROR EN LA LLAMADA GETCONFIG DETEN EL SCRIPT
   	if [[ $? -ne 0 ]]; then
