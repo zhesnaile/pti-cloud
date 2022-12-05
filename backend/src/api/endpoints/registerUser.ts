@@ -4,6 +4,7 @@
 import { redis_register_user } from "../../utils/access-redis.js";
 import KoaRouter from "@koa/router";
 import KoaBodyParser from "koa-bodyparser";
+import { ParameterizedContext, Next } from "koa";
 import cors from "@koa/cors";
 
 /**
@@ -13,7 +14,7 @@ import cors from "@koa/cors";
  * @param {*} ctx The context passed by the app web consists in: {name, pword, pword2}
  * @param {*} next 
  */
-async function register_user(ctx, next) {
+async function register_user(ctx: ParameterizedContext, next: Next) {
     let req_body = ctx.request.body;
     let username = req_body.name;
     let password = req_body.pword;
