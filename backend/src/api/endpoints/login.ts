@@ -2,14 +2,10 @@
  * Login API Functions
  */
 import { redis_login_user } from "../../utils/access-redis.js";
-import Koa from "koa"
+import { ParameterizedContext, Next } from "koa";
 import KoaRouter from "@koa/router";
 import KoaBodyParser from "koa-bodyparser";
-
-type loginBody = {
-    name: string;
-    password: string;
-}
+import { loginBody } from "../../types/api_request_bodies.js"
 
 /** 
  * API function that acts as a login.
@@ -19,7 +15,7 @@ type loginBody = {
  * @param {Koa.ParameterizedContext} ctx The context passed by the app web consists in: {name, pword}
  * @param {Function} next 
  */
-async function login_user(ctx: Koa.ParameterizedContext, next: Koa.Next) {
+async function login_user(ctx: ParameterizedContext, next: Next) {
     let req_body = <loginBody>ctx.request.body;
     
     let valid_login = await redis_login_user(req_body.name, req_body.password);
