@@ -1,31 +1,32 @@
 /**
  * Login API Functions
  */
-import { redis_login_user } from "../../utils/access-redis.js";
-import KoaRouter from "@koa/router";
-import KoaBodyParser from "koa-bodyparser";
-
-/** 
- * Method to be run when a POST request hits the Login API
- * @async
- * @param {ctx} ctx 
- * @param {Function} next 
- */
-async function post(ctx, next) {
-    let req_body = ctx.request.body;
-    let username = req_body.name;
-    let password = req_body.pword;
-
-    let valid_login = await redis_login_user(username, password);
-    if (valid_login === true) {
-        ctx.status = 200;
-        ctx.body = `Welcome back, ${username}.`;
-    } else {
-        ctx.status = 404;
-        ctx.body = `Login error.`;
-    }
-    await next();
-}
+ import { redis_login_user } from "../../utils/access-redis.js";
+ import KoaRouter from "@koa/router";
+ import KoaBodyParser from "koa-bodyparser";
+ 
+ /**
+  * API function that acts as a login.
+  * It checks that the credentials passed by the context are in the DB.
+  * As a response, it gives a 200 STATUS for OK and 404 for a LOGIN ERROR.
+  * @param {*} ctx The context passed by the app web consists in: {name, pword}
+  * @param {*} next
+  */
+ async function login_user(ctx, next) {
+     let req_body = ctx.request.body;
+     let username = req_body.name;
+     let password = req_body.pword;
+ 
+     let valid_login = await redis_login_user(username, password);
+     if (valid_login === true) {
+         ctx.status = 200;
+         ctx.body = `Welcome back, ${username}.`;
+     } else {
+         ctx.status = 404;
+         ctx.body = `Login error.`;
+     }
+     await next();
+ }
 
 /**
  * Initializes a KoaRouter for the Login API.
