@@ -4,40 +4,62 @@ import cors from "@koa/cors";
 import serve from "koa-static";
 import mount from "koa-mount";
 
-const port = 3000;
-
-let app = new Koa();
-
-
-
-app.use(cors());
-app.use(api_router.routes()).use(api_router.allowedMethods());
-
-
-const static_pages = new Koa();
 
 /**
- * An array with all the frontend pages availabe.
- * In case we search a page in the URL that is not defined it will treat as a backend function.
+ * Config Struct
+ * We can set all variables here
  */
-const REACT_ROUTER_PATHS = [
-    '/login',
-    '/register',
-    '/dashboard',
-    '/registerusernode',
-  ];
+const config = {
+  port: 3000,
+
+}
+
+/**
+ * Modifies a Koa instance to mount our frontends static pages to it.
+ * @param {Koa} app Koa instance
+ */
+function mount_frontend(app) {
+  const static_pages = new Koa();
+ 
+  const REACT_ROUTER_PATHS = [
+      '/login',
+      '/register',
+      '/dashboard',
+      '/registerusernode',
+    ];
+    
+    static_pages
+      .use(async (ctx, next) => {
+        if (REACT_ROUTER_PATHS.includes(ctx.request.path)) {
+          ctx.request.path = '/';
+        }
+        await next();
+      })
+      .use(serve("../frontend/build"));
   
-  static_pages
-    .use(async (ctx, next) => {
-      if (REACT_ROUTER_PATHS.includes(ctx.request.path)) {
-        ctx.request.path = '/';
-      }
-      await next();
-    })
-    .use(serve("../frontend/build"));
+  app.use(mount('/', static_pages));
+}
 
-app.use(mount('/', static_pages));
+/**
+ * Modifies a Koa instance to add all methods from our APIs to it.
+ * @param {Koa} app Koa instance
+ */
+function add_api(app) {
+  app.use(cors());
+  app.use(api_router.routes()).use(api_router.allowedMethods());
+}
 
+/**
+ * Entrypoint of our app
+ */
+function main() {
+  let app = new Koa();
 
-app.listen(port);
-console.log(`Listening on port ${port}`);
+  add_api(app);
+  mount_frontend(app);
+  
+  app.listen(config.port);
+  console.log(`Listening on port ${port}`);
+}
+
+main();

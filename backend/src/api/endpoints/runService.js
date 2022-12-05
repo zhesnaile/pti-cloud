@@ -1,4 +1,4 @@
-import KoaRouterfrom from"@koa/router";
+import KoaRouter from "@koa/router";
 import KoaBodyParser from "koa-bodyparser";
 //import {} from "../../utils/";
 
