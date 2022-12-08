@@ -18,7 +18,7 @@ import { loginBody } from "../../types/api_request_bodies.js"
 async function login_user(ctx: ParameterizedContext, next: Next) {
     let req_body = <loginBody>ctx.request.body;
     
-    let valid_login = await redis_login_user(req_body.name, req_body.password);
+    let valid_login = await redis_login_user(req_body.name, req_body.pword);
     if (valid_login === true) {
         ctx.status = 200;
         ctx.body = `Welcome back, ${req_body.name}.`;

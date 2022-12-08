@@ -4,5 +4,5 @@
  */
 export type loginBody = {
     name: string;
-    password: string;
+    pword: string;
 }
