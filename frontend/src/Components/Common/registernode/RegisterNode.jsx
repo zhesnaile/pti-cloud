@@ -37,7 +37,9 @@ function RegisterNode({ Profile }) {
     return (
         <form>
             <div className='main'>
+                
                 <div className='sub-main-menu'>
+                    
                     <div className='content-menu'>
                         <h1>REGISTER NODE</h1>
                         <div className='node-row'>
@@ -54,7 +56,7 @@ function RegisterNode({ Profile }) {
                                 <h3>The following steps are optional (after installation):</h3> 
                                 <label> &gt; Get the hidden K3S token
                                     <input className='checkbox-node' type="checkbox" onChange={handle_K3S} checked={K3S_flag}/>
-                                    <input className='input-node' onChange={K3S_change} value={K3S_flag ? K3S_token || '' : '?'}/>                                    
+                                    <input className='input-node' onChange={K3S_change} value={K3S_flag ? K3S_token || '' : '?'} readOnly/>                                    
                                 </label>  
                             </div>
                             

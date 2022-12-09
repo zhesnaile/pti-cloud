@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import logo from './../../Pics/logo_proj.png';
 import logo2 from './../../Pics/k3s-logo.png';
 import './../loginform/LoginForm.css';
 import {Link} from 'react-router-dom';
@@ -18,18 +17,13 @@ function LoginForm({ Login, error }) {
 
     return (
         <form onSubmit={submitHandler}>
-            <div className='main'>
+            <div className='main'>    
                 <div className='sub-main'>
                     <div>
-
                         <div className='new-logo'>
-                            <div className='new-logo-container'>
-                                <img src={logo2} alt='mylogo' className='new-logo-project'/>
-                            </div>
+                            <img src={logo2} alt='mylogo' className='logo-test'/>
                         </div>
-
                         <div>
-                            <br/>
                             <h2>Login page</h2>
                             {(error !== "") ? ( <div className="error">{error}</div>) : "" }
                             <div className='form-container'>
@@ -49,6 +43,8 @@ function LoginForm({ Login, error }) {
                 </div>
             </div>
         </form>
+        
+        
     )
 }
 

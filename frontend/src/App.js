@@ -7,7 +7,7 @@ import ErrorPage from './Components/Common/errorpage/ErrorPage.js';
 import ProtectedRoutes from './Components/ProtectedRoutes.jsx';
 import ProtectedRegNode from './Components/ProtectedRegNode.jsx';
 import HomePage from './Components/Common/homepage/HomePage.jsx';
-
+import './App.css';
 
 
 import {
@@ -104,7 +104,7 @@ function App() {
 
   return (
       <div className="App">
-        <Header logout={Logout}/>
+        <Header logout={Logout} Auth={auth}/>
         <Routes>
           <Route path='/' element={<HomePage />}/>
           <Route path='/login' element={<LoginForm Login={Login} error={error}/>}/>
@@ -114,6 +114,7 @@ function App() {
           <Route path='*' element={<ErrorPage Logout={Logout}/>} />
         </Routes>
       </div>
+      
   );
 }
 
