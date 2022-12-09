@@ -7,14 +7,15 @@
     background-color: #373737;
   }
   
-  .sub-main-menu{
+  .sub-main-error{
     display: flex;
     justify-content: center;
-    height: 550px;
-    width: 75%;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    height: 400px;
+    width: 40%;
     padding-top: 30px;
     border-radius: 10px;
-    background-color: white;
+    background-color: #212121;
   }
   
   .content-menu{

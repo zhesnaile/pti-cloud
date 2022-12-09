@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import './../registerform/RegisterForm.css';
-import lock from './../../Pics/lock.png';
+import lock from './../../Pics/wlock.png';
 import { Link } from 'react-router-dom';
 
 function RegisterForm({Register, error }) {
@@ -37,7 +37,7 @@ function RegisterForm({Register, error }) {
                                 <button type='submit'>Sign up</button>
                             </div>
                             <p className='link-reg'> Already a member?
-                                <Link to= '/login'>Login</Link>
+                                <Link className='link-to' to= '/login'>Login</Link>
                             </p>
                         </div>
                     </div>

@@ -11,7 +11,7 @@ function Navbar ({ Logout, Auth }) {
 
     return (
         <section className='navbar'>
-            {(Auth== true) ? <Link to="/dashboard" className="navbar-item">Menu</Link> : ''}
+            {(Auth === true) ? <Link to="/dashboard" className="navbar-item">Menu</Link> : ''}
             <a href="https://docencia.ac.upc.es/FIB/grau/PTI/"className='navbar-item'>Projectes de TI</a>
             <Link onClick={doLogout} to="/" className='navbar-item'>Log out</Link>
             <section className='navbar-item'>

@@ -12,6 +12,7 @@
     justify-content: center;
     height: 550px;
     width: 75%;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     padding-top: 30px;
     border-radius: 10px;
     background-color: white;
@@ -35,7 +36,6 @@
     display: flex;
     height: 70%;
     width: 100%;
-    
   }
 
   .row > *{
@@ -51,6 +51,7 @@
     position: relative;
     height: 90%;
     border: 5px solid rgb(139, 82, 214);
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   }
 
   .column:hover{

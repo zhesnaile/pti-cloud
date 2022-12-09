@@ -36,7 +36,7 @@ function LoginForm({ Login, error }) {
                                 <button type='submit'>Login</button>
                             </div>
                             <p className='link-reg'> New user?
-                                <Link to= '/register'>Sign up</Link>
+                                <Link className='link-to' to= '/register'>Sign up</Link>
                             </p>
                         </div>
                     </div>

@@ -12,7 +12,7 @@
     justify-content: center;
     height: 550px;
     width: 35%;
-    box-shadow: 11px, 12px, 13px, 12px, rgb(207,207,207);
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     padding-top: 30px;
     border-radius: 10px;
     background-color: white;
@@ -58,7 +58,11 @@
   
   a{
     margin-left: 10px;
-    color: blue;
+    color: rgb(49, 222, 225);
+  }
+
+  .link-to{
+    color: rgb(49, 222, 225);
   }
   
   button{
@@ -123,4 +127,8 @@
 .logo-test{
   height: 80px;
   width: 80px;
+}
+
+h2,p{
+  color: white;
 }

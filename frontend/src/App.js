@@ -105,6 +105,7 @@ function App() {
   return (
       <div className="App">
         <Header logout={Logout} Auth={auth}/>
+        <div className='separation'>
         <Routes>
           <Route path='/' element={<HomePage />}/>
           <Route path='/login' element={<LoginForm Login={Login} error={error}/>}/>
@@ -113,6 +114,7 @@ function App() {
           <Route path='/registerusernode' element={<ProtectedRegNode Component={'RegisterNode'} Profile={user.username} Auth={auth} Logout={Logout}/>} />
           <Route path='*' element={<ErrorPage Logout={Logout}/>} />
         </Routes>
+        </div>
       </div>
       
   );

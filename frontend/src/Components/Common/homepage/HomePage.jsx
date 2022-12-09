@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './../homepage/HomePage.css';
-import logo from "./../../Pics/kfc-logo.png";
+import logo from "./../../Pics/KFC.png";
 
 
 function HomePage() {
