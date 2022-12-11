@@ -4,6 +4,7 @@
 
 import KoaRouter from "@koa/router";
 import KoaBodyParser from "koa-bodyparser";
+import { ParameterizedContext, Next } from "koa";
 import mime from "mime-types";
 import fs from "fs";
 import path from "path";
@@ -16,7 +17,7 @@ import cors from "@koa/cors";
  * @param {*} ctx The context of the request. Empty because we don't need any option in this GET.
  * @param {*} next
  */
-async function getScript(ctx, next){
+async function getScript(ctx: ParameterizedContext, next: Next){
   const __dirname = path.resolve();
   var file_path = path.join(__dirname, 'public', 'installation-client.sh');
 
@@ -46,7 +47,7 @@ async function getScript(ctx, next){
  * @param {*} ctx The context of the request. The context passed consists in: {name}
  * @param {*} next 
  */
-async function get_K3S_token(ctx, next) {
+async function get_K3S_token(ctx: ParameterizedContext, next: Next) {
   let req_body = ctx.request.body;
   let username = req_body.name;
   
