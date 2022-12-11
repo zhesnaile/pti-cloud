@@ -1,6 +1,6 @@
 //LLAMA SCRIPT PARA LA CONFIG DEL NUEVO CLIENT
 import {exec} from "child_process" ;
-import { redis_get_wgconfig, check_user, redis_wgconfig, redis_get_wgnum, redis_revoke_wgconfig } from "../utils/access-redis.js";
+import { redis_get_wgconfig, check_user, redis_wgconfig, redis_get_wgnum, redis_revoke_wgconfig } from "./access-redis.js";
 
 /**
 * This file contains all the functions that execute the scripts of Wireguard (VPN)
@@ -13,9 +13,9 @@ import { redis_get_wgconfig, check_user, redis_wgconfig, redis_get_wgnum, redis_
  * @returns The configuration filename
  */
 
-export async function getConfig(user) {
-  let user_exists = check_user(user);
-  if (user_exists == true) { //COMPRUEBA EL USER
+ export async function getConfig(user: string) {
+  let user_exists = await check_user(user);
+  if ( user_exists == true) { //COMPRUEBA EL USER
     let config_file = redis_get_wgconfig(user); //COMPRUEBA BASE DE DATOS REDIS SI HAY UN ARCHIVO DE CONFIG
     if (config_file != null) {
       return config_file;
@@ -36,7 +36,7 @@ export async function getConfig(user) {
  * @returns The configuration filename
  */
 
-export async function addClient(user) {
+ export async function addClient(user: string) {
   const add_client_script = import.meta.url + "newclient.sh"
   console.log(add_client_script);
   exec(add_client_script, async (error, stdout, stderr) => {
@@ -67,13 +67,13 @@ export async function addClient(user) {
  * @param {string} user (client username)
  */
 
-export async function deleteConfig(user) {
-  let user_exists = check_user(user);
+export async function deleteConfig(user: string) {
+  let user_exists = await check_user(user);
   if (user_exists == true){ //COMPRUEBA EL USER
-  let number = redis_get_wgnum(user); //le da el numero del usuario en la config de wireguard que estaba en la bd
+  let number = await redis_get_wgnum(user); //le da el numero del usuario en la config de wireguard que estaba en la bd
       if (number != null) {
         await redis_revoke_wgconfig(user);
-        return await revokeeClient(number);
+        return await revokeClient(number);
       }
       else {
         console.log("No tiene numero asignado")
@@ -90,7 +90,7 @@ export async function deleteConfig(user) {
  * @param {*} number (client position in the VPN configuration)
  */
 
-export async function revokeeClient(number) {
+export async function revokeClient(number: number) {
   const revoke_client_script = import.meta.url + "revokeClient.sh";
   let command = revoke_client_script + number; //si cambiais el path para probarlo, no os olvideis del espacio final de despues de .sh
   exec(command, function callback(error, stdout, stderr) {

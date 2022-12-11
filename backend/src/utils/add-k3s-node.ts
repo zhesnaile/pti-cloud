@@ -15,7 +15,7 @@ export async function get_k3s_token() {
  * Basically, obtains a name and it is assigned to the user.
  * @returns A string with the assigned node name.
  */
-export async function get_Node_Name(user) {
+ export async function get_Node_Name(user: string) {
   let time = new Date();
   let name = user + time.getHours();
   return name;

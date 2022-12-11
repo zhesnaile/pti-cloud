@@ -33,7 +33,7 @@ const api_dir = "/api";
  * @param {string} api_dir Path these Routers should be nested to.
  * @returns {KoaRouter} new Router with nested Routers.
  */
-function init_api_router(api_routers, api_dir) {
+function init_api_router(api_routers: KoaRouter[], api_dir: string) {
     let router = new KoaRouter();
 
     api_routers.forEach((r) => {
