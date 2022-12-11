@@ -2,6 +2,17 @@
 import {exec} from "child_process" ;
 import { redis_get_wgconfig, check_user, redis_wgconfig, redis_get_wgnum, redis_revoke_wgconfig } from "../utils/access-redis.js";
 
+/**
+* This file contains all the functions that execute the scripts of Wireguard (VPN)
+*/
+
+/**
+ * Obtains the configuration filename of the user related to VPN.
+ * Checks if the user has a configuration file. If it exists then we get it from the DB, if it doesn't exist we created executing an script.
+ * @param {string} user (client username)
+ * @returns The configuration filename
+ */
+
 export async function getConfig(user) {
   let user_exists = check_user(user);
   if (user_exists == true) { //COMPRUEBA EL USER
@@ -17,6 +28,13 @@ export async function getConfig(user) {
     console.log("No existe el usuario");
   }
 }
+
+/**
+ * Creates the configuration of the user related to VPN.
+ * Executes newclient.sh script and updates de DB with the new user
+ * @param {string} user (client username)
+ * @returns The configuration filename
+ */
 
 export async function addClient(user) {
   const add_client_script = import.meta.url + "newclient.sh"
@@ -41,9 +59,14 @@ export async function addClient(user) {
     }
 
   });
-  
-
 }
+
+/**
+ * Deletes the configuration of the user related to VPN and related to the DB.
+ * Checks if the user exists. If it exists then we get the number from the DB and we delete the user's configuration
+ * @param {string} user (client username)
+ */
+
 export async function deleteConfig(user) {
   let user_exists = check_user(user);
   if (user_exists == true){ //COMPRUEBA EL USER
@@ -60,6 +83,12 @@ export async function deleteConfig(user) {
     console.log("No existe el usuario por eso no se puede borrar");
   }
 }
+
+/**
+ * Deletes the configuration of the user related to VPN.
+ * Executes revokeClient.sh script and deletes the configuration on that position
+ * @param {*} number (client position in the VPN configuration)
+ */
 
 export async function revokeeClient(number) {
   const revoke_client_script = import.meta.url + "revokeClient.sh";
