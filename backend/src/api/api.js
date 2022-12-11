@@ -18,7 +18,7 @@ const api_routers = [
     wg_api_router,
     register_api_router,
     fronthelper_api_router,
-    register_job_api_router,
+    register_task_api_router,
 ]
 
 /**
