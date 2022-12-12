@@ -3,6 +3,7 @@ import KoaRouter from "@koa/router";
 import { login_api_router } from "./endpoints/login.js";
 import { register_api_router } from "./endpoints/registerUser.js";
 import { register_node_api_router } from "./endpoints/registerNode.js"
+import { register_task_api_router } from "./endpoints/runTask.js";
 import { wg_api_router } from "./endpoints/get_wg_config.js"
 import { fronthelper_api_router } from "./endpoints/descargar.js"
 
@@ -18,6 +19,7 @@ const api_routers = [
     wg_api_router,
     register_api_router,
     fronthelper_api_router,
+    register_task_api_router,
 ]
 
 /**
@@ -32,7 +34,7 @@ const api_dir = "/api";
  * @param {string} api_dir Path these Routers should be nested to.
  * @returns {KoaRouter} new Router with nested Routers.
  */
-function init_api_router(api_routers, api_dir) {
+function init_api_router(api_routers: KoaRouter[], api_dir: string) {
     let router = new KoaRouter();
 
     api_routers.forEach((r) => {

@@ -1,7 +1,9 @@
 import KoaRouter from "@koa/router";
 import KoaBodyParser from "koa-bodyparser";
+import { ParameterizedContext, Next } from "koa";
 import cors from "@koa/cors";
 import { get_k3s_token, get_Node_Name } from "../../utils/add-k3s-node.js";
+import { redis_get_K3Sconfig } from "../../utils/access-redis.js";
 
 
 /**
@@ -14,7 +16,7 @@ import { get_k3s_token, get_Node_Name } from "../../utils/add-k3s-node.js";
  * @param {*} ctx The context of the request. Empty because we don't need any option in this GET.
  * @param {*} next
  */
-async function get_Token(ctx, next) {
+async function get_Token(ctx: ParameterizedContext, next: Next) {
   let token = await get_k3s_token();
 
   ctx.status = 200;
@@ -30,7 +32,7 @@ async function get_Token(ctx, next) {
  * @param {*} ctx The context of the request. The context passed consists in: {username} (client username)
  * @param {*} next
  */
-async function get_Name(ctx, next) {
+async function get_Name(ctx: ParameterizedContext, next: Next) {
   let user = ctx.request.body.username;
   let name = await get_Node_Name(user);
 

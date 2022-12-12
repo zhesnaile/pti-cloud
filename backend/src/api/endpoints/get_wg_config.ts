@@ -1,5 +1,6 @@
 import KoaRouter from "@koa/router";
 import KoaBodyParser from "koa-bodyparser";
+import { ParameterizedContext, Next } from "koa";
 import mime from "mime-types"
 import fs from 'fs'
 import { getConfig, deleteConfig } from "../../utils/access-wg.js";
@@ -14,7 +15,7 @@ import { getConfig, deleteConfig } from "../../utils/access-wg.js";
   * @param {*} ctx The context of the request. The context passed consists in: {username} (client username)
   * @param {*} next
   */
-async function get_wg_config(ctx, next) {
+async function get_wg_config(ctx: ParameterizedContext, next: Next) {
     ctx.status = 404;
     let user = ctx.request.body.username;
     let file_name = await getConfig(user);
@@ -37,7 +38,7 @@ async function get_wg_config(ctx, next) {
  * @param {*} ctx The context of the request. The context passed consists in: {numb} (configuration number position on the VPN)
  * @param {*} next
  */
-async function revoke_wg_config(ctx, next) {
+async function revoke_wg_config(ctx: ParameterizedContext, next: Next) {
     ctx.status = 200;
     ctx.body = "ELIMINADO";
     let number = ctx.request.body.numb; //pasar numb por el curl

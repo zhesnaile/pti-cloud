@@ -18,7 +18,7 @@ const config = {
  * Modifies a Koa instance to mount our frontends static pages to it.
  * @param {Koa} app Koa instance
  */
-function mount_frontend(app) {
+function mount_frontend(app: Koa) {
   const static_pages = new Koa();
 
   const REACT_ROUTER_PATHS = [
@@ -44,7 +44,7 @@ function mount_frontend(app) {
  * Modifies a Koa instance to add all methods from our APIs to it.
  * @param {Koa} app Koa instance
  */
-function add_api(app) {
+function add_api(app: Koa) {
   app.use(cors());
   app.use(api_router.routes()).use(api_router.allowedMethods());
 }
