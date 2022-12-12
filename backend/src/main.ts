@@ -26,6 +26,7 @@ function mount_frontend(app: Koa) {
       '/register',
       '/dashboard',
       '/registerusernode',
+      '/runjob',
     ];
 
     static_pages
