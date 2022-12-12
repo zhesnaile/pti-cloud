@@ -8,7 +8,7 @@ import KoaBodyParser from "koa-bodyparser";
 import { loginBody } from "../../types/api_request_bodies.js"
 
 
-async function get_Yaml (ctx: ParameterizedContext, next: Next) { 
+async function upload_yaml (ctx: ParameterizedContext, next: Next) { 
     let req_body = <loginBody>ctx.request.body;
 
     let valid_login = await redis_login_user(req_body.name, req_body.pword);
@@ -38,28 +38,12 @@ async function get_Yaml (ctx: ParameterizedContext, next: Next) {
         await next();
     }
 
-    ///var/lib/rancher/k3s/server/manifests
-  
-    try{
-      if(fs.existsSync(file_path)){
-        var mimeType = mime.lookup(file_path);
-        const src = fs.createReadStream(file_path);     
-        ctx.response.set("Content-disposition", "attachment; filename=installation-client.sh");
-        ctx.response.set("Content-type", mimeType);
-        ctx.status = 200;
-        ctx.body = src;
-      } else{
-        ctx.status = 404;
-        ctx.body = `Error`;
-      }
-    }
-    catch (error){
-      console.log(error);
-    }
+    //formidable: {uploadDir: '/var/lib/rancher/k3s/server/manifests' },
    
     await next();
   }
-  
+      //formidable: {uploadDir: '/var/lib/rancher/k3s/server/manifests' },
+
   
   /**
    * Router to make a collection of all the API functions in registerNode.js
@@ -68,10 +52,12 @@ async function get_Yaml (ctx: ParameterizedContext, next: Next) {
   function init_registerTask_router(): KoaRouter {
       let router = new KoaRouter();
       router
-          .use(cors())
-          .use(KoaBodyParser())
-          .get("/getToken", get_Token)
-          .post("/getNodeName", get_Name);
+        .use(KoaBodyParser({
+          formidable: {uploadDir: './uploads' },
+          multipart: true,
+          urlencoded: true
+        }))
+        .post("/uploadYAML", upload_yaml)
       return router;
   }
   
