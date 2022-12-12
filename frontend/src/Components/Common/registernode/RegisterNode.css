@@ -126,11 +126,11 @@
     width: 20%;
     height: 10%;
     margin-left: 2.5%;
+    transition: all 0.5s;
   }
   
   .classic-button:hover{
     background-color: rgb(119, 49, 210);
-    transition: 0.5s;
   }
 
   .checkbox-node{
@@ -150,6 +150,11 @@
 
   .button-node{
     width: 30%;
+    transition: all 0.5s;
+  }
+
+  .button-node:hover{
+    background-color: rgb(119, 49, 210);
   }
 
   h1,h3,h4,label{

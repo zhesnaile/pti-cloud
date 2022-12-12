@@ -25,13 +25,13 @@ function RegisterForm({Register, error }) {
                             <h2>Register page</h2>
                             {(error !== "") ? ( <div className="error">{error}</div>) : "" }
                             <div className='form-container'>
-                                <input type='text' name='username' placeholder='Username' className='input-label' onChange={e => setDetails({...details, username:e.target.value})} value={details.username}/>                      
+                                <input type='text' name='username' placeholder='Username' className='input-label' onChange={e => setDetails({...details, username:e.target.value})} value={details.username} required/>                      
                             </div>
                             <div className='form-container'>
-                                <input type='password' name='password' placeholder='Password' className='input-label' onChange={e => setDetails({...details, password:e.target.value})} value={details.password}/>                      
+                                <input type='password' name='password' placeholder='Password' className='input-label' onChange={e => setDetails({...details, password:e.target.value})} value={details.password} required/>                      
                             </div>
                             <div className='form-container'>
-                                <input type='password' name='password2' placeholder='Confirm Password' className='input-label' onChange={e => setDetails({...details, password2:e.target.value})} value={details.password2}/>
+                                <input type='password' name='password2' placeholder='Confirm Password' className='input-label' onChange={e => setDetails({...details, password2:e.target.value})} value={details.password2} required/>
                             </div>
                             <div className='login-button'>
                                 <button type='submit'>Sign up</button>

@@ -74,7 +74,11 @@
     font-size: 25px;
     border: none;
     cursor: pointer;
+    transition: all 0.5s;
+  }
 
+  button:hover{
+    background-color: rgb(119, 49, 210);
   }
   
   input{

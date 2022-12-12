@@ -152,10 +152,34 @@
     width: 30%;
   }
 
+  .button-job{
+    width: 30%;
+    font-family: 'Poppins', sans-serif;
+    transition: all 0.5s;
+  }
+  .button-job:hover{
+    background-color: rgb(119, 49, 210);
+  }
+
   h1,h3,h4,label{
     color: white;
+    font-family: 'Poppins', sans-serif;
   }
 
   .a-node{
     color: rgb(49, 222, 225);
+  }
+
+  .a-test{
+    color: rgb(49, 222, 225);
+    display: inline-block;
+    transition: .3s;
+    font-weight:bold;
+    text-decoration:none;
+    margin-right: 3px;
+    font-family: 'Poppins', sans-serif;
+  }
+  .a-test:hover {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
   }
