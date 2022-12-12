@@ -1,6 +1,49 @@
 body {
     background-color: #373737
   }
+
+a{
+  margin-left: 10px;
+  color: rgb(49, 222, 225);
+}
+
+button{
+  width: 380px;
+  height: 50px;
+  border-radius: 10px;
+  background-color: rgb(139, 82, 214);
+  color: white;
+  font-size: 25px;
+  margin-top: -20px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+
+button:hover{
+  background-color: rgb(119, 49, 210);
+}
+
+input{
+  width: 300px;
+  height: 50px;
+  border-radius: 10px;
+  background-color: #ffff;
+  border: 1px solid lightgrey;
+  border-bottom-width: 1px;
+  margin-bottom: 20px;
+  outline-color: rgb(139, 82, 214);
+}
+
+input:focus{
+  border-color: rgb(139, 82, 214);
+}
+
+
+h1,h2,h3,h4,p,label{
+  color: white;
+}
+
 .separation{
   margin: 2.5%;
 }

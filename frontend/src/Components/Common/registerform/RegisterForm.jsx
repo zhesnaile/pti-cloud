@@ -20,7 +20,6 @@ function RegisterForm({Register, error }) {
                         <div className='logo'>                 
                             <img src={lock} alt='lock' className='lock-logo'/>                          
                         </div>
-
                         <div>
                             <h2>Register page</h2>
                             {(error !== "") ? ( <div className="error">{error}</div>) : "" }
@@ -33,8 +32,8 @@ function RegisterForm({Register, error }) {
                             <div className='form-container'>
                                 <input type='password' name='password2' placeholder='Confirm Password' className='input-label' onChange={e => setDetails({...details, password2:e.target.value})} value={details.password2} required/>
                             </div>
-                            <div className='login-button'>
-                                <button type='submit'>Sign up</button>
+                            <div>
+                                <br/><button type='submit'>Sign up</button>
                             </div>
                             <p className='link-reg'> Already a member?
                                 <Link className='link-to' to= '/login'>Login</Link>

@@ -12,17 +12,17 @@ function UserMenu() {
                     <div className='content-menu'>
                         <h1>USER MENU</h1>
                         <div className='row'>
-                            <div className='column'>
+                            <div className='column-menu'>
                                 <h3>Register node</h3>
                                 <p className='p-menu'>This request will give a K3S token to the user in order to successfully register a node in the cluster.</p>
                                 <button className='button-menu' type='submit' onClick={() => navigate('/registerusernode')}>Register</button>
                             </div>
-                            <div className='column'>
+                            <div className='column-menu'>
                                 <h3>Run job</h3>
                                 <p className='p-menu'>This functionality will allow requesting resources to be able to run docker containers in the cluster.</p>
                                 <button className='button-menu' type='submit' onClick={() => navigate('/runjob')}>Run</button>
                             </div>
-                            <div className='column'>
+                            <div className='column-menu'>
                                 <h3>Monitoring</h3>
                                 <p className='p-menu'>Page to monitor services</p>
                                 <br/><br/>
@@ -33,8 +33,6 @@ function UserMenu() {
                 </div>
             </div> 
         </form>
-        
-        
     )
 
 }

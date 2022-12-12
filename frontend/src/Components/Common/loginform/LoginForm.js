@@ -10,7 +10,6 @@ function LoginForm({ Login, error }) {
 
     const submitHandler = e => {
         e.preventDefault();
-
         Login(details);
     }
 
@@ -21,7 +20,7 @@ function LoginForm({ Login, error }) {
                 <div className='sub-main'>
                     <div>
                         <div className='new-logo'>
-                            <img src={logo2} alt='mylogo' className='logo-test'/>
+                            <img src={logo2} alt='mylogo' className='logo-css'/>
                         </div>
                         <div>
                             <h2>Login page</h2>
@@ -32,8 +31,8 @@ function LoginForm({ Login, error }) {
                             <div className='form-container'>
                                 <input type='password' name='password' placeholder='Password' className='input-label' onChange={e => setDetails({...details, password:e.target.value})} value={details.password}required/>
                             </div>
-                            <div className='login-button'>
-                                <button type='submit'>Login</button>
+                            <div>
+                                <br/><button type='submit'>Login</button>
                             </div>
                             <p className='link-reg'> New user?
                                 <Link className='link-to' to= '/register'>Sign up</Link>

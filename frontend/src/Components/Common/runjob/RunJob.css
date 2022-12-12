@@ -1,185 +1,71 @@
 .main{
-    text-align: center;
-    justify-content: center;
-    display: flex;
-    padding-top: 70px;
-    padding-bottom: 90px;
-    background-color: #373737;
-  }
+  text-align: center;
+  justify-content: center;
+  display: flex;
+  padding-top: 70px;
+  padding-bottom: 90px;
+  background-color: #373737;
+}
+
+.sub-main-menu{
+  display: flex;
+  justify-content: center;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  height: 550px;
+  width: 75%;
+  padding-top: 30px;
+  border-radius: 10px;
+  background-color: #212121;
+}
+
+.content-menu{
+  width: 75%;
+  /*position: relative;*/
+}
+
+.node-row{
+  height: 70%;
+  text-align: left;
+  width: 100%;
+}
+
+.row > *{
+  flex-basis: 100%;
   
-  .sub-main-menu{
-    display: flex;
-    justify-content: center;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    height: 550px;
-    width: 75%;
-    padding-top: 30px;
-    border-radius: 10px;
-    background-color: #212121;
-  }
-  
-  .content-menu{
-    width: 75%;
-    /*position: relative;*/
-  }
+}
+.h4-node{
+  margin-left: 8%;
+}
 
-  .bot-cont{
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin-bottom: 5%;
-    
-  }
+.button-job{
+  width: 30%;
+  font-family: 'Poppins', sans-serif;
+  transition: all 0.5s;
+}
+.button-job:hover{
+  background-color: rgb(119, 49, 210);
+}
 
-  .node-row{
-    height: 70%;
-    text-align: left;
-    width: 100%;
-  }
- 
-  .row > *{
-    flex-basis: 100%;
-    
-  }
-  .h4-node{
-    margin-left: 8%;
-  }
-  .column{
-    float: left;
-    width: 33.3%;
-    border-radius: 10px;
-    margin: 2%;
-    position: relative;
-    height: 90%;
-    border: 5px solid rgb(139, 82, 214);
-  }
+h1,h3,h4,label{
+  color: white;
+  font-family: 'Poppins', sans-serif;
+}
 
-  .column:hover{
-    background-color: rgba(17, 17, 17, 0.476);
-    transition: 0.5s;
-  }
-/*
-  .row:after {
-    content: "";
-    display: table;
-    clear: both;
-  }*/
+.a-node{
+  color: rgb(49, 222, 225);
+}
 
-  .logo{
-    padding-top: 20px;
-    justify-content: center;
-    display: flex;
-    margin-bottom: 30px;
-  }
-  
-  .logo-container{
-    align-items: center;
-    display: flex;
-    justify-content: center;
-    height: 120px;
-    width: 120px;
-  }
-  
-  .logo-project{
-    height: 300px;
-    width: 500px;
-  }
-  
-  .p-menu{
-    padding: 5%;
-  }
-  
-  .button-menu{
-    width: 80%;
-    height: 15%;
-    border-radius: 10px;
-    background-color: rgb(139, 82, 214);
-    color: white;
-    font-size: 25px;
-    border: none;
-    cursor: pointer;
-    margin-top: 30%;
-  }
+.a-test{
+  color: rgb(49, 222, 225);
+  display: inline-block;
+  transition: .3s;
+  font-weight:bold;
+  text-decoration:none;
+  margin-right: 3px;
+  font-family: 'Poppins', sans-serif;
+}
 
-  .button-menu-monitor{
-    width: 80%;
-    height: 15%;
-    border-radius: 10px;
-    background-color: rgb(139, 82, 214);
-    color: white;
-    font-size: 25px;
-    border: none;
-    cursor: pointer;
-    margin-top: 54%;
-  }
-
-  .button-menu:hover{
-    background-color: rgb(119, 49, 210);
-  }
-  
-  .button-menu-monitor:hover{
-    background-color: rgb(119, 49, 210);
-  }
-
-  .classic-button{
-    width: 20%;
-    height: 10%;
-    margin-left: 2.5%;
-  }
-  
-  .classic-button:hover{
-    background-color: rgb(119, 49, 210);
-    transition: 0.5s;
-  }
-
-  .checkbox-node{
-    cursor: pointer;
-    width: 15px;
-    height: 15px;
-    margin-left: 2%;
-  }
-  
-  .input-node{
-    width: 20%;
-    height: 20px;
-    margin-left: 2%;
-    border-radius: 0.5%;
-    text-align: center;
-  }
-
-  .button-node{
-    width: 30%;
-  }
-
-  .button-job{
-    width: 30%;
-    font-family: 'Poppins', sans-serif;
-    transition: all 0.5s;
-  }
-  .button-job:hover{
-    background-color: rgb(119, 49, 210);
-  }
-
-  h1,h3,h4,label{
-    color: white;
-    font-family: 'Poppins', sans-serif;
-  }
-
-  .a-node{
-    color: rgb(49, 222, 225);
-  }
-
-  .a-test{
-    color: rgb(49, 222, 225);
-    display: inline-block;
-    transition: .3s;
-    font-weight:bold;
-    text-decoration:none;
-    margin-right: 3px;
-    font-family: 'Poppins', sans-serif;
-  }
-  .a-test:hover {
-    -webkit-transform: scale(1.1);
-    transform: scale(1.1);
-  }
+.a-test:hover {
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
+}

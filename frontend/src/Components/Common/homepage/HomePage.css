@@ -1,109 +1,30 @@
 .main{
-    text-align: center;
-    justify-content: center;
-    display: flex;
-    padding-top: 70px;
-    padding-bottom: 90px;
-    background-color: #373737;
-  }
-  
-  .sub-main{
-    display: flex;
-    justify-content: center;
-    height: 550px;
-    width: 35%;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    padding-top: 30px;
-    border-radius: 10px;
-    background-color: #212121;
-  }
-  
-  .logo{
-    padding-top: 20px;
-    justify-content: center;
-    display: flex;
-    margin-bottom: 30px;
-  }
-  
-  .logo-container{
-    align-items: center;
-    display: flex;
-    justify-content: center;
-    height: 120px;
-    width: 120px;
-  }
-  
-  .logo-project{
-    height: 300px;
-    width: 500px;
-  }
-  
-  
-  .input-label{
-    padding-left: 20px;
-    font-size: 20px;
-  }
-  
-  .second-input{
-    padding-top: 20px;
-  }
-  
-  .login-button{
-    padding-top: 25px;
-  }
-  
-  .link-reg{
-    font-size: 20px;
-  }
+  text-align: center;
+  justify-content: center;
+  display: flex;
+  padding-top: 70px;
+  padding-bottom: 90px;
+  background-color: #373737;
+}
 
-  .button-home{
-    margin-top: 3%;
-    margin-bottom: 3%;
-    transition: all 0.5s;
-  }
-  .button-home:hover{
-    background-color: rgb(119, 49, 210);
-  }
-  
-  a{
-    margin-left: 10px;
-    color: blue;
-  }
-  
-  button{
-    width: 380px;
-    height: 50px;
-    border-radius: 10px;
-    background-color: rgb(139, 82, 214);
-    color: white;
-    font-size: 25px;
-    border: none;
-    cursor: pointer;
-  }
-  
-  input{
-    width: 300px;
-    height: 50px;
-    border-radius: 10px;
-    background-color: #ffff;
-    border: 1px solid lightgrey;
-    border-bottom-width: 1px;
-    margin-bottom: 20px;
-    outline-color: rgb(139, 82, 214);
-    
-  }
-  
-  input:focus{
-    border-color: rgb(139, 82, 214);
-  }
+.sub-main{
+  display: flex;
+  justify-content: center;
+  height: 550px;
+  width: 35%;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  padding-top: 30px;
+  border-radius: 10px;
+  background-color: #212121;
+}
 
-  /* per fer que la label al ser seleccionada canvii de color
-.first-input:focus-within label {
-    color:rgb(139, 82, 214);
-  }
-  */
-.error{
-  color: red;
+.button-home{
+  margin-top: 3%;
+  margin-bottom: 3%;
+  transition: all 0.5s;
+}
+.button-home:hover{
+  background-color: rgb(119, 49, 210);
 }
 
 .kfc-logo{
@@ -111,8 +32,4 @@
   height: 300px;
   margin-bottom: -30px;
   margin-top: -30px;
-}
-
-h1{
-  color: white;
 }
