@@ -7,115 +7,13 @@
     background-color: #373737;
   }
   
-  .sub-main-menu{
+  .sub-main-error{
     display: flex;
     justify-content: center;
-    height: 550px;
-    width: 75%;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    height: 400px;
+    width: 40%;
     padding-top: 30px;
     border-radius: 10px;
-    background-color: white;
-  }
-  
-  .content-menu{
-    width: 75%;
-    /*position: relative;*/
-  }
-
-  .bot-cont{
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin-bottom: 5%;
-    
-  }
-
-  .row{
-    display: flex;
-    height: 70%;
-    width: 100%;
-    
-  }
-
-  .row > *{
-    flex-basis: 100%;
-    
-  }
-
-  .column{
-    float: left;
-    width: 33.3%;
-    border-radius: 10px;
-    margin: 2%;
-    position: relative;
-    height: 90%;
-    border: 5px solid rgb(139, 82, 214);
-  }
-
-  .column:hover{
-    background-color: rgba(159, 159, 159, 0.452);
-    transition: 0.5s;
-  }
-/*
-  .row:after {
-    content: "";
-    display: table;
-    clear: both;
-  }*/
-
-  .logo{
-    padding-top: 20px;
-    justify-content: center;
-    display: flex;
-    margin-bottom: 30px;
-  }
-  
-  .logo-container{
-    align-items: center;
-    display: flex;
-    justify-content: center;
-    height: 120px;
-    width: 120px;
-  }
-  
-  .logo-project{
-    height: 300px;
-    width: 500px;
-  }
-  
-  .p-menu{
-    padding: 5%;
-  }
-  
-  .button-menu{
-    width: 80%;
-    height: 15%;
-    border-radius: 10px;
-    background-color: rgb(139, 82, 214);
-    color: white;
-    font-size: 25px;
-    border: none;
-    cursor: pointer;
-    margin-top: 30%;
-  }
-
-  .button-menu-monitor{
-    width: 80%;
-    height: 15%;
-    border-radius: 10px;
-    background-color: rgb(139, 82, 214);
-    color: white;
-    font-size: 25px;
-    border: none;
-    cursor: pointer;
-    margin-top: 54%;
-  }
-
-  .button-menu:hover{
-    background-color: rgb(119, 49, 210);
-  }
-  
-  .button-menu-monitor:hover{
-    background-color: rgb(119, 49, 210);
+    background-color: #212121;
   }

@@ -41,6 +41,7 @@ function mount_frontend(app: Koa) {
       '/register',
       '/dashboard',
       '/registerusernode',
+      '/runjob',
     ];
 
     static_pages
@@ -51,7 +52,6 @@ function mount_frontend(app: Koa) {
         await next();
       })
       .use(serve("../frontend/build"));
-
   app.use(mount('/', static_pages));
 }
 

@@ -20,24 +20,27 @@ import cors from "@koa/cors";
 async function getScript(ctx: ParameterizedContext, next: Next){
   const __dirname = path.resolve();
   var file_path = path.join(__dirname, 'public', 'installation-client.sh');
-
   try{
     if(fs.existsSync(file_path)){
       var mimeType = mime.lookup(file_path);
-      const src = fs.createReadStream(file_path);     
-      ctx.response.set("Content-disposition", "attachment; filename=installation-client.sh");
-      ctx.response.set("Content-type", mimeType);
-      ctx.status = 200;
-      ctx.body = src;
-    } else{
-      ctx.status = 404;
-      ctx.body = `Error`;
-    }
-  }
-  catch (error){
+      if(mimeType === false){
+        ctx.status = 404;
+        ctx.body = `Error mimeType`;
+      } else {
+        const src = fs.createReadStream(file_path);     
+        ctx.response.set("Content-disposition", "attachment; filename=installation-client.sh");
+        ctx.response.set("Content-type", mimeType);
+        ctx.status = 200;
+        ctx.body = src;
+        }  
+      }
+      else {
+        ctx.status = 404;
+        ctx.body = `Error`;
+      }
+  } catch (error){
     console.log(error);
   }
- 
   await next();
   }
 
