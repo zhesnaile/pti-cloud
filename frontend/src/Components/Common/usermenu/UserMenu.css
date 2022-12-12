@@ -47,6 +47,7 @@
 
 .column-menu:hover{
   background-color: rgba(17, 17, 17, 0.476);
+  transform: scale(1.02); 
 }
 
 .p-menu{

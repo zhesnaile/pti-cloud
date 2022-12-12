@@ -17,15 +17,12 @@ import {
   useNavigate,
 } from 'react-router-dom';
 
-
-
 function App() {
 
   const navigate = useNavigate();
   const [user, setUser] = useState({username:"", password:""});
   const [error, setError] = useState(""); //catch if details are correct
   const [auth, setAuth] = useState(false); 
-
 
   const Login = async details => {
     console.log(details);
@@ -118,15 +115,7 @@ function App() {
         </Routes>
         </div>
       </div>
-      
   );
 }
 
 export default App;
-
-
-
-/* Comprovar path actual
-    const ddd = window.location.href;
-    console.log(ddd);
-*/
