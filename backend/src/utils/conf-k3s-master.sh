@@ -4,7 +4,7 @@
 curl https://releases.rancher.com/install-docker/20.10.sh | sh
 
 # Instalamos k3s
-curl -sfL https://get.k3s.io | sh -s - --docker
+curl -sfL https://get.k3s.io | sh -
 
 #inicializamos el nodo master
 sudo k3s server
