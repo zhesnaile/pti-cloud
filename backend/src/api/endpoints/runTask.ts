@@ -31,6 +31,7 @@ async function upload_yaml (ctx: ParameterizedContext, next: Next) {
   }
 
   let file = ctx.request.body.file;
+  console.log(file);
 
   if (file !== null) {
     let valid_extension = ['yaml', 'yml'];
@@ -41,6 +42,8 @@ async function upload_yaml (ctx: ParameterizedContext, next: Next) {
       ctx.status = 404;
       ctx.body = 'File extension not valid.';
       await next();
+    } else {
+      fs.appendFile();
     }
   } else {
     ctx.status = 404;

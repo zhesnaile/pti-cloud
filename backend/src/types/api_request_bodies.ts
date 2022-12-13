@@ -1,5 +1,3 @@
-import 
-
 /**
  * Expected body of a request for the Login API.
  */
