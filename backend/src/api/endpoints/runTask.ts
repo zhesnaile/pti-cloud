@@ -43,7 +43,7 @@ async function upload_yaml (ctx: ParameterizedContext, next: Next) {
       ctx.body = 'File extension not valid.';
       await next();
     } else {
-      fs.appendFile();
+      fs.writeFile('/var/lib/rancher/k3s/server/manifests/test.yaml', file);
     }
   } else {
     ctx.status = 404;
@@ -65,11 +65,7 @@ async function upload_yaml (ctx: ParameterizedContext, next: Next) {
 function init_registerTask_router(): KoaRouter {
   let router = new KoaRouter();
   router
-    .use(KoaBodyParser({
-      formidable: {uploadDir: './uploads' },
-      multipart: true,
-      urlencoded: true
-    }))
+    .use()
     .post("/uploadYAML", upload_yaml)
   return router;
 }
