@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import './../registerform/RegisterForm.css';
-import lock from './../../Pics/lock.png';
+import lock from './../../Pics/wlock.png';
 import { Link } from 'react-router-dom';
 
 function RegisterForm({Register, error }) {
@@ -20,24 +20,23 @@ function RegisterForm({Register, error }) {
                         <div className='logo'>                 
                             <img src={lock} alt='lock' className='lock-logo'/>                          
                         </div>
-
                         <div>
                             <h2>Register page</h2>
                             {(error !== "") ? ( <div className="error">{error}</div>) : "" }
                             <div className='form-container'>
-                                <input type='text' name='username' placeholder='Username' className='input-label' onChange={e => setDetails({...details, username:e.target.value})} value={details.username}/>                      
+                                <input type='text' name='username' placeholder='Username' className='input-label' onChange={e => setDetails({...details, username:e.target.value})} value={details.username} required/>                      
                             </div>
                             <div className='form-container'>
-                                <input type='password' name='password' placeholder='Password' className='input-label' onChange={e => setDetails({...details, password:e.target.value})} value={details.password}/>                      
+                                <input type='password' name='password' placeholder='Password' className='input-label' onChange={e => setDetails({...details, password:e.target.value})} value={details.password} required/>                      
                             </div>
                             <div className='form-container'>
-                                <input type='password' name='password2' placeholder='Confirm Password' className='input-label' onChange={e => setDetails({...details, password2:e.target.value})} value={details.password2}/>
+                                <input type='password' name='password2' placeholder='Confirm Password' className='input-label' onChange={e => setDetails({...details, password2:e.target.value})} value={details.password2} required/>
                             </div>
-                            <div className='login-button'>
-                                <button type='submit'>Sign up</button>
+                            <div>
+                                <br/><button type='submit'>Sign up</button>
                             </div>
                             <p className='link-reg'> Already a member?
-                                <Link to= '/login'>Login</Link>
+                                <Link className='link-to' to= '/login'>Login</Link>
                             </p>
                         </div>
                     </div>

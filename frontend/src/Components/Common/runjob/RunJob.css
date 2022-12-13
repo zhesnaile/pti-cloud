@@ -29,36 +29,26 @@
   width: 100%;
 }
 
-.node-row > *{
+.row > *{
   flex-basis: 100%;
+  
 }
-
 .h4-node{
   margin-left: 8%;
 }
 
-.checkbox-node{
-  cursor: pointer;
-  width: 15px;
-  height: 15px;
-  margin-left: 2%;
-}
-
-.input-node{
-  width: 20%;
-  height: 20px;
-  margin-left: 2%;
-  border-radius: 0.5%;
-  text-align: center;
-}
-
-.button-node{
+.button-job{
   width: 30%;
+  font-family: 'Poppins', sans-serif;
   transition: all 0.5s;
 }
-
-.button-node:hover{
+.button-job:hover{
   background-color: rgb(119, 49, 210);
+}
+
+h1,h3,h4,label{
+  color: white;
+  font-family: 'Poppins', sans-serif;
 }
 
 .a-node{

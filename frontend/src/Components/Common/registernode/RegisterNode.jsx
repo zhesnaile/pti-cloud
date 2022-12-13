@@ -37,14 +37,16 @@ function RegisterNode({ Profile }) {
     return (
         <form>
             <div className='main'>
+                
                 <div className='sub-main-menu'>
+                    
                     <div className='content-menu'>
                         <h1>REGISTER NODE</h1>
                         <div className='node-row'>
                             <h3>Follow the instructions below to be able to register a node:</h3>
                             <div>
                                 <h4> &gt; Manually download the installer.</h4>
-                                <a href='/api/getscript'>Download</a>
+                                <a className='a-test' href='/api/getscript'>Download</a>
                                 <h4> &gt; To run this script, you must follow the next steps on your terminal:</h4>
                                 <p className='h4-node'>1. Enter the directory where you have downloaded the script</p>
                                 <p className='h4-node'>2. Modify the file permissions: chmod +x ./installation-client.sh</p>
@@ -54,16 +56,14 @@ function RegisterNode({ Profile }) {
                                 <h3>The following steps are optional (after installation):</h3> 
                                 <label> &gt; Get the hidden K3S token
                                     <input className='checkbox-node' type="checkbox" onChange={handle_K3S} checked={K3S_flag}/>
-                                    <input className='input-node' onChange={K3S_change} value={K3S_flag ? K3S_token || '' : '?'}/>                                    
+                                    <input className='input-node' onChange={K3S_change} value={K3S_flag ? K3S_token || '' : '?'} readOnly/>                                    
                                 </label>  
-                            </div>
-                            
+                            </div>   
                         </div>
                         <button className='button-node' type='submit' onClick={() => navigate('/dashboard')}>Back to Menu</button>
                     </div>
                 </div>
-            </div>
-            
+            </div>   
         </form>
         
         

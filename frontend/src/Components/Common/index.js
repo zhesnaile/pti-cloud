@@ -6,6 +6,7 @@ import UserMenu from './usermenu'
 import ErrorPage from './errorpage';
 import RegisterNode from './registernode';
 import HomePage from './homepage';
+import RunJob from './runjob';
 
 export {
     Header,
@@ -15,5 +16,6 @@ export {
     UserMenu,
     ErrorPage,
     RegisterNode,
-    HomePage
+    HomePage,
+    RunJob
 }
