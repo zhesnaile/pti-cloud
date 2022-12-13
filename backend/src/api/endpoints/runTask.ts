@@ -5,7 +5,8 @@ import { redis_login_user } from "../../utils/access-redis.js";
 import { ParameterizedContext, Next } from "koa";
 import KoaRouter from "@koa/router";
 import KoaBodyParser from "koa-bodyparser";
-import { loginBody } from "../../types/api_request_bodies.js"
+import { runtaskBody } from "../../types/api_request_bodies.js"
+import fs from 'fs';
 
 /**
  * This file contains all the functions related to executing a service in the K3s cluster.
@@ -18,7 +19,7 @@ import { loginBody } from "../../types/api_request_bodies.js"
  * @param {*} next
  */
 async function upload_yaml (ctx: ParameterizedContext, next: Next) {
-  //let req_body = <loginBody>ctx.request.body;
+  let req_body = <runtaskBody>ctx.request.body;
   let valid_login = await redis_login_user(ctx.request.body.name, ctx.request.body.pword);
   if (valid_login === true) {
     ctx.status = 200;
@@ -46,6 +47,7 @@ async function upload_yaml (ctx: ParameterizedContext, next: Next) {
     ctx.body = 'Error.';
     await next();
   }
+
 
   //formidable: {uploadDir: '/var/lib/rancher/k3s/server/manifests' },
    
