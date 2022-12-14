@@ -17,9 +17,9 @@ const config = {
     enabled: false,
     port: 3001,
     options :{
-      cert: fs.readFileSync(path.resolve("./certs/cert.pem"), 'utf-8').toString(),
-      key : fs.readFileSync(path.resolve("./certs/key.pem"), 'utf-8').toString(),
-      //passphrase: "huevo"
+      // cert: fs.readFileSync(path.resolve("./certs/cert.pem"), 'utf-8').toString(),
+      // key : fs.readFileSync(path.resolve("./certs/key.pem"), 'utf-8').toString(),
+      // passphrase: "huevo"
     },
   },
   http : {
@@ -78,11 +78,13 @@ function main() {
   if (config.https.enabled) {
     const https_server = https.createServer(config.https.options, koa_callback);
     https_server.listen(config.https.port);
+    console.log(`HTTPS: listening at port ${config.https.port}`);
   }
 
   if (config.http.enabled) {
     const http_server = http.createServer(koa_callback);
     http_server.listen(config.http.port);
+    console.log(`HTTP: listening at port ${config.http.port}`);
   }
 
 }
