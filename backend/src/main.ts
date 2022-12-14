@@ -17,8 +17,8 @@ const config = {
     enabled: false,
     port: 3001,
     options :{
-      cert: fs.readFileSync(path.resolve("./certs/cert.pem"), 'utf-8').toString(),
-      key : fs.readFileSync(path.resolve("./certs/key.pem"), 'utf-8').toString(),
+      //cert: fs.readFileSync(path.resolve("./certs/cert.pem"), 'utf-8').toString(),
+      //key : fs.readFileSync(path.resolve("./certs/key.pem"), 'utf-8').toString(),
       //passphrase: "huevo"
     },
   },
