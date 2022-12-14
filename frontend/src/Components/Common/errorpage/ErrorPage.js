@@ -14,10 +14,11 @@ function ErrorPage( Logout ) {
     return (
         <form onSubmit={submitHandler}>
             <div className='main'>
-                <div className='sub-main'>
+                <div className='sub-main-error'>
                     <div>
                         <h1 >You don't have enough permissions</h1>
-                        <button type='submit' onClick={() => navigate('/login')}>Back to login page</button>
+                        <br/><br/><br/><br/><br/>
+                        <button type='submit' onClick={() => navigate('/')}>Back to the home page</button>
                     </div>
                 </div>  
             

@@ -6,8 +6,9 @@ import RegisterForm from './Components/Common/registerform/RegisterForm.jsx';
 import ErrorPage from './Components/Common/errorpage/ErrorPage.js';
 import ProtectedRoutes from './Components/ProtectedRoutes.jsx';
 import ProtectedRegNode from './Components/ProtectedRegNode.jsx';
+import ProtectedRunJob from './Components/ProtectedRunJob.jsx';
 import HomePage from './Components/Common/homepage/HomePage.jsx';
-
+import './App.css';
 
 
 import {
@@ -16,15 +17,12 @@ import {
   useNavigate,
 } from 'react-router-dom';
 
-
-
 function App() {
 
   const navigate = useNavigate();
   const [user, setUser] = useState({username:"", password:""});
   const [error, setError] = useState(""); //catch if details are correct
   const [auth, setAuth] = useState(false); 
-
 
   const Login = async details => {
     console.log(details);
@@ -104,24 +102,20 @@ function App() {
 
   return (
       <div className="App">
-        <Header logout={Logout}/>
+        <Header logout={Logout} Auth={auth}/>
+        <div className='separation'>
         <Routes>
           <Route path='/' element={<HomePage />}/>
           <Route path='/login' element={<LoginForm Login={Login} error={error}/>}/>
           <Route path='/register' element={<RegisterForm Register={Register} error={error}/>}/>
           <Route path='/dashboard' element={<ProtectedRoutes Component={'UserMenu'} Auth={auth} Logout={Logout}/>} />
           <Route path='/registerusernode' element={<ProtectedRegNode Component={'RegisterNode'} Profile={user.username} Auth={auth} Logout={Logout}/>} />
+          <Route path='/runjob' element={<ProtectedRunJob Component={'RunJob'} Profile={user.username} Auth={auth} Logout={Logout}/>} />
           <Route path='*' element={<ErrorPage Logout={Logout}/>} />
         </Routes>
+        </div>
       </div>
   );
 }
 
 export default App;
-
-
-
-/* Comprovar path actual
-    const ddd = window.location.href;
-    console.log(ddd);
-*/
