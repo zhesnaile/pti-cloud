@@ -4,7 +4,7 @@
 import { redis_login_user } from "../../utils/access-redis.js";
 import { ParameterizedContext, Next } from "koa";
 import KoaRouter from "@koa/router";
-import KoaBodyParser from "koa-bodyparser";
+import multer from "@koa/multer"
 import { runtaskBody } from "../../types/api_request_bodies.js"
 import fs from 'fs';
 
@@ -30,12 +30,12 @@ async function upload_yaml (ctx: ParameterizedContext, next: Next) {
     await next();
   }
 
-  let file = ctx.request.body.file;
+  let file = ctx.request.file;
   console.log(file);
 
   if (file !== null) {
     let valid_extension = ['yaml', 'yml'];
-    let file_name = file.name;
+    let file_name = file.originalname;
     let file_extension = file_name.split('.').pop();
     let valid = valid_extension.includes(file_extension);
     if (valid === false) {
@@ -43,17 +43,22 @@ async function upload_yaml (ctx: ParameterizedContext, next: Next) {
       ctx.body = 'File extension not valid.';
       await next();
     } else {
-      fs.writeFile('/var/lib/rancher/k3s/server/manifests/test.yaml', file);
+      fs.writeFile('/var/lib/rancher/k3s/server/manifests/test.yaml', file.buffer, (err) => {
+      if (err)
+        console.log(err);
+      else {
+        console.log("File written successfully\n");
+        console.log("The written has the following contents:");
+        console.log(fs.readFileSync('/var/lib/rancher/k3s/server/manifests/test.yaml', "utf8"));
+      }
+    });
+      
     }
   } else {
     ctx.status = 404;
     ctx.body = 'Error.';
     await next();
-  }
-
-
-  //formidable: {uploadDir: '/var/lib/rancher/k3s/server/manifests' },
-   
+  }   
   await next();
 }
 
@@ -65,8 +70,7 @@ async function upload_yaml (ctx: ParameterizedContext, next: Next) {
 function init_registerTask_router(): KoaRouter {
   let router = new KoaRouter();
   router
-    .use()
-    .post("/uploadYAML", upload_yaml)
+    .post("/uploadYAML", multer().single('kfc'), upload_yaml)
   return router;
 }
   
