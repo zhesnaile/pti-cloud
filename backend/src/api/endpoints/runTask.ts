@@ -45,12 +45,12 @@ async function upload_yaml (ctx: ParameterizedContext, next: Next) {
     } else {
       fs.writeFile('/var/lib/rancher/k3s/server/manifests/test.yaml', file.buffer, (err) => {
       if (err)
-        console.log(err);
-      else {
-        console.log("File written successfully\n");
-        console.log("The written has the following contents:");
-        console.log(fs.readFileSync('/var/lib/rancher/k3s/server/manifests/test.yaml', "utf8"));
-      }
+        console.log(err);
+      else {
+        console.log("File written successfully\n");
+        console.log("The written has the following contents:");
+        console.log(fs.readFileSync('/var/lib/rancher/k3s/server/manifests/test.yaml', "utf8"));
+      }
     });
       
     }
