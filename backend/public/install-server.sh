@@ -1,9 +1,13 @@
 #!/bin/bash
 
-# Instalamos k3s
+# Install redis
+sudo apt-get install redis
+npm i redis
+
+# Install K3s
 curl -sfL https://get.k3s.io | sh -
 
-#inicializamos el nodo master
+# Inicializamos el nodo master
 sudo k3s server
 
 # Comprobamos que el nodo funciona
@@ -13,5 +17,15 @@ sudo k3s kubectl get node
 sudo chmod go+rx /var/lib/rancher/k3s/server
 sudo chmod go+rx /var/lib/rancher/k3s/server/node-token
 
-# En los worker nodes instalamos k3s y luego inicialzamos el nodo
-# sudo k3s agent --server ${URL}:6443 --token ${NODE_TOKEN} --node-name ${NODENAME}
+# Install dependencies of the project
+npm install
+
+# Install node version 16
+
+
+# Compile the project
+npx tsc
+
+# Run the server
+npm run start
+
