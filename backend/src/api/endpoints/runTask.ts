@@ -24,41 +24,37 @@ async function upload_yaml (ctx: ParameterizedContext, next: Next) {
   if (valid_login === true) {
     ctx.status = 200;
     ctx.body = `Welcome back, ${ctx.request.body.name}.`;
+      let file = ctx.request.file;
+      console.log(file);
+
+      if (file !== null) {
+        let valid_extension = ['yaml', 'yml'];
+        let file_name = file.originalname;
+        let file_extension = file_name.split('.').pop();
+        let valid = valid_extension.includes(file_extension);
+        if (valid === false) {
+          ctx.status = 404;
+          ctx.body = 'File extension not valid.';
+        } else {
+          fs.writeFile('/var/lib/rancher/k3s/server/manifests/test.yaml', file.buffer, (err) => {
+          if (err)
+            console.log(err);
+          else {
+            console.log("File written successfully\n");
+            console.log("The written has the following contents:");
+            console.log(fs.readFileSync('/var/lib/rancher/k3s/server/manifests/test.yaml', "utf8"));
+          }
+        });
+          
+        }
+      } else {
+        ctx.status = 404;
+        ctx.body = 'Error.';
+      }   
   } else {
     ctx.status = 404;
     ctx.body = `Login error.`;
-    await next();
   }
-
-  let file = ctx.request.file;
-  console.log(file);
-
-  if (file !== null) {
-    let valid_extension = ['yaml', 'yml'];
-    let file_name = file.originalname;
-    let file_extension = file_name.split('.').pop();
-    let valid = valid_extension.includes(file_extension);
-    if (valid === false) {
-      ctx.status = 404;
-      ctx.body = 'File extension not valid.';
-      await next();
-    } else {
-      fs.writeFile('/var/lib/rancher/k3s/server/manifests/test.yaml', file.buffer, (err) => {
-      if (err)
-        console.log(err);
-      else {
-        console.log("File written successfully\n");
-        console.log("The written has the following contents:");
-        console.log(fs.readFileSync('/var/lib/rancher/k3s/server/manifests/test.yaml', "utf8"));
-      }
-    });
-      
-    }
-  } else {
-    ctx.status = 404;
-    ctx.body = 'Error.';
-    await next();
-  }   
   await next();
 }
 
