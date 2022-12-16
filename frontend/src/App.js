@@ -25,7 +25,7 @@ function App() {
   const [auth, setAuth] = useState(false); 
 
   const Login = async details => {
-    console.log(details);
+    //console.log(details);
     try {
       let res = await fetch("/api/loginUser", {
           method: "POST",
@@ -43,22 +43,22 @@ function App() {
               username: details.username,
               password: details.password
             })
-            console.log("User logged succesfully!");
+            //console.log("User logged succesfully!");
             setAuth(true);
             navigate('/dashboard');
       }
       else {
-          console.log("Error occurred while login");
+          //console.log("Error occurred while login");
           setError("Wrong credentials");
           setAuth(false);
       }
     } catch(err){
-        console.log(err);
+        //console.log(err);
     }
   } 
 
   const Logout = () => {
-    console.log("Logout");
+    //console.log("Logout");
     setUser({
       username: "",
       password: ""
@@ -67,7 +67,7 @@ function App() {
   }
 
   const Register = async details => {
-    console.log(details);
+    //console.log(details);
     try {
       let res = await fetch("/api/registerUser", {
           method: "POST",
@@ -86,17 +86,17 @@ function App() {
               username: details.username,
               password: details.password
             })
-            console.log("User registered succesfully!");
+            //console.log("User registered succesfully!");
             setAuth(true);
             navigate('/dashboard');
       }
       else {
-          console.log("Error occurred while register");
+          //console.log("Error occurred while register");
           setError("Wrong credentials");
           setAuth(false);
       }
     } catch(err){
-        console.log(err);
+        //console.log(err);
     }
   }
 

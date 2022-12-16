@@ -23,10 +23,10 @@ async function register_user(ctx: ParameterizedContext, next: Next) {
     let valid_reg = await redis_register_user(username, password, password2);
     if (valid_reg === true) {
         ctx.status = 200;
-        ctx.body = `User registered! Welcome ${username}!`;
+        ctx.body = `User registered!`;
     } else {
         ctx.status = 404;
-        ctx.body = `${username} is already registered.`
+        ctx.body = `Error.`
     }
     await next();
 }
