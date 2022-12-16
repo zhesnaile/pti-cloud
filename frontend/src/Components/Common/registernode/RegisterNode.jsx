@@ -12,7 +12,7 @@ function RegisterNode({ Profile }) {
         setK3S_flag(event.target.value);
         setK3S_flag(!K3S_flag);
         try{
-            let res = await fetch("/api/getK3Stoken", {
+            let res = await fetch("/api/getToken", {
               method: "POST",
                 headers: {
                     Accept: "application/json",
@@ -22,9 +22,9 @@ function RegisterNode({ Profile }) {
                     name: Profile,
                 }),
             });
-            let data = await res.json();
+            let data = await res.text();
             console.log(data);
-            setK3S_token(data.k3s_name);
+            setK3S_token(data);
           } catch(err){
             console.log(err);
           }
