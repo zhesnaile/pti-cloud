@@ -21,7 +21,7 @@ async function get_Token(ctx: ParameterizedContext, next: Next) {
 
   ctx.status = 200;
   ctx.body = token;
-  console.log("Token del servidor K3s: ", ctx.body);
+  console.log(`${Date.now()}: Token del servidor K3s solicitado`);
 
   await next();
 }
@@ -52,7 +52,7 @@ function init_registerNode_router() {
     router
         .use(cors())
         .use(KoaBodyParser())
-        .get("/getToken", get_Token)
+        .post("/getToken", get_Token)
         .post("/getNodeName", get_Name);
     return router;
 }
