@@ -51,7 +51,7 @@ function mount_frontend(app: Koa) {
         }
         await next();
       })
-      .use(serve("../frontend/build"));
+      .use(serve("./static/"));
   app.use(mount('/', static_pages));
 }
 

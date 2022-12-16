@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/static/css/main.e3f4cacc.css",
+    "main.js": "/static/js/main.0c819629.js",
+    "static/media/wlock.png": "/static/media/wlock.cd5340f98c1a33c4246e.png",
+    "static/media/KFC.png": "/static/media/KFC.58aab2f4c3c7b3b10041.png",
+    "static/media/k3s-logo.png": "/static/media/k3s-logo.ce267a582ef9d41abe12.png",
+    "index.html": "/index.html",
+    "main.e3f4cacc.css.map": "/static/css/main.e3f4cacc.css.map",
+    "main.0c819629.js.map": "/static/js/main.0c819629.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e3f4cacc.css",
+    "static/js/main.0c819629.js"
+  ]
+}
