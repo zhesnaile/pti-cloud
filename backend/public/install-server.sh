@@ -1,17 +1,27 @@
 #!/bin/bash
 
-# Install K3s
+# K3S INSTALLATION
+# 
+# Installation and configurations commands for the MASTER of the  K3s cluster.
+#
+
+# Download and installation
 curl -sfL https://get.k3s.io | sh -
 
-# Inicializamos el nodo master
+# Initialize the master node
 sudo k3s server
 
 # Comprobamos que el nodo funciona
-sudo k3s kubectl get node
+# sudo k3s kubectl get node
 
-# Si no tenemos acceso al contenido de /var/lib..../node_token, lo copiamos en otro directorio
+# Change the directories permissions in order to obtain the Token
 sudo chmod go+rx /var/lib/rancher/k3s/server
 sudo chmod go+rx /var/lib/rancher/k3s/server/node-token
+
+# REDIS INSTALLATION
+#
+# Installation and execution commands 
+#
 
 # Install redis
 sudo apt-get install redis
@@ -19,9 +29,9 @@ npm i redis
 
 # Install dependencies of the project (in both directories)
 npm install
-npm install typescript
+# npm install typescript
 npm install koa
-npm install @koa/multer
+# npm install @koa/multer
 
 # Install node version 16
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash
