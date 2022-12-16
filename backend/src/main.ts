@@ -3,16 +3,31 @@ import { api_router } from "./api/api.js";
 import cors from "@koa/cors";
 import serve from "koa-static";
 import mount from "koa-mount";
-
+import https from "https";
+import http from "http";
+import fs from "fs";
+import path from "path";
 
 /**
  * Config Struct
  * We can set all variables here
  */
 const config = {
-  port: 3000,
-
+  https : {
+    enabled: false,
+    port: 3001,
+    options :{
+      // cert: fs.readFileSync(path.resolve("./certs/cert.pem"), 'utf-8').toString(),
+      // key : fs.readFileSync(path.resolve("./certs/key.pem"), 'utf-8').toString(),
+      // passphrase: "huevo"
+    },
+  },
+  http : {
+    enabled : true,
+    port: 3000,
+  }
 }
+
 
 /**
  * Modifies a Koa instance to mount our frontends static pages to it.
@@ -58,8 +73,20 @@ function main() {
   add_api(app);
   mount_frontend(app);
 
-  app.listen(config.port);
-  console.log(`Listening on port ${config.port}`);
+  const koa_callback = app.callback();
+
+  if (config.https.enabled) {
+    const https_server = https.createServer(config.https.options, koa_callback);
+    https_server.listen(config.https.port);
+    console.log(`HTTPS: listening at port ${config.https.port}`);
+  }
+
+  if (config.http.enabled) {
+    const http_server = http.createServer(koa_callback);
+    http_server.listen(config.http.port);
+    console.log(`HTTP: listening at port ${config.http.port}`);
+  }
+
 }
 
 main();
