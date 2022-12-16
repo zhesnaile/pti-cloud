@@ -52,6 +52,11 @@
 
 .p-menu{
   padding: 5%;
+  font-size: 125%;
+}
+
+.title-cols{
+  font-size: 150%;
 }
 
 .button-menu{
@@ -63,7 +68,7 @@
   font-size: 25px;
   border: none;
   cursor: pointer;
-  margin-top: 30%;
+  margin-top: 5%;
   transition: all 0.5s;
 }
 
