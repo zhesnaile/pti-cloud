@@ -6,11 +6,36 @@ import { useNavigate } from 'react-router-dom';
 function RunJob({ Profile }) {
     const navigate = useNavigate();
 
+    const submitHandler = async e => {
+        e.preventDefault();
+        let formData = new FormData(); 
+        formData.append('name', Profile.username);
+        formData.append('pword',Profile.password)
+        formData.append('file', file2upload);
+
+        try {
+            let res = await fetch("/api/uploadYAML", {
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    'Content-Type': 'multipart/form-data',
+                },
+                body: formData,
+            });
+            if(res.status === 200){
+                navigate('/dashboard');
+            }
+        } catch(err){
+            console.log(err);
+        }
+    }
+
+
     return (
         <div className='main'>
             <div className='sub-main-menu'>
                 <div className='content-menu'>
-                    <form action='/api/uploadYAML' method='POST' Content-type='multipart/form-data'>
+                    <form onSubmit={submitHandler}>
                         <h1>RUN JOB</h1>
                         <div className='node-row'>
                             <h3>In order to successfully run a job, it will be needed a yaml file with the necessary information.</h3>
@@ -32,7 +57,6 @@ function RunJob({ Profile }) {
             </div>
         </div>
     )
-
 }
 
 export default RunJob;

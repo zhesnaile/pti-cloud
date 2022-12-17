@@ -2,7 +2,7 @@ import KoaRouter from "@koa/router";
 import KoaBodyParser from "koa-bodyparser";
 import { ParameterizedContext, Next } from "koa";
 import cors from "@koa/cors";
-import { get_k3s_token, get_Node_Name } from "../../utils/add-k3s-node.js";
+import { get_k3s_token} from "../../utils/add-k3s-node.js";
 import { redis_get_K3Sconfig } from "../../utils/access-redis.js";
 
 

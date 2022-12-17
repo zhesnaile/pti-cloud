@@ -110,7 +110,7 @@ function App() {
           <Route path='/register' element={<RegisterForm Register={Register} error={error}/>}/>
           <Route path='/dashboard' element={<ProtectedRoutes Component={'UserMenu'} Auth={auth} Logout={Logout}/>} />
           <Route path='/registerusernode' element={<ProtectedRegNode Component={'RegisterNode'} Profile={user.username} Auth={auth} Logout={Logout}/>} />
-          <Route path='/runjob' element={<ProtectedRunJob Component={'RunJob'} Profile={user.username} Auth={auth} Logout={Logout}/>} />
+          <Route path='/runjob' element={<ProtectedRunJob Component={'RunJob'} Profile={user} Auth={auth} Logout={Logout}/>} />
           <Route path='*' element={<ErrorPage Logout={Logout}/>} />
         </Routes>
         </div>
