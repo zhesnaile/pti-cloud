@@ -25,19 +25,24 @@ sudo chmod go+rx /var/lib/rancher/k3s/server/node-token
 
 # Install redis
 sudo apt-get install redis
-npm i redis
+# npm i redis
+sudo service redis-server stop
+redis-server
 
-# Install dependencies of the project (in both directories)
+# Install dependencies of the project BACKEND
 npm install
-# npm install typescript
 npm install koa
 # npm install @koa/multer
+
+# Install dpendencies of the project FRONTEND
+npm install
+npm run build
 
 # Install node version 16
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
-node install 16
+nvm install 16
 
 # Compile the project
 npx tsc
