@@ -1,29 +1,34 @@
 import React from 'react';
 import './../runjob/RunJob.css';
 import { useNavigate } from 'react-router-dom';
+import { useForm } from "react-hook-form";
 
 
 function RunJob({ Profile }) {
     const navigate = useNavigate();
 
+    const { register, handleSubmit } = useForm();
+
     const submitHandler = async e => {
-        e.preventDefault();
+        //e.preventDefault();
         let formData = new FormData(); 
         formData.append('name', Profile.username);
-        formData.append('pword',Profile.password)
-        formData.append('file', file2upload);
-
+        formData.append('pword', Profile.password);
+        formData.append('file2upload', e.file[0]);
         try {
             let res = await fetch("/api/uploadYAML", {
                 method: "POST",
                 headers: {
                     Accept: "application/json",
-                    'Content-Type': 'multipart/form-data',
+                    'encType': 'multipart/form',
                 },
                 body: formData,
             });
             if(res.status === 200){
                 navigate('/dashboard');
+                alert('Job submitted');
+            } else{
+                
             }
         } catch(err){
             console.log(err);
@@ -35,7 +40,7 @@ function RunJob({ Profile }) {
         <div className='main'>
             <div className='sub-main-menu'>
                 <div className='content-menu'>
-                    <form onSubmit={submitHandler}>
+                    <form onSubmit={handleSubmit(submitHandler)}/*action='/api/uploadYAML' method='POST' Content-type='multipart/form-data'*/>
                         <h1>RUN JOB</h1>
                         <div className='node-row'>
                             <h3>In order to successfully run a job, it will be needed a yaml file with the necessary information.</h3>
@@ -50,7 +55,7 @@ function RunJob({ Profile }) {
                                 <h3>Now that you have generated the yaml, please upload the file below:</h3>
                             </div>   
                         </div>
-                        <input type='file' name='file2upload' accept='.yml, .yaml' required/>                      
+                        <input type='file' name='file2upload' accept='.yml, .yaml' {...register("file")} required/>                      
                         <div><br/><button className='button-job' type='submit'>Submit</button></div>
                     </form>
                 </div>
@@ -60,26 +65,3 @@ function RunJob({ Profile }) {
 }
 
 export default RunJob;
-
-/* 
-podman generate kube [container_name]
-kompose convert -f docker-compose.yaml
-link a la documentacion
-*/
-
-/*
-<p className='h4-node'>&gt; Link to the<a className='a-node' href='https://kubernetes.io/docs/concepts/overview/working-with-objects/kubernetes-objects/' target="_blank">documentation</a>.</p>
-<p className='h4-node'>&gt; You can use<a className='a-node' href='' target="_blank">Podman</a> which allows you to generate a yaml from a running container.</p>
-<p className='h4-node'>&gt; There is also<a className='a-node' href='' target="_blank">Kompose</a> which transforms a Docker-Compose file into a yaml file.</p>
-<p className='h4-node'>&gt; Kubernetes YAML<a className='a-node' href='' target="_blank">generator</a>.</p>
-*/
-
-/*
-<p className='h4-node'>&gt; Link to the<a className='a-node' href='https://kubernetes.io/docs/concepts/overview/working-with-objects/kubernetes-objects/' target="_blank">documentation</a>.</p>
-<p className='h4-node'>&gt; <a className='a-test' href='' target="_blank">You can use Podman which allows you to generate a yaml from a running container</a>.</p>
-<p className='h4-node'>&gt; <a className='a-test' href='' target="_blank">There is also Kompose which transforms a Docker-Compose file into a yaml file</a>.</p>
-<p className='h4-node'>&gt; <a className='a-test' href='' target="_blank">Kubernetes YAML generator</a>.</p>
-*/
-
-
-/*<button className='button-node' type='submit' onClick={() => navigate('/dashboard')}>Back to Menu</button>*/
