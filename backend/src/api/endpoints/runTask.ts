@@ -20,12 +20,10 @@ import fs from 'fs';
  */
 async function upload_yaml (ctx: ParameterizedContext, next: Next) {
   let req_body = <runtaskBody>ctx.request.body;
-  let valid_login = await redis_login_user(ctx.request.body.name, ctx.request.body.pword);
+  let valid_login = await redis_login_user(req_body.name, req_body.pword);
   if (valid_login === true) {
-    ctx.status = 200;
-    ctx.body = `Welcome back, ${ctx.request.body.name}.`;
+      ctx.status = 200;
       let file = ctx.request.file;
-
       if (file !== null) {
         let valid_extension = ['yaml', 'yml'];
         let file_name = file.originalname;
@@ -63,7 +61,7 @@ async function upload_yaml (ctx: ParameterizedContext, next: Next) {
 function init_registerTask_router(): KoaRouter {
   let router = new KoaRouter();
   router
-    .post("/uploadYAML", multer().single('kfc'), upload_yaml)
+    .post("/uploadYAML", multer().single('file2upload'), upload_yaml)
   return router;
 }
   
