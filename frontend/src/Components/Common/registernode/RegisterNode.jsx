@@ -12,7 +12,7 @@ function RegisterNode({ Profile }) {
         setK3S_flag(event.target.value);
         setK3S_flag(!K3S_flag);
         try{
-            let res = await fetch("/api/getK3Stoken", {
+            let res = await fetch("/api/getToken", {
               method: "POST",
                 headers: {
                     Accept: "application/json",
@@ -22,16 +22,23 @@ function RegisterNode({ Profile }) {
                     name: Profile,
                 }),
             });
-            let data = await res.json();
+            let data = await res.text();
             console.log(data);
-            setK3S_token(data.k3s_name);
+            setK3S_token(data);
           } catch(err){
-            console.log(err);
+            //console.log(err);
           }
     }
 
     const K3S_change = event => {
         setK3S_token(event.target.value);
+    }
+
+    const copy_token = async () => {
+        if(K3S_flag !== false){
+            await navigator.clipboard.writeText(K3S_token);
+            alert('Token copied');
+        }   
     }
 
     return (
@@ -56,7 +63,7 @@ function RegisterNode({ Profile }) {
                                 <h3>The following steps are optional (after installation):</h3> 
                                 <label> &gt; Get the hidden K3S token
                                     <input className='checkbox-node' type="checkbox" onChange={handle_K3S} checked={K3S_flag}/>
-                                    <input className='input-node' onChange={K3S_change} value={K3S_flag ? K3S_token || '' : '?'} readOnly/>                                    
+                                    <input className='input-node' onClick={copy_token} onChange={K3S_change} value={K3S_flag ? K3S_token || '' : '?'} readOnly/>                                    
                                 </label>  
                             </div>   
                         </div>
