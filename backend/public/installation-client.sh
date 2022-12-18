@@ -66,7 +66,8 @@
 function installK3S {
 	#LLAMAR A LA API PARA QUE DE EL ARCHIVO DE CONFIG
 
-    read -rp "Server URL (without http:// or https://): " -e URL
+    read -rp "Server URL (without http:// or https://): " -e K3S_URL
+	read -rp "Port: " -e -i : PORT
     read -rp "Username: " -e USERNAME
 
     #SI HAY UN ERROR EN LA LLAMADA GETCONFIG DETEN EL SCRIPT
@@ -77,8 +78,8 @@ function installK3S {
 	# Llama a la API para obtenr el TOKEN de k3s (para pner texto preescrito usar la oción -i de read)
 	# read -rp "Server URL (without http:// or https://): " -e URL
 	echo "Getting k3s Token:"
-	NODE_TOKEN=$(curl -X POST "http://${URL}:3000/api/getToken")
-	echo "${NODE_TOKEN}"
+	NODE_TOKEN=$(curl -X POST "http://${URL}${PORT}/api/getToken")
+	#echo "${NODE_TOKEN}"
 
 	# Si hay un error en la llamada getToken, se detiene el Script
 	if [[ $? -ne 0 ]]; then
