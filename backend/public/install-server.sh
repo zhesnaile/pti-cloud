@@ -29,20 +29,16 @@ sudo apt-get install redis
 sudo service redis-server stop
 redis-server
 
-# Install dependencies of the project BACKEND
-npm install
-npm install koa
-# npm install @koa/multer
-
-# Install dpendencies of the project FRONTEND
-npm install
-npm run build
-
 # Install node version 16
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 nvm install 16
+
+npm run build
+
+# Install dependencies of the project BACKEND
+npm install
 
 # Compile the project
 npx tsc
