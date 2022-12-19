@@ -66,9 +66,11 @@
 function installK3S {
 	#LLAMAR A LA API PARA QUE DE EL ARCHIVO DE CONFIG
 
-    read -rp "Server URL (without http:// or https://): " -e K3S_URL
+    read -rp "Server URL (without http:// or https://): " -e URL
 	read -rp "Port: " -e -i : PORT
     read -rp "Username: " -e USERNAME
+    echo -n Password:
+    read -s password
 
     #SI HAY UN ERROR EN LA LLAMADA GETCONFIG DETEN EL SCRIPT
     if [[ $? -ne 0 ]]; then
