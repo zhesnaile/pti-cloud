@@ -4,8 +4,8 @@ import { login_api_router } from "./endpoints/login.js";
 import { register_api_router } from "./endpoints/registerUser.js";
 import { register_node_api_router } from "./endpoints/registerNode.js"
 import { register_task_api_router } from "./endpoints/runTask.js";
-import { wg_api_router } from "./endpoints/get_wg_config.js"
-import { fronthelper_api_router } from "./endpoints/descargar.js"
+import { wg_api_router } from "./endpoints/getWireguardConfig.js"
+import { fronthelper_api_router } from "./endpoints/download.js"
 
 /** @module api/router */
 export const name = "router";
